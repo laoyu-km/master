@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+</head>
+
+<body>
+    <div class="root">
+        <child>
+            <div>jayden james</div>
+            <template v-slot:default="pornInfo">
+                <div>hello porn {{pornInfo.pornGirl.name}}</div>
+                <p>they are {{pornInfo.pornGirl.age}}</p>
+                <p>she is good at {{pornInfo.pornGirl.tech}}</p>
+            </template>
+        </child>
+    </div>
+
+    <script type="text/javascript">
+        Vue.component('child', {
+            data: function() {
+                return {
+                    pornGirl: {
+                        name: 'jayden',
+                        age: 30,
+                        tech: 'big bra, fat ass'
+                    },
+                    value: 'aleixs'
+                };
+            },
+            template: `<div>hello porn {{value}}<slot v-bind:pornGirl="pornGirl"></slot></div>`
+        });
+
+        var vm = new Vue({
+            el: '.root',
+            data: {},
+            method: {}
+        });
+    </script>
+
+
+</body>
+
+</html>

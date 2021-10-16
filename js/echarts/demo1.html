@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.js"></script>
+    <style>
+        #chart {
+            width: 600px;
+            height: 400px;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chart"></div>
+
+    <!-- <script src="./vintage.js"></script> -->
+    <script>
+        //1. 获取 容器DOM元素
+        const chartDOM = document.getElementById('chart');
+        // 2. 初始化图标实例
+        // echarts.init() 需要接受一个元素
+        const chart = echarts.init(chartDOM);
+
+        // 配置项
+        const option = {
+            title: {
+                text: 'echarts', // 绘制在canvas里的，不能被选中
+                subtext: 'echarts\nclass' //副标题，
+            },
+            legend: { // 图例，接受1个对象，
+                data: [{
+                        name: '分类', //对单独组件进行配置
+                        icon: 'circle',
+                        textStyle: {
+                            color: 'orange'
+                        }
+                    },
+                    '折线图',
+                    '柱状图'
+                ],
+                left: 150 //对整个图例进行配置
+                    // left: '30%'
+            },
+            toolbox: { //工具箱，
+                feature: { // 功能
+                    saveAsImage: {},
+                    dataZoom: {
+                        yAxisIndex: false // 控制缩放时柱状图不消失，实际是控制Y轴，如果控制的是当前Y轴，就会小时，如果给一个不存在的Y轴也能解决柱状图消失的问题, 简单点就是使用false
+                            // yAxisIndex: -2
+                    },
+                    restore: {}
+                }
+            },
+            dataZoom: { //放大缩小框
+                show: true,
+                start: 0,
+                // end: 300
+            },
+            grid: { // 控制图标组件的位置, 图表占画布的多少
+                left: 30,
+                right: '5%',
+                width: '90%',
+                height: '70%' //设置后 right设置无效
+            },
+            xAxis: {
+                data: ['jayden', 'alexis', 'ella', 'foxxx']
+            },
+            yAxis: {},
+            dataset: {
+                source: [
+                    ['jayden', 55, 30, '分类1', 10],
+                    ['alexis', 50, 35, '分类2', 15],
+                    ['ella', 42, 40, '分类3', 20],
+                    ['foxxx', 43, 34, '分类4', 25]
+                ]
+            },
+            series: [{
+                name: '分类',
+                type: 'pie',
+                radius: 35,
+                center: ['65%', '10%'],
+                encode: {
+                    itemName: 3,
+                    value: 4
+                }
+            }, {
+                name: '折线图',
+                type: 'line',
+                encode: {
+                    x: 0,
+                    y: 1,
+                }
+            }, {
+                name: '柱状图',
+                type: 'bar',
+                encode: {
+                    x: 0,
+                    y: 2
+                }
+            }]
+
+        }
+        chart.setOption(option);
+
+        // 坐标系
+        // 直角坐标系, 极坐标系, 日历坐标系
+        // 有些图表是依赖坐标系的 -> 柱状图，线图
+
+        // 2020.03.24 课程
+        // echart
+        // 官网 ： https://echarts.apache.org/zh
+        // 类似工具：highcharts
+
+        // echarts
+        // 3.0 版本之前渲染出一个canvas -> 4.0之后支持渲染出一个SVG
+        // series (系列)
+        //系列：一系列的数据 + 数据映射出的视图, 一个系列对应一张图
+        //echarts 官方文档中的样式简介中提供了颜色主题
+        // 数据量打用canvas, 数据量小 canvas 和 SVG都能用，只是SVG内存占用少
+        // SVG 特点不会缺失精度，缩放都是一样
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+</head>
+
+<body>
+
+    <div id="root">alexis</div>
+    <div id="root2">
+        <!-- v-once 数据只绑定一次，不能修改 -->
+        <span v-once="content">{{content}}</span>
+        <!-- v-html: 将绑定的数据是被为HTML代码 -->
+        <p>{{writeHtml}}</p> 使用mustache写法
+        <p><span v-html="writeHtml"></span><span> 使用v-html的情况</span></p>
+
+        <!-- v-text: 将数据按照一般文本绑定 -->
+        <p><span v-text="writeHtml"></span><span> 使用v-text</span></p>
+
+        <!-- 插值使用js语法：原理在mustaches中的语句其实是JavaScript表达式 -->
+        <p>{{writeHtml + ' nice body'}} <span>插值表达式使用js</span></p>
+        <p>{{flag ? 'wicky is good' : 'white is good'}} <span>插值表达式使用js</span></p>
+
+        <!-- 数据绑定传值 -->
+        <p v-html="writeHtml + ' 这是数据绑定传值'"></p>
+        <p v-text="writeHtml + ' 这是数据绑定传值'"></p>
+
+        <!-- 子组件传值 使用js -->
+        <!-- :content 动态传值 -->
+        <child :content="name + ' so good'"></child>
+
+        <!-- 总结：
+        1. 插值表达式中可以使用js表达式
+        2. 数据绑定中可以写js表达式
+        3. 但是很少会在html中来写，不易维护 -->
+    </div>
+
+    <div id="root3">
+        <!-- 计算属性 -->
+        计算前的数据： {{message}}
+        <p></p>
+        计算后的数据： {{reverseMessage}} -- {{name}} -- 使用computed properties
+        <p></p>
+        计算后的数据： {{reverseMessageMethod()}} -- {{name}} -- 使用method
+    </div>
+
+    <div id="root4">
+        <!-- 侦听属性 -->
+        <hr/> {{fullName}} -- {{age}}
+    </div>
+
+    <!-- 改变计算属性值得时候需要注意的问题 -->
+    <div id="root5">
+        <hr /> {{fullName}} -- {{age}}
+    </div>
+
+    <script type="text/javascript">
+        // xxx.outerHTML --> 指的就是他本身
+        let root = document.querySelector('#root');
+        console.log(root.innerHTML); //alexis
+        console.log(root.outerHTML); //<div id="root">alexis</div>
+    </script>
+    <script type="text/javascript">
+        // // 生命周期钩子函数 -> Vue实例在某一个时间点会自动执行的函数
+
+        // // new Vue() -> 生命周期步骤
+        // // 1. init Events & lifecycle : 初始化事件和生命周期
+        // // 2. beforeCreate() -> 生命周期钩子函数
+        // // 3. init injections & reactivity: 初始化外部注入和双向绑定
+        // // 4. created() -> 声明周期函数
+        // // 5. has el option: 是否有el的配置项 {
+        // //     有： 到第6
+        // //     无： when vm.$mount(el) is called : 如果el没有，就没有挂在体，声明的 vm 就处于没有挂在的状态(就是没有与vm相关联的DOM元素)， 这种情况下 就只有在vm.$mount('#root')方法执行以后才能到第六步, vm.$mount('#root')就是让id为root的DOM元素与vm相关联
+        // // }
+        // // 6. has template option: 是否有模板配置项 {
+        // // 有： complie template into render function
+        // // 无： complie el's outerHTML as template : 因为没有template，就将 el 的 outerHTML 当做template
+        // // }
+        // // 7. beforeMount() -> 生命周期函数 -> 挂载前
+        // // 8. create vm.$el and replace 'el' with it
+        // // 9. mounted() -> 生命周期函数 -> 挂载后->{
+        // // when vm.$destroy() is called
+        // // 10. beforeDestroy -> 生命周期函数 -> 销毁前
+        // // 11. Teardown watches, child components and event linteners
+        // // 12. destroyed -> 生命周期函数 -> 销毁后
+
+        // // when data changes
+        // // 10 beforeUpdate
+        // // 11 Virtual DOM re-render and patch
+        // // 12 updated
+        // // }
+        // var vm = new Vue({
+        //     el: '#root',
+        //     template: '<div>{{content}}</div>',
+        //     data: {
+        //         content: 'jayden'
+        //     },
+        //     beforeCreate: function() {
+        //         console.log('beforeCreate'); // 页面加载后就自动执行
+        //     },
+        //     created: function() {
+        //         console.log('created');
+        //     },
+        //     beforeMount: function() {
+        //         console.log(this.$el); // 查看挂载前的$el
+        //         console.log('beforeMount');
+        //     },
+        //     mounted: function() {
+        //         console.log(this.$el); // 查看挂载后的$el
+        //         console.log('mounted')
+        //             // this.$destroy(); // 销毁执行后会将数据的双向绑定也销毁，这是vue.$destroy() 的作用之一
+        //     },
+        //     beforeDestroy: function() { // 要执行beforeDestroy, 必须先执行vue.$destroy() === this.destroy()
+        //         console.log('beforeDestory');
+        //     },
+        //     destroyed: function() {
+        //         console.log('destroyed');
+        //     },
+        //     beforeUpdate: function() {
+        //         console.log('beforeUpdate');
+        //     },
+        //     updated: function() {
+        //         console.log('updated')
+        //     }
+        // });
+    </script>
+    <!-- <script type="text/javascript">
+        // 模板语法
+        let son = {
+            props: ['content'],
+            template: '<span>{{content}}</span>'
+        }
+        let vm2 = new Vue({
+            el: '#root2',
+            components: {
+                child: son
+            },
+            data: {
+                content: 'foxxx',
+                writeHtml: '<span style="color:red">wicky angle</span>',
+                flag: false,
+                name: 'elle'
+            }
+        }); -->
+    </script>
+
+    <script type="text/javascript">
+        // // 计算属性 computed properyties
+        // let vm3 = new Vue({
+        //     el: '#root3',
+        //     data: {
+        //         message: 'hi I am wicky',
+        //         name: 'jayden'
+        //     },
+        //     methods: {
+        //         reverseMessageMethod: function() {
+        //             console.log('method 被执行了一次'); // 如果修改的不是this.$data.messgge,而是其他值的话，在页面重新渲染时,method会被执行
+        //             return this.$data.message.split('').reverse().join('');
+        //         }
+        //     },
+
+        //     // 计算属性实现message 翻转
+        //     // 其实原理是调用过了computed properties的get函数
+        //     computed: {
+        //         reverseMessage: function() {
+        //             console.log('computed.properties被执行了一次'); // 如果修改的不是this.$data.messgge,而是其他值的话，在页面重新渲染时不会执行计算属性的方法
+        //             return this.$data.message.split('').reverse().join('');
+        //         }
+        //     }
+
+        // });
+    </script>
+
+    <script type="text/javascript">
+        // // 侦听属性
+        // let vm4 = new Vue({
+        //     el: '#root4',
+        //     data: {
+        //         firstName: 'jayden',
+        //         lastName: 'aleixs',
+        //         fullName: 'elle',
+        //         age: 28
+        //     },
+        //     // 侦听属性： 
+        //     watch: {
+        //         // 如果firstName发生了改变，则fullName也发生改变
+        //         // 侦听属性与计算属性相类似，都有缓存，只有在侦听属性所对应的数据被修改时才会执行，否则刷新页面也不会执行
+        //         firstName: function() {
+        //             console.log('firstName被执行了');
+        //             this.fullName = this.firstName + this.lastName;
+        //         },
+        //         // 如果lastName发生了改变，则fullName也发生改变
+        //         lastName: function() {
+        //             console.log('lastName被执行了');
+        //             this.fullName = this.firstName + this.lastName;
+        //         }
+        //     }
+        // });
+        // // 总结：methods, computed, watch 三者众，如果是要对某个数据增加数据方法最好选择computed，不会每次刷新页面都执行而且代码量小
+    </script>
+
+    <script type="text/javascript">
+        // 改变计算属性值得时候需要注意的问题
+        let vm5 = new Vue({
+            el: '#root5',
+            data: {
+                firstName: 'jayden',
+                lastName: 'aleixs',
+                // fullName: 'elle', // 如果计算属性中定义了fullName，就不用在data中再定义了，因为计算属性中的fullName 也是一个data
+                age: 28
+            },
+            // 计算属性 fullName 如果按照一般data修改的话，会报错-》没有设置set(), 所以其实计算属性其实取值和改值用的是get() 和 set() 方法
+            computed: {
+                fullName: {
+                    get: function() {
+                        console.log('计算了一次')
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    set: function(value) {
+                        console.log(value);
+                        let arr = value.split('');
+                        this.firstName = arr[1];
+                        this.lastName = arr[0];
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

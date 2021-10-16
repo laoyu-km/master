@@ -1,0 +1,9 @@
+*.swp
+.vscode
+*node_modules/*
+node_modules/
+package-lock.json
+/js/ES6/package-lock.json
+/js/ES6/node_modules/
+ECMADocuments/
+

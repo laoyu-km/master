@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box">
+        <p>alexis</p>
+        <div>
+            <ul>
+                <li id="list-item01">jayden01</li>
+                <li id="list-item02">jayden02</li>
+                <li id="list-item03"></li>
+                <li id="list-item04">jayden04</li>
+                <li id="list-item05">jayden05</li>
+            </ul>
+            <p>ppppppppppp</p>
+        </div>
+        jayden
+    </div>
+</body>
+<script>
+    // 04. 原型上封装insertAfter方法 
+    var div = document.createElement('div');
+    div.innerHTML = 'hello jayden';
+    var div2 = document.createElement('div');
+    div2.innerHTML = 'angle wicky';
+    var p = document.getElementsByTagName('p')[0];
+    var p2 = document.getElementsByTagName('p')[1];
+    var box = document.getElementById('box');
+    box.insertBefore(div, p);
+    Node.prototype.insertAfter = function(newEle, target) {
+        var targetNextSibling = target.nextElementSibling;
+        if (!targetNextSibling) {
+            this.appendChild(newEle);
+        } else {
+            this.insertBefore(newEle, targetNextSibling);
+        }
+    }
+    box.insertAfter(div, p);
+    box.insertAfter(div, p2);
+    box.insertAfter(div2, div);
+</script>
+
+</html>

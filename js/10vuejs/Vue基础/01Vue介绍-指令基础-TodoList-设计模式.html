@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+    <script type="text/javascript" src="./demo.js"></script>>
+</head>
+
+<body>
+    <!-- 实例1 -->
+    <!-- <div id="root1">
+    @click = v-on:click
+<div :style="styleObj" @click="handleBtnClick">
+    Hello Jayden
+</div>
+</div> -->
+
+    <!-- 实例2 -->
+    <!-- <div id="root2">{{message}}</div> -->
+
+
+    <!-- 实例3 todoList -->
+    <div id="root3">
+        <input v-model="inputValue" type="text" />
+        <button v-on:click="handleBtnClick">提交</button>
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        // vue官方文档：https://cn.vuejs.org/
+        // vue论坛：forum.vuejs.org 
+        // 开发时用开发版本
+
+        // vue 框架
+        // Nuxt框架 -> 快速实现Vue的服务器渲染
+        // Weex框架 -> 使用vue语法能编写原生App
+
+        // 1. 发展迅速
+        // 2. 生态环境好
+        // 3. 上手简单 
+        // 4. 代码轻量
+        // 5. 发展迅速 -> Nuxt框架， Weex框架(使用Vue的语法，编写)
+        // 6. 不支持IE8及以下版本
+
+        // // 第一个vue实例
+        //     let vm = new Vue({
+        //         el: '#root1',
+        //         data: {
+        //             styleObj: {
+        //                 color: "red"
+        //             }
+        //         },
+        //         methods: {
+        //             handleBtnClick: function() {
+        //                 console.log('我被点击了');
+        //             }
+        //         }
+        //     });
+
+        // 实例2
+        // // // 原生JS写法
+        // // let root2 = document.getElementById('root2');
+        // // root2.innerHTML = 'jayden 3:2 aleixs';
+
+        // // vue 的写法 
+        // // MVVM设计模式
+        // let vm = new Vue({
+        //     el: "#root2", // 选择id=root2 的 div
+        //     data: {
+        //         // 在data中写入一条数据，在HTML中通过{{}}的方法写入，就做到了数据的双向绑定
+        //         message: 'jayden 3:2 alexis' // mustache 写法 {{}} -> 也叫 插值表达式
+        //     }
+        // })
+        // console.log(vm.$el); // 查看el
+        // console.log(vm.message); //jayden 3:2 alexis
+        // console.log(vm.$data.message); // jayden 3:2 alexis
+        // console.log(vm.$data.message === vm.message); //true
+
+        // 实例3 让root2中的数据两秒后改变掉
+        // // 原生js
+        // var root2 = document.getElementById('root2');
+        // root2.innerHTML = 'jayden';
+
+        // setTimeout(function() {
+        //     root2.innerHTML = 'alexis';
+        // }, 2000)
+
+        // // Vue 的写法
+        // var vm = new Vue({
+        //     el: '#root2',
+        //     data: {
+        //         message: 'jaydenVue'
+        //     }
+        // });
+
+        // setTimeout(function() {
+        //     vm.$data.message = 'alexisVue';
+        // }, 2000);
+
+
+        //     // 用vue 写 todoList
+        //     // v-for指令 v-for = "manualName in list"
+        //     // v-on指令 绑定事件
+        //     // v-model  使输入框的内容与Vue实例化中的data数据实现双向绑定
+        //     let vm = new Vue({
+        //         el: '#root3',
+        //         data: {
+        //             inputValue: '',
+        //             list: []
+        //         },
+        //         methods: {
+        //             handleBtnClick: function() {
+        //                 this.list.push(this.inputValue);
+        //                 console.log(this.$data.list);
+        //             }
+        //         }
+
+        //     });
+        // }
+
+        // MVVM 设计模式
+
+        // MVP 设计模式
+        // M 数据层 Modle
+        // P presentor  呈现层
+        // V View 视图层 -> html 代码
+
+        //MVP == MVC
+
+        // MVC
+        // M 数据层 Modle
+        // C controller 控制层
+        // V View 视图层 -> html 代码
+
+        // MVVM
+        // M 数据层 Modle -> Plain JavaScript Object
+        // V View 视图层 -> DOM
+        // VM viewModel -> Vue
+        // VM 层在 M 层和 V 层之间，我们不用去管Dom, 而把精力主要放在M层
+        // Vue 帮我们做了很多数据，让我们不用过去操作DOM， 从而帮我们省去了30%-70%代码书写量
+
+        // 自己写todoList
+    </script>
+
+</body>
+
+</html>

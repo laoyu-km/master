@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+</head>
+
+<body>
+
+    <div id="root1">
+        <child content="jayden"></child>
+        <child content="aleixs"></child>
+    </div>
+    <script type="text/javascript">
+        // 再次熟悉子组件对子组件传值 -> 公共bus 方法
+        Vue.prototype.bus = new Vue();
+        Vue.component('child', {
+            props: ['content'],
+            data: function() {
+                return {
+                    value: this.content
+                }
+            },
+            template: '<div @click="handleClick">{{value}}</div>',
+            methods: {
+                handleClick: function() {
+                    this.bus.$emit('change', this.value);
+                }
+            },
+            mounted: function() {
+                var this_ = this;
+                // 重点：$on 监听当前对象的自定义方法是否触发
+                this.bus.$on('change', function(msg) {
+                    this_.value = msg;
+                })
+            }
+        })
+        var vm = new Vue({
+            el: '#root1',
+            data: {}
+
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root2">
+        <!-- <child content="<p>推荐</p>"></child> -->
+        <!-- slot将子组件标签中的DOM结构输出出来
+             单个slot标签可以输出多个DOM结构,包括图表
+        -->
+        <child>
+            <p>推荐</p>
+            <h1>jayden</h1>
+            <div>alexis</div>
+        </child>
+    </div>
+    <script type="text/javascript">
+        // 插槽 -》 slot 标签 -> <slot></slot> -> 匿名插槽,单个插槽，默认插槽
+        // 是一个内容出口
+        // 用于更好的传递DOM结构
+        // 将子组件标签中的DOM结构输出出来
+        Vue.component('child', {
+            props: ['content'],
+            // template: '<div><p>书籍A</p>{{content}}</div>' //页面显示的是 <p>推荐</p>, 不符合要求, 将content改为动态传值-> :content ""双引号之间是js表达式，写<p></p>标签会报错
+
+            // template: '<div><p>书籍A</p><div v-html=this.content></div></div>' // 这样写可以真确显示,但是显示的内容是包裹在v-html所在的div中，破坏了想要的DOM结构
+
+            // template: '<div><p>书籍A</p><template v-html=this.content></template></div>' // 外部标签改为template后，在页面不显示
+
+            // // 以上几种情况的解决办法：slot标签
+            // template: '<div><p>书籍A</p><slot></slot></div>'
+            //     // template: '<div><p>书籍A</p></div>' // 没有slot标签不会显示出推荐
+
+            // slot 设置默认值
+            template: '<div><p>书籍A</p><slot>foxxx</slot></div>'
+
+        });
+        var vm2 = new Vue({
+            el: '#root2',
+            data: {}
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root3">
+        <child>
+            <!-- slot="xxx" 关联具名slot -->
+            <h2 slot="header">jayden</h2>
+            <h2 slot="center">alexis</h2>
+            <h2 slot="footer">wicky</h2>
+
+        </child>
+    </div>
+    <script type="text/javascript">
+        // 具名插槽, 每个名字只能使用一次，多用则会报警告
+        Vue.component('child', {
+            template: `<div>
+                        this is child component 
+                        <slot name="header"></slot>
+                        <slot name="center"></slot>
+                        this is child component 02
+                        <slot name="footer"></slot>
+                       </div>`
+        });
+        var vm = new Vue({
+            el: '#root3',
+            data: {}
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root4">
+        <child>
+            <!-- slot-scope -> 插槽作用域 -->
+            <!-- 
+            1. 使用template是因为它不会破坏DOM布局，因为它不显示在结构中 
+            2. slot-scope 将指定插槽作用域，使用作用域调取绑定在插槽中的content数据 
+            3. 单个子组件中，作用域插槽书写多个，只有最后一个会生效
+            4. 作用域插槽的内容可以由外部来变换样式
+            -->
+            <template slot-scope="props">
+                <p style="color:red">{{props.content}}</p>
+            </template>
+            <template slot-scope="prop">
+                <p style="color:red">{{prop.content}}</p>
+            </template>
+            <template slot-scope="a">
+                <h1>{{a.content}}</h1>
+            </template>
+        </child>
+        <child v-bind:content="str">
+            <template slot-scope="props">
+            <h2>{{props.content}} </h2>
+            <div style="color:greenyellow">{{props.content}}</div>
+            <p>{{props.content}}</p>
+            </template>
+        </child>
+    </div>
+    <script type="text/javascript">
+        // 作用域插槽
+        // 在某一个地方换一个样式来渲染某一部分内容的话就用作用域插槽
+        // 其实就是带数据的slot
+        Vue.component('child', {
+            props: ['content'],
+            data: function() {
+                return {
+                    info: this.content
+                }
+            },
+            template: `<div>
+                        <h3 style="color:red">{{content}}</h3>
+                        <slot content="alexis elle"></slot>
+                       </div>`
+        });
+        var vm4 = new Vue({
+            el: '#root4',
+            data: {
+                str: "i like jayden - slot"
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root5">
+        <!-- 自定义组件切换显示 -->
+        <!-- 方法1 -->
+        <!-- <child-one v-if="show"></child-one>
+        <child-two v-else></child-two> -->
+
+        <!-- 方法2 -->
+        <!-- <child-one v-if="type === 'child-one'"></child-one>
+        <child-two v-if="type === 'child-two'"></child-two> -->
+
+        <!-- 方法3 -->
+        <!-- :is === v-bind:is -->
+        <!-- 
+            component 标签是vue自带的标签,动态组件标签 
+            :is 后面跟的是子组件标签名，如果没有就会报错
+            使用component的好处
+            1. 使用v-if 会把已有的组件销毁，创建新的组件，对性能有损耗；
+            2. 而使用component标签，不会销毁已有的组件，而是把已有的组件放到内存中，然后再把另一个在内存中的组件放到页面上，这样优化了性能，可能对内存有占用
+        -->
+        <component :is="type"></component>
+
+        <!-- 切换两个子组件的显示 -->
+        <button @click="handleClick">change</button>
+        <component is="child-one"></component>
+    </div>
+    <script type="text/javascript">
+        // 动态组件
+        // v-once 不会销毁已有的组件，而是把已有的组件放到内存中，然后再把另一个在内存中的组件放到页面上，这样优化了性能，可能对内存有占用, 作用跟<component>相似
+        Vue.component('child-one', {
+            template: `<div v-once>this is child one - alexis</div>`
+        })
+
+        Vue.component('child-two', {
+            template: `<div v-once>this is child two</div>`
+        })
+        var vm5 = new Vue({
+            el: '#root5',
+            data: {
+                show: true,
+                type: 'child-one'
+            },
+            methods: {
+                // 切换两个子组件的显示
+                handleClick: function() {
+                    // 方法1
+                    // this.show = !this.show;
+
+                    // 方法2
+                    this.type = this.type === 'child-one' ? 'child-two' : 'child-one';
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root6">
+        <child>
+            <p slot="header"> i love alxies </p>
+            <template slot-scope="ab" slot="footer">
+                <p style="color:red">{{ab.value}}</p>
+            </template>
+        </child>
+        <div>========================================</div>
+        <child>
+            <p slot="header">i love paul</p>
+            <template slot-scope="test" slot="footer">
+                <h1 style="color:green">{{test.value}}</h1>
+            </template>
+        </child>
+    </div>
+    <script type="text/javascript">
+        Vue.component('child', {
+            props: ['content'],
+            data: function() {
+                return {
+                    value: 'hello alexis'
+                }
+            },
+            template: `<div>
+                    <p>i like jayden</p>
+                    <slot name="header"></slot>
+                    <slot name="footer" value="hello elle"></slot>
+                   </div>`
+        });
+
+        var vm6 = new Vue({
+            el: '#root6',
+            data: {}
+        });
+    </script>
+
+    <br>
+    <hr><br>
+</body>
+
+</html>

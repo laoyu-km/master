@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+    <script type="text/javascript" src="./velocity.js"></script>
+    <style type="text/css">
+        /* 两个元素同时出场和离场 */
+        
+        .shift {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        
+        .shift button {
+            position: absolute;
+            left: 10px;
+            top: 20px;
+        }
+        
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+        }
+        
+        .v-enter-active,
+        .v-leave-active {
+            transition: opacity 1s linear;
+        }
+    </style>
+    <style type="text/css">
+        /* 两个元素水平移动过渡 */
+        
+        .ctrl {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+        
+        .ctrl button {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .jayden-enter,
+        .jayden-leave-to {
+            opacity: 0;
+        }
+        
+        .jayden-enter-active,
+        .jayden-leave-active {
+            transition: all 1s linear
+        }
+        
+        .jayden-enter {
+            transform: translateX(31px);
+        }
+        
+        .jayden-leave-to {
+            transform: translateX(-31px);
+        }
+    </style>
+    <style type="text/css">
+        /* 多组件添加过渡效果 */
+        
+        .foxxx-enter,
+        .foxxx-leave-to {
+            opacity: 0;
+        }
+        
+        .foxxx-enter-active,
+        .foxxx-leave-active {
+            transition: opacity 1s linear;
+        }
+    </style>
+    <style type="text/css">
+        .elle-enter,
+        .elle-leave-to {
+            opacity: 0;
+        }
+        
+        .elle-enter-active,
+        .elle-leave-active {
+            transition: opacity 1s linear;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="root">
+        <!-- 
+            使用js钩子来实现过渡和动画 
+            插入的三个钩子
+            1. @before-enter 插入前
+            2. @enter 插入中
+            3. @after-enter 插入后
+            离开得三个钩子
+            1. @before-leave
+            2. @leave
+            3. @after-leave
+        -->
+
+        <transition name="fade" @before-enter="handleBeforeEnter" @enter="handleEnter" @after-enter="handleAfterEnter" @before-leave="handleBeforeLeave" @leave="handleLeave" @after-leave="handleAfterLeave">
+            <div v-if="show">Hello Ferrow</div>
+        </transition>
+        <button @click="handleBtnClick">change</button>
+    </div>
+    <script type="text/javascript">
+        // javascript 钩子 -> js制作过渡和动画
+        // 利用钩子使用第三方库 -> velocity.js
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                show: false
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.show = !this.show;
+                },
+                handleBeforeEnter: function(el) {
+                    el.style.opacity = 0;
+                    console.log('before enter')
+                        // el.style.color = "red";
+                        // console.log(el); // el 是<transition>包裹的元素
+
+                },
+
+                // enter钩子函数需要传入两个参数，第二个参数done，是一个函数，表示enter完成，只有done()执行才能触发第三个钩子after-enter
+                handleEnter: function(el, done) {
+                    // 使用第三方库： velocity.js
+                    Velocity(el, {
+                        opacity: 1
+                    }, {
+                        duration: 2000,
+                        complete: done
+                    });
+                    console.log('entering')
+                        // // 设置延时的原因是3个状态的过渡太快，肉眼看不到变化元素就变为blue了
+                        // setTimeout(function() {
+                        //     el.style.color = "green";
+                        // }, 2000)
+                        // setTimeout(function() {
+                        //     done();
+                        // }, 4000);
+                },
+                handleAfterEnter: function(el) {
+                    console.log('after enter')
+                        // el.style.color = "blue";
+                },
+                handleBeforeLeave: function(el) {
+                    console.log('before leave')
+                },
+                handleLeave: function(el, done) {
+                    Velocity(el, {
+                        opacity: 0
+                    }, {
+                        duration: 2000,
+                        complete: done
+                    });
+                    console.log("leaving")
+                },
+                handleAfterLeave: function(el) {
+                    console.log("after leave")
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root2">
+        <div class='shift'>
+            <transition mode="out-in">
+                <!-- 
+                    如果<transition>中的两个元素一样，vue会使用执行元素替换来优化性能，类似input中出现的问题，如果对两个元素使用不同的标签就不会有此问题，或者为标签加上key
+                    
+                    <transition>的mode属性为元素间添加了效果
+                    1. out-in 让元素先出后进，而不是同时进出
+                    2. in-out 让新元素先进，当前元素再离开
+                 -->
+                <button @click="handleOn" v-if="show" key="on">on</button>
+                <button @click="handleOff" v-else key="off">off</button>
+            </transition>
+        </div>
+    </div>
+    <script type="text/javascript">
+        // 多个元素过渡
+        var vm2 = new Vue({
+            el: '#root2',
+            data: {
+                show: false
+            },
+            methods: {
+                handleOn: function() {
+                    this.show = false;
+                },
+                handleOff: function() {
+                    this.show = true;
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root3">
+        <div class='ctrl'>
+            <transition name="jayden" mode="in-out">
+                <button @click="handleOn" v-if="show" key="on">on</button>
+                <button @click="handleOff" v-else key="off">off</button>
+            </transition>
+        </div>
+    </div>
+    <script type="text/javascript">
+        // 两个元素横向过渡
+        var vm3 = new Vue({
+            el: '#root3',
+            data: {
+                show: false
+            },
+            methods: {
+                handleOn: function() {
+                    this.show = false;
+                },
+                handleOff: function() {
+                    this.show = true;
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root4">
+        <transition name="foxxx" mode="out-in">
+            <component :is="type"></component>
+        </transition>
+        <button @click="handleBtnClick">切换</button>
+    </div>
+    <script type="text/javascript">
+        // 多组件添加过渡效果
+        Vue.component('child-one', {
+            template: '<div>one</div>'
+        });
+        Vue.component('child-two', {
+            template: '<div>two</div>'
+        })
+        var vm4 = new Vue({
+            el: '#root4',
+            data: {
+                type: 'child-one'
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.type = this.type === 'child-one' ? 'child-two' : 'child-one';
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root5">
+        <ul>
+            <!-- 
+                <transition-group>解决了<transition>标签只能包裹一个元素的问题，他能包裹多个元素
+                实际上<transition-group>标签是为其包裹的每一个标签都套上一个<transition>标签
+             -->
+            <transition-group name="elle">
+                <li v-for="(item, index) of list" :key="item.index">{{item.text}}---{{item.index}}</li>
+            </transition-group>
+        </ul>
+        <button @click="handleBtnClick">添加</button>
+    </div>
+    <script type="text/javascript">
+        // 之前虽然是多标签，但是实际展现的只是一个标签
+        // 真正多标签添加过渡效果
+        var vm5 = new Vue({
+            el: '#root5',
+            data: {
+                list: [],
+                count: 0
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.list.push({
+                        index: ++this.count,
+                        text: 'hello Jayden'
+                    })
+                }
+            }
+
+
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root6">
+        <div>
+            <fade :show="show">
+                <div>Hello jayden</div>
+            </fade>
+            <fade :show="show">
+                <h1>hello wicky</h1>
+            </fade>
+        </div>
+        <button @click="handleBtnClick">change</button>
+    </div>
+    <script type="text/javascript">
+        // 过渡和动画封装
+        // 使用注册组件的方法进行封装
+        // 由于使用组件封装，CSS代码不能写入，所以只能使用钩子函数来实现过渡和动画
+        Vue.component('fade', {
+            props: ['show'],
+            template: `
+                <transition name="paul" 
+                            @before-enter="handleBeforeEnter"
+                            @enter="handleEnter" 
+                            @after-enter="handleAfterEnter" 
+                            @before-leave="handleBeforeLeave" 
+                            @leave="handleLeave" 
+                            @after-leave="handleAfterLeave">
+                    <slot v-if="show"></slot>
+                </transition>
+            `,
+            methods: {
+                handleBeforeEnter: function(el) {
+                    el.style.opacity = 0;
+                    console.log('before enter');
+                },
+                handleEnter: function(el, done) {
+                    Velocity(el, {
+                        opacity: 1
+                    }, {
+                        duration: 2000,
+                        complete: done
+                    });
+                    console.log('entering');
+                },
+                handleAfterEnter: function(el) {
+                    console.log('after enter');
+                },
+                handleBeforeLeave: function(el) {
+                    console.log('before leave');
+                },
+                handleLeave: function(el, done) {
+                    Velocity(el, {
+                        opacity: 0
+                    }, {
+                        duration: 1000,
+                        complete: done
+                    })
+                    console.log('leaving');
+                },
+                handleAfterLeave: function(el) {
+                    console.log('after leaving');
+                }
+            }
+        });
+        var vm = new Vue({
+            el: '#root6',
+            data: {
+                show: false
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.show = !this.show;
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+</body>
+
+</html>

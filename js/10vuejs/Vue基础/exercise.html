@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exercise</title>
+    <script type="text/javascript" src="./vue.js"></script>
+    <style>
+        .active1 {
+            color: salmon;
+        }
+        
+        .active2 {
+            font-size: 35px;
+        }
+        
+        .active3 {
+            background-color: rosybrown;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <!-- bind class -->
+        <div v-bind:class="'active1'" v-text="content.av1"></div>
+        <div v-bind:class="{active1: isActive, active2: isUse}" v-text="content.av3"></div>
+        <div class="active3" v-text="content.av4" v-bind:class="{active1: isActive, active2: isUse}"></div>
+        <div v-text="content.av2" v-bind:class="objClass"></div>
+        <div v-text="content.av1+' ' + content.av2 + ' ' + content.av3" v-bind:class="['active1', active2, active3]"></div>
+        <br>
+        <hr>
+        <br>
+        <!-- bind style -->
+        <div v-bind:style="{color:'green', fontSize: '20px'}">Jayden</div>
+        <div v-bind:style="{color:'red', 'font-size': '30px'}" v-once="content.av2">{{content.av2}}</div>
+        <div v-bind:style="sObject" v-html="content.av3"></div>
+        <div v-bind:style="[sArrayObject, sArrayObj]" v-text="content.av5"></div>
+
+        <br>
+        <hr>
+        <br>
+        <!-- bind style -->
+        <template v-if="isShow">
+        <!-- <template v-show="isShow"> -->
+            <div v-for="item in content" v-text="item"></div>
+        </template>
+
+        <div v-if="wether === 'sun'">晴天</div>
+        <div v-else-if="wether === 'rain'">雨天</div>
+        <div v-else>一般</div>
+
+
+
+    </div>
+
+    <script type="text/javascript">
+        let vm = new Vue({
+            el: "#root",
+            data: {
+                wether: 'sun',
+                isShow: true,
+                content: {
+                    av1: 'Jayden',
+                    av2: 'alexis',
+                    av3: 'foxxx',
+                    av4: 'wicky',
+                    av5: 'elle',
+                    av6: 'paul'
+                },
+                isActive: true,
+                isUse: true,
+                objClass: {
+                    'active1': true,
+                    'active2': true
+                },
+                active2: 'active2',
+                active3: 'active3',
+                sObject: {
+                    width: "60px",
+                    height: "40px",
+                    color: "pink",
+                    "background-color": "red"
+                },
+                sArrayObject: {
+                    color: 'blue',
+                    fontSize: '40px'
+                },
+                sArrayObj: {
+                    backgroundColor: 'pink'
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

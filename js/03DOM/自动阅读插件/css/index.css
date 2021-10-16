@@ -1,0 +1,45 @@
+/* 盒子模型，如果不浮动，不定位，或者没有特殊要求，不写width */
+
+.bk-list .list-item {
+    position: relative;
+    height: 100%;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.bk-list .list-item .bk-link {
+    display: block;
+    height: 100%;
+}
+
+
+/* 两栏布局 企业级方法 */
+
+.bk-list .list-item .item-img {
+    position: absolute;
+    height: 100%;
+    padding: 10px;
+}
+
+.bk-list .list-item .item-info {
+    height: 100%;
+    /* width: 100%;  这里不能写，只能自适应，如果写了，因为有margin-left, width就会有一部分不在视窗内，而出现滚动条*/
+    margin-left: 117.5px;
+    color: #424242;
+}
+
+
+/* 两栏布局结尾 */
+
+
+/* 3大件 */
+
+.bk-list .list-item .item-info .intro {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bk-list .list-item .item-info p,
+.bk-list .list-item .item-info h2 {
+    margin-top: 15px;
+}

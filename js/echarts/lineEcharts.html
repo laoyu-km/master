@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.js"></script>
+    <style>
+        #chart {
+            width: 600px;
+            height: 400px;
+            background-color: greenyellow;
+            margin: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chart"></div>
+
+    <script type="text/javascript">
+        const chart = document.getElementById('chart');
+        const echart = echarts.init(chart);
+        option = {
+            title: {
+                text: '连续图'
+            },
+            xAxis: {
+                type: 'category',
+                show: true,
+                boundaryGap: false // 默认为true，在坐标轴两侧会留白
+            },
+            yAxis: {
+                show: true
+            },
+            series: [{
+                type: 'line',
+                data: [500, 432, 510, 401, 360, 384, 411, 469, 530, 501, 499, 566],
+                itemStyle: {
+                    // opacity: 0
+                },
+                smooth: true,
+                lineStyle: {
+                    // color: 'orange'
+                    // width: 0
+                    // opacity: 0
+                },
+                areaStyle: { //面积图形效果
+                    color: 'orange'
+                }
+            }, ],
+            // grid: { // 使用过了boundrayGap后，就不设置grid了
+            //     top: 0,
+            //     right: 0,
+            //     bottom: 0,
+            //     left: 0
+            // }
+        };
+        echart.setOption(option);
+    </script>
+</body>
+
+</html>

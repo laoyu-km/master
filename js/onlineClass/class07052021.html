@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20210507 online class</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        // 高阶函数
+
+        // 理解
+        // 1. 从业务逻辑的角度：函数是一个或是多个功能的封装
+
+        // 纯函数：(没有副作用)不和外部做交互
+        // 函数的单一原则： kiss原则
+
+        // 高阶函数：
+        // 1. 参数是函数(回调函数) -> 参数是业务逻辑的抽离
+        // 2. 返回值是函数(防抖函数) -> 对功能的延续，对参数的收集
+
+        // 为什么叫回调函数：
+        // 因为：被作为实参传入另一函数，并在该外部函数内被调用，用以来完成某些任务的函数，称为回调函数。
+
+
+        // 是不是所有作为参数的函数都是回调函数：
+        // 是，但是分为同步回调和异步回调
+
+        // // 回调函数举例
+        // // 异步回调
+        // setTimeout(function() {}, 2000);
+        // // 同步回调
+        // map(function() {});
+        // [].sort(() => {});
+
+        // // 回调函数举例
+        // function appendDiv(doc, cb) {
+        //     for (var i = 0; i < 100; i++) {
+        //         var div = doc.createElement('div');
+        //         div.innerHTML = i;
+        //         doc.body.appendChild(div);
+        //         if (typeof cb === 'function') {
+        //             cb(div);
+        //         }
+        //     }
+        // }
+
+        // function displayDiv(dom) {
+        //     // dom.style.display = 'none';
+        //     dom.style.display = 'yes';
+        // }
+
+        // appendDiv(document, displayDiv);
+        // // appendDiv(document, displayDiv)()();
+
+
+        // // 返回值是函数举例
+        // // 防抖函数举例
+        // function promisify(fn) {
+        //     return function() {
+        //         return new Promise(function(resolve) {
+        //             // ...
+        //         })
+        //     }
+        // }
+
+
+        // // 节流函数举例
+        // function throttle(fn, delay) {
+        //     var t = null,
+        //         res,
+        //         begin = new Date().getTime();
+
+        //     return function() {
+        //         var args = arguments,
+        //             _self = this,
+        //             cur = new Date().getTime();
+        //         if (t) {
+        //             clearTimeout(t);
+        //         }
+
+        //         if (cur - begin >= delay) {
+        //             res = fn.apply(_self, args);
+        //             begin = cur;
+        //         } else {
+        //             t = setTimeout(function() {
+        //                 res = fn.apply(_self, args);
+        //             }, delay);
+        //         }
+        //         return res;
+        //     };
+        // }
+
+        // //返回值是函数为什么是对程序功能的延续
+        // var isString = function(obj) {
+        //     return Object.prototype.toString.call(obj) === '[object String]';
+        // }
+
+        // var isType = function(type) {
+        //     return function(obj) {
+        //         Object.prototype.toString.call(obj) === '[object ' + type + ']';
+        //     }
+        // }
+        // var isString = isType('String');
+        // var isArray = isType('Array');
+        // var isNumber = isType('Number');
+
+        // var tp = {};
+        // for (var i = 0, type; type = ['String', 'Array', 'Number'][i++];) {;
+        //     (function(type) {
+        //         tp['is' + type] = function(obj) {
+        //             return Object.prototype.toString.call(obj) === '[object ' + type + ']';
+        //         }
+        //     })(type);
+        // }
+        // console.log(tp);
+        // console.log(tp.isString('123')); // true
+        // console.log(tp.isArray([1, 2, 3])); // true
+        // console.log(tp.isNumber(123)); // true
+
+        // AOP,切面编程
+
+        // 参考
+        // Function.prototype.before = function(beforefn) {
+        //     var _this = this; // 保存原函数的引用
+        //     return (function() {
+        //         // 返回包含了原函数和新函数的"代理"函数
+        //         beforefn.apply(this, arguments); // 先执行新函数，修正this
+        //         return _this.apply(this, arguments); // 再执行原函数
+        //     })();
+        // };
+        // Function.prototype.after = function(afterfn) {
+        //     var _this = this;
+        //     return function() {
+        //         var ret = _this.apply(this, arguments); //先执行原函数
+        //         afterfn.apply(this, arguments); //再执行新函数
+        //         // return ret;
+        //     };
+        // };
+
+        // function isType() {
+        //     // var tp = {};
+        //     // for (var i = 0, type; type = ['String', 'Array', 'Number'][i++];) {;
+        //     //     (function(type) {
+        //     //         tp['is' + type] = function(obj) {
+        //     //             return Object.prototype.toString.call(obj) === '[object ' + type + ']';
+        //     //         }
+        //     //     })(type);
+        //     // }
+        //     console.log(2);
+        // }
+
+        // Function.prototype.before = function(beforeFn) {
+        //     var _this = this;
+        //     return (function() {
+        //         beforeFn.apply(this, arguments);
+        //         return _this;
+        //     })();
+        // }
+
+        // Function.prototype.after = function(afterFn) {
+        //     var _this = this;
+        //     return (function() {
+        //         var res = _this.apply(this, arguments);
+        //         afterFn.apply(this, arguments);
+        //         return res;
+        //     })();
+        // }
+
+        // function isType() {
+        //     console.log(2);
+        //     return 'teacher';
+        // }
+
+        // var res = isType.before(function() {
+        //     console.log(1);
+        // }).after(function() {
+        //     console.log(3);
+        // });
+        // console.log(res);
+    </script>
+</body>
+
+</html>

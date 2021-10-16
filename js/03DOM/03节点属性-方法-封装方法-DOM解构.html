@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="box" style="background-color:green">
+        我是文本节点
+        <!-- 我是注释 -->
+        <h1>我是标题标签</h1>
+        <a href="">我是超链接</a>
+        <p>我是段落标签</p>
+    </div>
+
+    <script type="text/javascript">
+        // var div = document.getElementById('box')[0];
+        // 元素节点 -> 1
+        // 属性节点 -> 2
+        // 文本节点 -> 3 -> 回车('\n')也算文本节点
+        // 注释节点 -> 8
+        // document -> 9
+        // DocumentFragment -> 11
+
+        // 节点属性
+        // // nodeName
+        // console.log(document.nodeName);
+        // console.log(div.nodeName); // DIV
+
+        // // string.toLowerCase(), string.toUpperCase() 大小写转换
+        // console.log(div.nodeName.toLowerCase()); // div
+        // console.log(div.firstChild.nodeName); // #text
+        // console.log(div.childNodes[1].nodeName); // #comment
+        // console.log(div.childNodes[2]); // '\n' 回车也是文本节点
+        // console.log(div.childNodes[3].nodeName); // H1
+        // console.log(div.childNodes[5].nodeName); // A
+        // console.log(div.childNodes[7].nodeName); // P
+        // // 总结： 元素节点的nodeName 默认都是大写，其他节点的开头是#，后面跟节点类型名
+
+        // div.childNodes[5].nodeName = 'test';
+        // console.log(div.childNodes[5].nodeName); // A 
+        // // 总结： 节点的 nodeName 不可更改
+
+        //============================
+
+        // 节点的Value可以更改
+        // nodevalue 可写，文本，注释，属性，元素
+
+
+        // =================================
+
+        // 浏览器的console中，浅紫色都是系统内定的，深紫色都是我们自己定义的
+
+        // =================================
+
+        // // 获取节点类型 nodeType, 不可改
+        // // 封装元素节点获取函数
+        // function elemChildren(node) {
+        //     var arr = [],
+        //         children = node.childNodes;
+
+        //     for (var i = 0; i < children.length; i++) {
+        //         var childItem = children[i];
+        //         if (childItem.nodeType === 1) {
+        //             arr.push(chidren);
+        //         }
+        //     }
+        //     return arr;
+        // }
+
+        // // 类数组
+        // var obj = {
+        //     '0': 1,
+        //     '1': 2,
+        //     '2': 3,
+        //     length: 3,
+        //     push: Array.prototype.push,
+        //     'splice': Array.prototype.splice // 在浏览器console中，就变成[ obj ], 原来是{ obj }
+        // }
+        // obj.push(4);
+
+        // function elemChildren(node) {
+        //     var temp = {
+        //             'length': 0,
+        //             'push': Array.prototype.push,
+        //             'splice': Array.prototype.splice,
+        //         },
+
+        //         len = node.chilNodes.length;
+
+        //     for (var i = 0; i < len; i++) {
+        //         var childItem = node.childNodes[i];
+        //         if (childItem.nodeType === 1) {
+        //             temp[temp['length']] = childItem;
+        //             temp['length']++;
+        //             // temp.push(childItem);
+        //         }
+        //     }
+
+        //     return temp;
+        // }
+
+
+        // =================================
+
+        // // attribute -> getAttributeNode() -> 获取当前元素上的属性, 返回一个类数组
+        // console.log(div.attributes);
+        // console.log(div.getAttributeNode('id').nodeValue === div.attributes[1].nodeValue);
+        // console.log(div.getAttributeNode('id').nodeValue === div.attributes[1].value);
+        // console.log(div.getAttributeNode('id').nodeValue === div.getAttributeNode('id').value);
+    </script>
+
+
+    <!-- 什么情况会没有childNode -->
+    <div id='box2'></div>
+    <script>
+        var div2 = document.getElementById('box2');
+
+        // 只有 <div></div> -> false, 其他都不行，因为换行，或空格都是文本，都被算为文本节点
+        console.log(div2.hasChildNodes());
+    </script>
+
+
+    <!-- document的原型 -->
+    <script>
+        // document 构造函数 -> Document -> Doucment.prototype
+        // var document = new Document() // document 不是这样来的
+        console.log(document.__proto__) // HTMLDocument -> 其构造函数是 HTMLDocument()
+        console.log(HTMLDocument.__proto__) // Document => 其构造函数是 Document()
+
+        //  Document 是操作 HTML 和 XML 的 -> HTMLDocument, XMLDocument, 所以document 是被HTMLDocument的， 因为Document还要构建 XMLDocument
+    </script>
+
+    <!-- CharacterData -->
+    <div id="jayden">
+        jayden
+        <!-- alexis -->
+    </div>
+    <script>
+        var div3 = document.getElementById('jayden');
+        var text = div3.childNodes[0];
+        var comment = div3.childNodes[1];
+        console.log(text.__proto__); // Text -> 构造函数Text()
+        console.log(Text.__proto__); // CharacterData -> 构造函数 CharacterData()
+        // text -> Text -> CharacterData
+        // comment -> Comment  -> CharacterData
+        // CharacterData, Document, Element, Attribute -> Node
+        // 写组件，写封装，写功能都会在原型上写，很少会直接写函数
+    </script>
+
+
+    <!-- Element -->
+    <script>
+        // Element
+        // Element 有两个分支 ->  HTMLElement, XMLElement
+        // HTMLElement 有多个分支 -> HTML元素名Element
+    </script>
+
+    <!-- Node -->
+    <script>
+        // 原型链的顶端是Object.prototype
+        // Node
+        console.log(Object.prototype.toString.call(div3));
+        // 用这种方法可以判断标签
+    </script>
+
+    <!-- DOM操作深入 -->
+    <div id='alexis'>
+        <div id="foxxx">123</div>
+        <p>jayden</p>
+    </div>
+    <p>235</p>
+    <script>
+        // 1
+        // getElementById() -> Document.prototype 有
+        // Element.prototype HTMLElement.prototype 没有这个方法
+        var div = document.getElementById('alexis');
+        console.log(div.getElementById('foxxx')); // Type Error, HTMLElement 整条原型链都没有getElementById这个方法
+
+        // 2
+        // getElementsByName()
+        // 有： Document.prototype
+        // 无： Element.prototype, HTMLElement.prototype
+        div.getElementByName() // TypeError
+
+        // getElementsByTagName, getElementsByClassName, querySelector, querySelectorAll
+        // 有：Document.prototype, Element.prototype
+        div.getElementsByTagName('p')[0]; // ok
+    </script>
+
+
+    <!-- * -->
+    <script>
+        // dom 中的 *
+        // 只有getElementsByTagName的参数可以用 '*'
+        // 打印出的 是包括 html, script, style在内的所有标签
+        var all = document.getElementsByTagName('*');
+        console.log(all);
+
+        // 选择 body 和 head
+        // 这是HTMLDocument 专门提供的两个属性
+        console.log(document.head);
+        console.log(document.body);
+
+
+        // document.title 并不能选择元素，选择的是title的内容
+        console.log(document.title);
+
+        // document.documentElement -> 直接返回html
+        console.log(document.documentElement);
+    </script>
+
+    <script>
+        // 作业
+        // 在原型上编程
+        // 遍历任意一个父元素，找到它的子元素节点
+        // 有数字参数 -> 某一个对应子元素
+        // 没有数字参数 -> 子元素节点的集合
+
+        // 2
+        // 在原型上编程
+        // 找出一个元素的第N层父级元素
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

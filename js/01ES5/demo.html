@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="./demo.js" defer></script>
+    <script type="text/javascript" src="./kaoshi.js" defer></script>
+    <script type="text/javascript" src="./demo13.js" defer></script>
+
+    <!-- <script type="text/javascript" src="./js/shuju.js" defer></script> -->
+    <!-- <script type="text/javascript" src="./js/ke.js"></script> -->
+    <title>Demo For Study</title>
+    <style>
+        /* 圣杯布局方式 */
+        
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        .wrap {
+            width: 700px;
+            margin: 0 auto;
+            border: 1px solid #000;
+        }
+        
+        .top,
+        .foot {
+            height: 50px;
+            background-color: pink;
+        }
+        
+        .main {
+            padding: 0 100px;
+            overflow: hidden;
+        }
+        
+        .main .left,
+        .main .content,
+        .main .right {
+            float: left;
+            position: relative;
+            background-color: green;
+            margin-bottom: -2000px;
+            padding-bottom: 2000px;
+        }
+        
+        .main .left {
+            left: -100px;
+            width: 100px;
+        }
+        
+        .main .content {
+            width: 100%;
+            margin-left: -100px;
+            background-color: red;
+        }
+        
+        .main .right {
+            left: 100px;
+            width: 100px;
+            margin-left: -100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="top"></div>
+        <div class="main clearfix">
+            <div class="left">123</div>
+            <div class="content">123<br />123</div>
+            <div class="right">123</div>
+        </div>
+        <div class="foot"></div>
+    </div>
+    <!-- <div id="main"></div>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul> -->
+    <script>
+        // // 面试题3
+        // var oLi = document.querySelectorAll('li');
+
+        // // 下面写法结果全部是5
+        // // for (var i = 0; i < oLi.length; i++) {
+        // //     oLi[i].onclick = function() {
+        // //         console.log(i);
+        // //     }
+        // // }
+
+        // // 解决方法
+        // for (var i = 0; i < oLi.length; i++) {
+        //     (function(j) {
+        //         oLi[j].onclick = function() {
+        //             console.log(j);
+        //         }
+        //     })(i);
+        // }
+
+        var test = new Function('a', 'b', "{console.log(this);return a + b;}")
+        console.log(test(1, 2));
+        console.log(test);
+
+        var obj = {
+            c: 3,
+            d: 5,
+            f: new Function('console.log(this);return this.c + this.d;')
+        };
+        console.log(obj.f())
+    </script>
+</body>
+
+</html>

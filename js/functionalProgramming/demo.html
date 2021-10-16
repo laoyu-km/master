@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Programming</title>
+</head>
+
+<body>
+
+    <script>
+        // JavaScript世界当中 -> '一等公民' -> 函数
+
+        // C/C++/Java/c# 中
+        // 函数声明， 函数调用
+
+        // JavaScript中：函数可以
+        // 声明 调用，赋值， 传参， 返回值， 构造函数， 类实例
+        // 一等公民 -》 first class Function
+        // 函数可以作为返回值，是函数作为一等公民非常重要的特性
+
+        // 实现一个函数功能有很多方法，应该选择哪种
+        // 函数式编程， 设计模式， 面向对象 -> 告诉我们什么时候应该用什么程序
+
+
+        // javascript 编程特点
+        // 函数式编程和面向对象的混编语言
+        // 优点：可扩展性强，编程灵活，易学 -》越易学，越难深入掌握
+        // 缺点: 不可控
+
+        // 面向对象与函数式编程的关系
+        // 面向对象就是为了高度复用
+
+        // 函数式编程
+        // 优点：易读，易维护
+        // 概念：函数是第一类对象，不依赖任何其他对象独立存在
+
+        // 纯函数
+        // 相同的输入得到相同的输出，不依赖且不影响外部环境也不产生任何副作用
+        // 输入完全取决于输入
+
+        // 下式是不是纯函数
+        // // 不是，没有输入，依赖了外部的因素
+        // var a = 1;
+
+        // function test() {
+        //     console.log(a);
+        // }
+
+        // // 纯函数示例
+        // function test(num) {
+        //     console.log(num);
+        // }
+
+        // 函数式编程的副作用：只要跟函数外部环境发生了交互就是副作用
+        // 比如：发送数据请求(ajax) 改变数据 console.log(是函数外部提供)，DOM操作(DOM 依赖浏览器)， 数据存取(session,cookie)
+
+        // // 判断是否是纯函数
+        // // 1 compute 是纯函数吗 -》 不是，依赖外界函数
+        // function add(obj) {
+        //     return obj.a + obj.b;
+        // }
+
+        // function minus(obj) {
+        //     return obj.a - obj.b
+        // }
+
+        // function compute(nums) {
+
+        //     return {
+        //         add: add(nums),
+        //         minus: minus(nums)
+        //     }
+        // }
+
+        // var numbers = {
+        //     a: 5,
+        //     b: 1
+        // }
+
+        // console.log(compute(numbers).add);
+
+        // // 2 compute 是纯函数吗 
+        // // 不是，因为使用了 nums.属性 ，这会导致函数外部改变，函数内部也收影响
+        // function compute(nums) {
+        //     return {
+        //         add: function() {
+        //             return nums.a + nums.b;
+        //         },
+        //         minus: function() {
+        //             return nums.a - nums.b;
+        //         }
+
+        //     }
+        // }
+
+        // var numbers = {
+        //     a: 5,
+        //     b: 1
+        // }
+
+        // console.log(compute(numbers).minus());
+
+
+
+        // // 纯函数示例
+        // // splice 不是纯函数， slice是纯函数
+        // var arr1 = ['a', 'b', 'c', 'd', 'e'],
+        //     arr2 = ['a', 'b', 'c', 'd', 'e'];
+
+        // var spArr = arr1.splice(0, 3), // 副作用，arr1被改动
+        //     stArr = arr2.slice(0, 3); // 无副作用，arr2为发生变动
+
+        // console.log(arr1);
+        // console.log(spArr);
+
+        // console.log(arr2);
+        // console.log(stArr);
+
+        // //2
+        // // test1不是纯函数
+        // // test2 是纯函数
+        // var obj = {
+        //     a: 1,
+        //     b: 2,
+        //     c: 3
+        // }
+
+        // function test1(obj) {
+        //     obj.d = 4;
+        //     return obj;
+        // }
+        // test1();
+        // console.log(obj); //obj改变
+
+        // function test2(obj, deepClone) {
+        //     // 将deepClone作为参数传入或者将deepClone 写到该函数内，就能成为纯函数
+        //     var newObj = deepClone(obj, {});
+        //     newObj.d = 4;
+        //     return newObj;
+        // }
+        // test2();
+        // console.log(obj, deepClone); // obj 为发生改变
+
+
+
+        // //深度clone
+        // function deepClone(org, tar) {
+        //     var tar = tar || {},
+        //         var toStr = Object.prototype.toString;
+        //     var arrType = '[object Array]';
+
+        //     for (var key in org) {
+        //         if (org.hasOwnProperty(key)) {
+        //             if (typeof org[key] === 'object' && org[key] !== null) {
+        //                 tar[key] = toStr.call(org[key]) === arrType ? [] : {};
+        //                 deepClone(org[key], tar[key]);
+        //             } else {
+        //                 tar[key] = org[key];
+        //             }
+        //         }
+        //     }
+        //     return tar;
+        // }
+
+        // 总结，纯函数
+        // 纯函数真正技巧，可提纯则提纯，不能提纯不强求
+        // 可移植性强(没有任何外部依赖，拿来即用)， 
+        // 易读，
+        // 并行执行(环境允许情况下), 不会产生竞争态 
+        // 可测试
+        // 可缓存性
+
+        // 可缓存性示例
+        function test(fn) {
+            var cache = {};
+
+            return function() {
+                var args = JSON.stringify(arguments);
+
+                cache[args] = cache[args] ?
+                    cache[args] + '来自缓存' :
+                    fn.apply(fn, arguments);
+                return cache[args];
+            }
+        }
+
+        var add = test(function() {
+            var argLen = arguments.length,
+                item,
+                res = 0;
+
+            for (var i = 0; i < arguments.length; i++) {
+                item = arguments[i];
+                res += item;
+            }
+            return res;
+        });
+
+        console.log(add(1, 2));
+        console.log(add(1, 2));
+        console.log(add(3, 2));
+        console.log(add(3, 2));
+
+        // 竞争态，函数之间谁先执行，谁后执行，造成的问题叫竞争态
+        // 纯函数没有竞争态，因为独立
+
+
+
+        // ps: obj.test 中 .访问是耗费性能的，所以在函数或者循环中使用局部变量来接受外部传入的对象属性，来避免性能消耗
+    </script>
+</body>
+
+</html>

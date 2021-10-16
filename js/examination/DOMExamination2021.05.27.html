@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="app">
+        <h1>this alexis</h1>
+    </div>
+    <div id="btn"></div>
+
+    <script type="text/javascript">
+        // // 1. 如何监听一个节点下所有的dom变化
+        // // DOM LEVEL4 IE11后几个版本才开始支持
+
+        // // DOM 新增 MutationObserver 接口 (改变 观察者)
+        // const observer = new MutationObserver(callback);
+
+        // function callback(mList, ob) {
+        //     console.log(mList);
+        //     // mList 列表
+        //     // ob 示例
+        //     mList.forEach(function(m) {
+        //         // console.log(m);
+        //         switch (m.type) {
+        //             case 'childList':
+        //                 console.log('tag' + m.target.tagName);
+        //                 break;
+        //             case 'attribute':
+        //                 console.log('tag' + m.target.tagName);
+        //                 break;
+        //             default:
+        //                 break;
+        //         }
+        //     })
+        // }
+
+        // var node = document.getElementsByClassName('.app')[0];
+
+        // var config = {
+        //     attributes: true,
+        //     childList: true,
+        //     subtree: true
+        // }
+
+        // observer.observe(node, config);
+
+        // node.getElementsByTagName('h1')[0].innerText = 'THIS Jayden'
+
+        // node.getElementsByTagName('h1')[0].className += 'test'
+        // observer.disconnect();// 断开链接
+        // =================================
+
+        // // 2 请问 bindEvent() 应该怎么写
+        // Element.prototype.bindEvent = function(
+        //     eventName,
+        //     callback
+        // ) {
+        //     var _event = new Event(eventName),
+        //         _ele = this;
+
+        //     _ele.addEventListener(eventName, callback, false);
+
+        //     return {
+        //         dispatch: function() {
+        //             _ele.dispatchEvent(_event);
+        //         },
+
+        //         remove: function() {
+        //             _ele.removeEventListener(eventName, callback, false);
+        //         }
+        //     }
+        // }
+
+        // var oBtn = document.getElementById('btn');
+
+        // var testEvent = oBtn.bindEvent('test', function() {
+        //     console.log('click')
+        // });
+
+        // testEvent.dispatch();
+        // testEvent.remove();
+        // // 事件不需要绑定，绑定的是事件处理函数
+
+        // ===============================
+
+        // 说以下从dom0 到 dom4
+        // DOM0 -> 最原始的DOM -> onclick 句柄方式 标签属性绑定处理
+        // onclick = function() {} 不是标准，不能绑定多个事件
+
+        // DOM1 -> W3C 标准 未发布 -> DOM底层解构
+
+        // DOM2 -> W3C 标准 -> addEventListen
+
+        // DOM3 -> W3C 标准 -> 鼠标 键盘事件
+
+        // DOM4 ->  MutationObserver
+
+        // ===============================
+
+        // document 是谁构造出来的
+        // HTMLDocument();
+
+        // XML 是谁构造出来的
+        // XMLDocument();
+
+        // 不同的页面构造器不同
+
+        // ===============================
+
+        // 如何统计HTML中某节点下有哪些标签, 记录使用次数
+        // function getTags() {
+        //     var tagObj = {};
+
+        //     var allTags = Array.prototype.slice.call(document.getElementsByTagName('*'));
+
+        //     allTags.map(function(item) {
+        //         const nodeName = item.nodeName.toLowerCase();
+
+        //         if (tagObj[nodeName]) {
+        //             tagObj[nodeName] += 1;
+        //         } else {
+        //             tagObj[nodeName] = 1;
+        //         }
+        //     })
+
+        //     return tagObj;
+        // }
+
+        // 老师的解法
+        //1
+        // HTMLDocument.prototype.getTagInfo = function(node) {
+        //     var aliTags = [...node.getElementsByTagName('*')],
+        //         tagPool = {};
+
+
+        //     aliTags.map(function(item) {
+        //         var tagName = item.nodeName.toLowerCase();
+
+        //         if (tagPool[tagName]) {
+        //             tagPool[tagName] += 1;
+        //         } else {
+        //             tagPool[tagName] = 1;
+        //         }
+        //     })
+
+        //     return tagPool;
+        // }
+
+        // var app = document.getElementsByClassName('app')[0];
+
+        // var res = document.getTagInfo(app);
+        // console.log(res);
+
+        //2
+        HTMLElement.prototype.getTagInfo = function() {
+            var aliTags = [...this.getElementsByTagName('*')],
+                tagPool = {};
+
+            aliTags.map(function(item) {
+                var tagName = item.nodeName.toLowerCase();
+
+                if (tagPool[tagName]) {
+                    tagPool[tagName] += 1;
+                } else {
+                    tagPool[tagName] = 1;
+                }
+            })
+
+            return tagPool;
+        }
+
+        var app = document.getElementsByClassName('app')[0];
+        console.log(app.getTagInfo());
+
+
+        //==================================
+        // 节点的顶端是node
+        // html的顶端是document
+        // 元素的顶端是element
+
+        // DOM对象 DOM元素 DOM节点 是不是和同一个东西
+        // 是一个东西, 但是角度不一样
+        // 数据 -> DOM节点对应的节点的数据
+        // HTML -> 对应的是DOM元素
+        // DOM树 -> DOM 对象
+    </script>
+</body>
+
+</html>

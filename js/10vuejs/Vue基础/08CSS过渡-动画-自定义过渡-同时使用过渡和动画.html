@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+    <style type="text/css">
+        /* vm1 元素插入和离开的过渡 */
+        
+        .v-enter {
+            /* 初始状态让opacity为0，元素被插入后的下一帧，v-enter被删除，这时opacity为1，而v-enter-active就可以跟踪opacity从0-1的这个动画过程 */
+            opacity: 0;
+        }
+        
+        .v-enter-active {
+            transition: opacity 5s linear;
+        }
+        
+        .v-enter-to {}
+        
+        .v-leave {}
+        
+        .v-leave-active {
+            transition: opacity 5s linear;
+        }
+        
+        .v-leave-to {
+            opacity: 0;
+        }
+        
+        .jayden-enter {
+            opacity: 0
+        }
+        
+        .jayden-enter-active {
+            transition: opacity 5s linear
+        }
+        
+        .jayden-leave-active {
+            transition: opacity 5s linear
+        }
+        
+        .jayden-leave-to {
+            opacity: 0
+        }
+    </style>
+    <style type="text/css">
+        .enter {
+            /* 默认原点是在div中间，而本例中没有设置div宽高，默认是占一行，所以让变形或动画的原点从左边开始，才不会超出页面 */
+            transform-origin: left;
+            animation-name: bounce-in;
+            animation-duration: 1s;
+        }
+        
+        .leave {
+            transform-origin: left;
+            animation-name: bounce-in;
+            animation-duration: 1s;
+        }
+        
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="./animate.min.css">
+    <style type="text/css">
+        /* 过渡和动画同时使用 */
+        
+        .self-enter,
+        .self-leave-to {
+            opacity: 0
+        }
+        
+        .self-enter-active,
+        .self-leave-active {
+            transition: opacity 5s linear
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root1">
+        <!-- css过度 -->
+        <!-- 需要进场动画的元素要加上<transition>标签 -->
+        <!-- transition 只能用在单个元素上，在多个元素上使用会报错 -->
+        <!-- 要让两个元素都有进场动画则在两个元素上都加入<transition>标签 -->
+        <transition>
+            <div v-if="show">Hello Jayden</div>
+            <!-- <div v-if="show">Hi Foxxx</div> <transition>只能作用于单元素-->
+        </transition>
+        <transition>
+            <div v-if="show">hi Foxxx</div>
+        </transition>
+
+        <!-- v-enter中的v是默认值，如果为<transition>添加了name，则v-...就需要修改为name-... -> name-enter等 -->
+        <transition name="jayden">
+            <div v-if="show">hi elle</div>
+        </transition>
+        <button @click="handleBtnClick">change</button>
+
+    </div>
+    <script type="text/javascript">
+        // css过度动画
+        // vue在元素插入过程中会帮我们做的事情: 
+        // 元素进场
+        // 1. 元素插入前，vue会为元素添加两个类v-enter v-enter-active
+        // 2. 元素被插入后的下一帧，vue会删除v-enter类，再添加v-enter-to 类
+        // 3. 过度动画结束时刻：vue 会删除v-enter-active 和 vue-enter-to 两个类
+        // 总结： 
+        // 1. v-enter 是进场动画的初始状态
+        // 2. v-enter-to 是进场动画的结束状态
+        // 3. v-enter-active 是进场动画的生效时状态
+
+        // 元素出场
+        // v-leave : 元素出场前添加， 元素出场前一帧删除
+        // v-leave-active: 元素出场前添加，出场动画结束时刻删除
+        // v-leave-to : 元素出场前一帧添加，出场动画结束时删除
+        var vm1 = new Vue({
+            el: '#root1',
+            data: {
+                show: false
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.show = !this.show;
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root2">
+        <!-- 自定义过渡类：将vue自动添加的fade-enter-active类名用enter代替，style表中使用的时候使用我们自定义的类名enter，leave同理 -->
+        <transition name="fade" enter-active-class="enter" leave-active-class="leave">
+            <div v-if="show">hello aleixs</div>
+        </transition>
+        <button @click="handleBtnClick">change</button>
+    </div>
+    <script type="text/javascript">
+        // css 动画
+        var vm2 = new Vue({
+            el: '#root2',
+            data: {
+                show: false
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.show = !this.show;
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root3">
+        <!-- 第三方动画库 -->
+        <transition enter-active-class="animate__bounceIn" leave-active-class="animate__hinge">
+            <div v-if="show">Hello jayden</div>
+        </transition>
+        <button @click="handleBtnClick">change</button>
+    </div>
+    <script type="text/javascript">
+        // 第三方动画库 Animate.CSS -> https://animate.style/#migration
+        var vm3 = new Vue({
+            el: '#root3',
+            data: {
+                show: false
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.show = !this.show;
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root4">
+        <!-- 
+            动画与过渡同时使用 
+            1. enter-active-class=""中加入self-enter-active 使两个过渡类名都可以使用，并同时作用于元素, 所以出了引入第三方动画外，我们还可以手动添加过渡效果
+            2. type="" 决定了动画和过渡的时长, 示例中动画时长是1s,过渡时长是5s， type="transition" 则两者都是5s, type="animation" 则两者都是1s
+            3. :duration="" 手动设置动画的时长，: duration是个动态板顶的数据，:duration="3000" 说明出场和离场动画与过渡时长都是3s, :duration 还可以分开设置出场和离场的动画与过度时长 {enter:2000, leave:1000}
+        -->
+        <!-- <transition name="self" type="transition" -->
+        <transition name="self" :duration="{enter:2000, leave:1000}" enter-active-class="animate__slideInUp self-enter-active" leave-active-class="animate__slideOutDown self-leave-active">
+            <div v-if="show">Hello Wicky</div>
+        </transition>
+        <button @click="handleBtnClick">change</button>
+    </div>
+    <script type="text/javascript">
+        // 同时使用过渡和动画
+        var vm4 = new Vue({
+            el: '#root4',
+            data: {
+                show: false
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.show = !this.show;
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

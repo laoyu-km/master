@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box">gdg</div>
+    <div class="box2">yq</div>
+    <div class="box2">gql</div>
+    <div>
+        <p>
+            <span>123</span>
+        </p>
+    </div>
+    <div>
+        <span>567</span>
+    </div>
+    <input type="text" name="username">
+
+    <!-- 元素节点树 -->
+    <ul>
+        <li>
+            <!-- 我是注释 -->
+            <h2>我是h2</h2>
+            <a href="">我是a</a>
+            <p>我是p</p>
+        </li>
+    </ul>
+
+    <script type="text/javascript">
+        // 级联样式不要太长，影响性能
+
+        // dom 基础
+        // document -> 整个HMTL文档最上层
+        // // document 是一个对象
+        // document = {
+        //     getElementById(),
+        //     ...
+        // }
+
+        // IE8以下的问题
+        // document.getElementById('box')
+        // document.getElementById('Box') //IE8以下可以识别
+
+        // id 的使用
+        // 开发中一般不是用id
+        // 模块化开发中用的很少， id一般提供给后端使用，用于注入数据
+        // 能不用id就不用id
+
+        // document 的方法
+        // 1. document.getElementById('box');
+
+        // 2. document.getElementsByTagName('div'); // 返回值是类数组
+
+        // 3. document.getElementByClassName('box1'); // 返回值是类数组, IE8及以下不支持
+
+        // 4. document.getElementsByName('username'); // 返回值是类数组, 一般用于form中的标签，但是div这类普通标签如果设置了name属性也可以使用，不过一般很不用
+
+        // ====================
+
+        // querySelector qureySelectorAll
+        // Html5 正式引入的WEB API -> 但是实际上他们在IE7的时候就被引入了，兼容性很好;
+        // // 参数写法与css选择器写法一样;
+
+        // querySelector()
+        // var ssSpan = document.querySelector('div span');
+        // var sSpan = document.querySelector('div > span')
+        // console.log(ssSpan); // <span>123</span>
+        // console.log(sSpan) // <span>567</span>
+
+        // querySelector('div') 只能选择多个当中第一个
+
+        // querySelecotrAll -> 可以选择所有 -> 参数为id返回值也是数组
+
+
+        // // querySelector querySelectorAll的问题
+        // // 1. 性能不好, 比getElement慢的多
+        // // 2. 不是实时的，类似存了缓存 -> 实际存储了一个片段，没有存储节点
+        // // 所以公司很少用
+        // // 示例
+        // // var divs = document.getElementsByTagName('div'); // 生效
+        // var divs = document.querySelectorAll('div'); // 不生效 -> 因为不是实时的 -> 而现在开发多数要求是需要实时的
+        // console.log(divs);
+        // divs[0].remove();
+        // console.log(divs);
+
+        // ====================
+
+        // 遍历节点树
+        // 1. 节点不等于元素
+        // 2. 节点包含元素 -> 元素 =元素节点 = DOM元素
+
+        // 遍历节点数 - 元素节点数
+        // document的属性，通过这些属性获取相应的元素
+
+        // 以下的方法 IE5 都支持
+        // 主要使用的是parentNode, childNodes
+        // // parentNode 父节点 -> 浏览器父节点最高到document
+        // var a = document.getElementsByTagName('a')[0];
+        // var parent = a.parentNode;
+        // console.log(parent);
+
+        // // childNodes 子节点
+        // var li = document.getElementsByTagName('li')[0];
+        // console.log(li.childNodes);
+
+        // // firstChild  lastChild
+        // var li = document.getElementsByTagName('li')[0];
+        // console.log(li.firstChild, li.lastChild);
+
+        // // nextSibling  previousSibling 前后兄弟节点
+        // var p = document.getElementsByTagName('p')[0];
+        // console.log(p.nextSibling, p.previousSibling);
+
+        // ====================
+
+        // // 遍历元素节点树 -> 只遍历元素节点 的方法
+        // // parentElement -> IE9 及以下不支持
+        // var a = document.getElementsByTagName('a')[0];
+        // console.log(a.parentElement);
+        // console.log(a.parentElement.parentElement);
+        // console.log(a.parentElement.parentElement.parentElement);
+
+        // // children // IE7及以下不支持
+        // var li = document.getElementsByTagName('li')[0];
+        // console.log(li.children);
+
+        // childElementCount 等于什么-> IE9 及以下不支持
+        // childElementCount == children.length
+
+        // firstElementChild   lastElementChild-> IE9 及以下不支持
+
+        // nextElementSibling previousElementSibling-> IE9 及以下不支持
+
+        // 公司内可能会用children, 其他的都不会用， 因为IE9以下不支持
+
+        // ====================
+        /**
+         * 节点分类
+         * 1. 元素节点 == 1
+         * 2. 属性节点 == 2
+         * 3. 文本节点 == 3  text (回车也算文本节点)
+         * 4. 注释节点 == 8  comment
+         * 5. document == 9
+         * 6. DocumentFragment == 11
+         */
+    </script>
+</body>
+
+</html>

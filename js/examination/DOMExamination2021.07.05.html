@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 1 -->
+    <div>
+        <button class="my-btn">Button 1</button>
+        <button class="my-btn">Button 2</button>
+        <button class="my-btn">Button 3</button>
+        <button class="my-btn">Button 4</button>
+    </div>
+
+    <div>
+        <button id="J_ActionBtn">Action</button>
+    </div>
+
+    <!-- 2 -->
+    <div class="app">
+        <h1>hello</h1>
+        <div>test</div>
+        <p>jayden</p>
+        <p>alexis</p>
+        <img src="" alt="">
+        <div class="ceshi">
+            <div class="hello"></div>
+            <div class="hello"></div>
+            <div class="hello"></div>
+        </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="title">自定义事件</div>
+
+    <!-- bindEvent -->
+    <button id="btn">bindEvent submit</button>
+
+    <script type="text/javascript">
+        // // 1
+        // // 场景 有4个Tab, 点击每一个后要等每一个加载完成，截图后才可以进入下一个tab
+        // var oActionBtn = document.getElementById('J_ActionBtn');
+        // var oMyBtns = document.getElementsByClassName('my-btn');
+
+        // var iterator = generator(oMyBtns);
+
+        // var init = function() {
+        //     bindEvent();
+        // }
+
+        // function bindEvent() {
+        //     var oBtnItem = null;
+
+        //     for (var i = 0; i < oMyBtns.length; i++) {
+        //         oBtnItem = oMyBtns[i];
+
+        //         oBtnItem.addEventListener('click', function() {
+        //             console.log(this.innerText);
+        //         }, false);
+        //     }
+
+        //     oActionBtn.addEventListener('click', function() {
+        //         iterator.next();
+        //     }, false);
+        // }
+
+        // function* generator(oBtns) {
+        //     for (var i = 0; i < oBtns.length; i++) {
+        //         yield oBtns[i].click();
+        //     }
+        // }
+        // init();
+
+        // // 2 写一个函数统计使用了哪些标签，并且记录每一个标签的使用次数，最后输出一个对象，键名是标签名，键名是标签名，键值是次数
+        // HTMLElement.prototype.getTagInfo = function() {
+        //     var aliTags = [...this.getElementsByTagName('*')],
+        //         tagPool = {},
+        //         tagItem = null;
+
+
+        //     // 因为写的是prototype的方法，偏底层，所以用es3方法
+        //     for (var i = 0; i < aliTags.length; i++) {
+        //         tagItem = aliTags[i];
+        //         var tagName = tagItem.tagName.toLowerCase();
+
+        //         if (tagPool[tagName]) {
+        //             tagPool[tagName] += 1;
+        //         } else {
+        //             tagPool[tagName] = 1;
+        //         }
+        //     }
+
+        //     // aliTags.map(function(item) {
+        //     //     var tagName = item.nodeName.toLowerCase();
+
+        //     //     if (tagPool[tagName]) {
+        //     //         tagPool[tagName] += 1;
+        //     //     } else {
+        //     //         tagPool[tagName] = 1;
+        //     //     }
+        //     // })
+
+        //     return tagPool;
+        // }
+
+        // var app = document.getElementsByClassName('app')[0];
+        // console.log(app.getTagInfo());
+
+
+        // =====================
+
+        // document 是谁构造出来的
+        // HTMLDocument();
+
+        // XML 是谁构造出来的
+        // XMLDocument();
+
+        // XMLDocument, HTMLDocument 都继承自Document
+
+        // 不同的页面构造器不同
+
+        // =====================
+
+        // // 自定义一个事件 -> 自定义事件是派发消息的典型
+        // // 给事件绑定处理函数
+        // // 1秒钟后触发当前自定义事件
+
+        // // // Event
+        // // console.log(Event);
+        // var oTitle = document.getElementById('title');
+
+        // var eve = new Event('test');
+
+        // document.body.addEventListener('test', function() {
+        //     console.log(this);
+        // }, false);
+
+        // // dispatchEvent
+
+        // oTitle.dispatchEvent(eve);
+
+        // =====================
+
+        // innerHTML设置时发生了什么
+        // innerHTML有什么问题，怎么解决？
+
+        /** 
+         * 设置的值 -> 解析成DOM节点
+         * DOM节点 -> DocumentFragment
+         * DocumentFragment -> 相应目标的节点中去
+         * 
+         * innerHTML 慢
+         * 
+         * xss 攻击
+         * 
+         */
+
+        //  ========================
+
+        // // 写 Element.prototype.bindEvent = function()
+        // // 绑定自定义事件，可以触发事件且移除事件
+        // Element.prototype.bindEvent = function(eventName, callback) {
+        //     var event = new Event(eventName);
+        //     var that = this;
+
+        //     that.addEventListener(eventName, callback, false);
+
+        //     return {
+        //         [eventName]: function() {
+        //             that.dispatchEvent(event);
+        //         },
+
+        //         // remove: function() {
+        //         //     that.removeEventListener(eventName, callback, false);
+        //         // }
+        //     }
+
+        // }
+
+        // Element.prototype.removeEvent = function(type, handler, capture) {
+        //     this.removeEventListener(type, handler, capture);
+        // }
+
+        // var oBtn = document.getElementById('btn');
+
+        // var handler = function() {
+        //     console.log('jayden');
+        // }
+
+        // var eve = oBtn.addEvent('test', handler);
+
+        // eve.test();
+
+        // oBtn.removeEvent('test', handler, false);
+
+        // eve.test();
+
+        // ======================================
+
+        // 1. 如何监听一个节点下所有的dom变化
+        // DOM LEVEL4 IE11后几个版本才开始支持
+
+        // DOM 新增 MutationObserver 接口 (改变 观察者)
+        const observer = new MutationObserver(callback);
+
+        function callback(mList, ob) {
+            console.log(mList);
+            // mList 列表
+            // ob 示例
+            mList.forEach(function(m) {
+                // console.log(m);
+                switch (m.type) {
+                    case 'childList':
+                        console.log('tag' + m.target.tagName);
+                        break;
+                    case 'attribute':
+                        console.log('tag' + m.target.tagName);
+                        break;
+                    default:
+                        break;
+                }
+            })
+        }
+
+        var node = document.getElementsByClassName('.app')[0];
+
+        var config = {
+            attributes: true,
+            childList: true,
+            subtree: true
+        }
+
+        observer.observe(node, config);
+
+        node.getElementsByTagName('h1')[0].innerText = 'THIS Jayden'
+
+        node.getElementsByTagName('h1')[0].className += 'test'
+        observer.disconnect(); // 断开链接
+    </script>
+</body>
+
+</html>

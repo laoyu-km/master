@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="baduditu.js"></script>
+</head>
+
+<body>
+
+    <script>
+        /** 
+         * 1. 引入百度map脚本
+         * 2. 查看 BmapGL
+         */
+
+        // 创建一个map
+        function init() {
+            const map = new BMapGL.Map('map');
+            const point = new BMapGl.Point(116.404, 39.915);
+
+            map.centerAndZoom(point, 20);
+            map.setTilt(50);
+            map.enableScrollWheelZoom(true);
+
+            const keyFrames = [{
+                center: new BMapGL.Point(116.404, 39.915), // 定义第一个关键帧帧地图中心点
+                zoom: 20, // 定义第一个关键帧地图等级
+                tilt: 40, // 定义第一个关键帧地图倾斜角度
+                heading: 0, // 定义第一个关键帧地图旋转方向
+                percentage: 0, // 定义第一个关键帧处于动画过程的百分比，取值范围0~1
+            }, {
+                // 第二个关键帧
+                center: new BMapGL.Point(116.404, 39.915),
+                zoom: 20,
+                tilt: 40,
+                heading: 180,
+                percentage: 0.5
+            }, {
+                // 第三个关键帧
+                center: new BMapGL.Point(116.404, 39.915),
+                zoom: 20,
+                tilt: 40,
+                heading: 360,
+                percentage: 1
+            }, ];
+
+            const options = {
+                delay: 3000,
+                duration: 3000,
+                interation: 2 // 执行次数 (iteration)
+            }
+
+            const animation = new BMapGl.ViewAnimation(keyFrames);
+            map.startViewAnimation(animation);
+
+
+            // 百度实例：https://lbs.baidu.com/jsdemo.htm#webgl6_0
+        }
+
+        // 异步加载百度map
+        window.onload = function() {
+            const script = document.createElement('script');
+            script.src = '...&callback=init'
+            document.body.append(script);
+        }
+    </script>
+</body>
+
+</html>

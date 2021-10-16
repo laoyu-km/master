@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <div id="test"></div>
+    <!-- <script type="text/javascript" src="./demo.js"></script> -->
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        // this 指向
+        // 1. 为什么需要this指向
+
+        // this 和函数调用有关！！！ 跟作用域没有关系
+        // 函数不执行this不存在, 函数执行时的环境决定了this
+
+        // 函数执行不确定就不知道this指向吗？ 
+        // 不一定，可以通过调用API接口来确定
+
+        // 2. this 为什么复杂
+
+        // 3. 作用域和什么有关
+        // 和函数定义有关
+
+        // 闭包：函数的执行导致函数被定义，就形成了闭包
+
+        // ====================
+
+        // // this 的4中绑定
+        // // 默认绑定 (独立调用)
+        // function test() {
+        //     console.log(this);
+        // }
+        // test(); // => window.test()
+
+        // // 2.对象绑定(隐式绑定)
+        // var obj = {
+        //     foo: function() {
+        //         console.log(this);
+
+        //         function test() {
+        //             console.log(this);
+        //         }
+
+        //         (function test2() {
+        //             console.log(this); // window
+        //         })();
+
+        //         test(); // 并没有生成window.test,为什么这里是window —> 函数最终执行是在执行栈中执行, 函数推入以后整个外层环境是window，,foo()的定义obj定义时确定的，所以虽然被推入栈但是this的指向已经确定，当test定义的时候是在执行栈中定义的，所以其this指向是window -> this指向跟函数的执行环境有关
+
+        //         return function test3() {
+        //             console.log(this); // window
+        //         }
+        //     }
+        // }
+        // obj.foo();
+
+        // // 3. 显示绑定 -> bind, call, apply, 参数是函数或者返回值是函数的函数
+
+        // // 隐式丢失的现象
+        // function foo() {
+        //     console.log(this);
+        // }
+
+        // var obj = {
+        //     foo: foo
+        // }
+
+        // var bar = obj.foo; // 传的是函数体 == 独立调用
+        // console.log(obj.foo()); // {foo: f}
+        // bar(); // window -> 隐式丢失
+
+        // function bar2(fn) {
+        //     fn();
+        // }
+        // bar2(obj.foo); // window -> 隐式丢失 -> 传参的时候传的是函数体 == 独立调用
+
+        function fn(a, b) {
+            console.log(this);
+            return a + 2;
+        }
+
+        var arr = [6, 8, 5];
+        arr.forEach(fn);
+        console.log(arr);
+
+        // arr.sort(fn, arr);
+
+
+        // // 4. new 绑定
+        // var obj = {
+        //     foo: function() {
+        //         console.log(this);
+        //         return this;
+        //     }
+        // }
+        // var obj1 = new obj.foo();
+        // var obj2 = obj.foo();
+
+        // ==================================
+
+        // 严格模式下this指向的问题
+        // 严格模式下独立调用函数 this指向 undefined
+
+        // (function() {
+        //     'use strict'
+        //     setTimeout(function() {
+        //         console.log(this); //结果是window -> 严格模式中函数独立调用,this指向undefined, 但是其他调用方式不一定
+        //     }, 1000);
+        // })();
+
+        // 'use strict'
+        // var obj = {
+        //     foo: function() {
+
+        //         return function test() {
+        //             console.log(this);
+        //         }
+        //     }
+        // }
+        // obj.foo()(); // undefined
+        // obj.foo().bind(null)(); //null
+        // obj.foo().bind(undefined)(); //undefined
+
+        // this指向绑定的优先级
+        // new绑定 > 显示绑定 > 隐式绑定 > 默认绑定
+    </script>
+
+</body>
+
+</html>

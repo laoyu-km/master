@@ -1,0 +1,40 @@
+<%- include('../includes/head.ejs')%>
+    <link rel="stylesheet" href="/css/product.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs')%>
+            <main>
+                <% if (products.length > 0) {%>
+                    <div class="grid">
+                        <% for(product of products) {%>
+                            <article class="card product-item">
+                                <header class="card-header">
+                                    <h1 class="product-title">
+                                        <%= product.title%>
+                                    </h1>
+                                </header>
+                                <div class="card-image">
+                                    <img src="<%= product.imageUrl %>" alt="<%= product.title%>">
+                                </div>
+                                <div class="card-content">
+                                    <h2 class="product-price">￥
+                                        <%= product.price%>
+                                    </h2>
+                                    <p class="product-description">
+                                        <%= product.description%>
+                                    </p>
+                                </div>
+                                <div class="card-actions">
+                                    <!-- ejs 在循环中引入模板，模板中的动态变量是不能获取到当前文件的product的，需要传入第二个参数来获取 -->
+                                    <%- include('../includes/add-to-cart.ejs', {product: product})%>
+                                </div>
+                            </article>
+                            <% } %>
+                    </div>
+                    <% } else {%>
+                        <h1>没有更多产品了...</h1>
+                        <% } %>
+            </main>
+
+            <%- include('../includes/end.ejs')%>

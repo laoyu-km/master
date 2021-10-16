@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+    <style>
+        .active {
+            color: red;
+        }
+        
+        .lg-btn {
+            background-color: yellowgreen;
+            width: 100px;
+            height: 50px;
+        }
+        
+        .lg-img {
+            background-image: url(./images/zyqx1.png);
+            background-size: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- class的绑定 -->
+    <div id="root01">
+        <!-- 方法1：字符串绑定 -->
+        <!-- v-bind:class="active" 中""之间其实是js表达式，所以要想识别成字符串就需要在将字符串再包含在单引号之中 -->
+        <span v-bind:class="'active'">i love angel wicky</span>
+        <hr />
+
+        <!-- 方法2：对象方法 active: isActive如果为true则成立 -->
+        <span v-bind:class="{active: isActive}">i love jayden james</span>
+        <hr />
+        <!-- 方法2：对象方法 第二种写法 -->
+        <span v-bind:class="classObj">i love jayden james</span>
+        <hr />
+
+        <!-- 方法3：普通类和绑定class共存 和 多个绑定class -->
+        <!-- class 名有短横线必须要引号包裹，否则报错 -->
+        <button class="lg-btn" v-bind:class="'active'">提交</button>
+
+        <div class="lg-btn" v-bind:class="{active: isActive, 'lg-img': isUse}" v-text="content">alexis</div>
+
+        <div class="lg-img" v-bind:class="divObj" v-html="content">alexis</div>
+
+        <hr/>
+        <!-- 方法4：数组语法方式绑定class -->
+        <div class="lg-btn" v-bind:class="[activeClass, lgImg]">{{pornName}}</div>
+        <hr/>
+        <hr/>
+        <!-- 绑定内联style -->
+        <div class="inStyle" v-once="pornName" v-bind:style="{fontSize:'20px', color:'yellowgreen'}">{{pornName}}</div>
+
+        <div class="inStyle2" v-once="pornName" v-bind:style="{'font-size':'30px', color:'pink'}">{{pornName}}</div>
+
+        <div class="inStyle3" v-text="pornName" v-bind:style="styleObj">
+        </div>
+
+        <div class="inStyle4" v-once v-bind:style="[baseStyle, additionalStyle]">{{pornName}}</div>
+    </div>
+    <script type="text/javascript">
+        // class的绑定
+        var vm = new Vue({
+            el: '#root01',
+            data: {
+                content: 'angel wicky',
+                pornName: 'Sayama Ai',
+                classObj: {
+                    active: true
+                },
+                divObj: {
+                    active: true,
+                    'lg-btn': true // log-btn因为中间有-, 所以要使用引号
+                },
+                isActive: true,
+                isUse: true,
+                activeClass: 'active',
+                lgImg: 'lg-img',
+                styleObj: {
+                    // fontSize: '50px',
+                    'font-size': '50px',
+                    color: 'blue'
+                },
+                baseStyle: {
+                    // fontSize: '50px',
+                    'font-size': '50px',
+                    color: 'red'
+                },
+                additionalStyle: {
+                    textShadow: '0 0 3px blue'
+                }
+            }
+        });
+    </script>
+
+    <hr/>
+    <hr/>
+
+
+    <!-- 条件喧嚷 -->
+    <!-- v-if -->
+    <div id="root2">
+        <div v-if="show">
+            <p> {{message}} </p>
+            <p>jayden</p>
+            <p>jayden</p>
+            <p>jayden</p>
+        </div>
+        <hr>
+
+        <!-- template -->
+        <!-- 说明：用div包裹内容，页面渲染后，div会存在,就会破坏原来的HTML解构 -> 从而出现了template标签，template 标签渲染后是不可见的, 不会破坏HTML解构 -->
+        <template v-if="show">
+            <p> {{message}} </p>
+            <p>jayden</p>
+            <p>jayden</p>
+            <p>jayden</p>
+        </template>
+        <hr/>
+
+        <!-- v-if 和 v-show的比较 -->
+        <!-- 1.v-if 真正的条件喧嚷，为true才会喧嚷，否则元素都不存在。惰性 
+        2.v-show 一开始就存在，只是判断显示与否 
+        3.如果只是判断显示与否或者频繁切换显示，建议使用v-show, 因为其一开始就在，性能开销小，而v-if显示时要重新喧嚷，开销大
+        4. v-show 不支持template标签
+        -->
+        <div v-if="show">{{message}}</div>
+        <div v-show="show">{{message}}</div>
+        <hr>
+
+        <!-- v-if v-else-if v-else 必须紧贴使用，中间不能有同级的标签插入 -->
+        <!-- v-show 不能和 v-else v-else-if v-if 连接使用 -->
+        <div v-if="show">{{message}}</div>
+        <div v-else-if="doSex">{{doneBody}}</div>
+        <div v-else>{{pornName}}</div>
+        <hr>
+
+        <!-- v-if v-else-if v-else 的使用 -->
+        <div>today is jayden</div>
+        <div>today is alexis</div>
+        <div>today is kendra</div>
+
+    </div>
+
+    <script type="text/javascript">
+        // 条件喧嚷
+        vm2 = new Vue({
+            el: '#root2',
+            data: {
+                message: 'ai sayama',
+                pornName: 'love sayama ai',
+                doneBody: 'have sex with sayama ai',
+                show: false,
+                doSex: true
+            }
+        });
+    </script>
+    <hr>
+    <hr>
+
+    <!-- key: 使用key 让vue不会在有key值得输入框上复用之前输入框的内容 -->
+    <!-- 现象如下 -->
+    <!-- 开始show为false，如果在页面渲染后将show改为true，username的输入框会复用e-mail的输入框 -->
+    <div id="root3">
+        <div v-if="show">
+            username: <input type="text" />
+        </div>
+        <div>
+            e-mail: <input type="text" />
+        </div>
+        <hr>
+
+        <!-- 解决方法：加key -->
+        <!-- 加了key值后表示加了一个唯一标识 类似id, 添加以后，修改show为true后，vue渲染时时，遇到key，就不会执行复用 -->
+        <div v-if="show">
+            username: <input type="text" key="username" />
+        </div>
+        <div>
+            e-mail: <input type="text" key="username" />
+        </div>
+
+        <!-- vue 使用复用机制的原因 -> 
+        1.对性能有帮助，可以少操作几个步骤，
+        2.在一些场合下，复用能够方便使用者的操作 -->
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+        let vm3 = new Vue({
+            el: '#root3',
+            data: {
+                show: false
+            }
+        });
+    </script>
+
+</body>
+
+</html>

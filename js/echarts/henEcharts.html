@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.js"></script>
+    <style>
+        #echart {
+            width: 600px;
+            height: 400px;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="echart"></div>
+
+    <script type="text/javascript">
+        const echart = document.getElementById('echart');
+        const charts = echarts.init(echart);
+
+        option = {
+            xAxis: {
+                type: 'value', // x轴和y轴互换
+            },
+            yAxis: {
+                type: 'category' // x轴和y轴互换
+
+            },
+            series: [{
+                    type: 'bar',
+                    stack: '总量', //让同一类目显示在同一个stack上
+                    data: ['300'],
+                    barWidth: '20',
+                    itemStyle: {
+                        color: 'orange'
+                    }
+                }, {
+                    // 画三角
+                    type: 'custom',
+                    stack: '总量',
+                    data: ['300'],
+                    renderItem: function(params, api) {
+                        const value = api.value(0); // value(0) => data[0] -> 300
+                        const point = api.coord([value, 0]);
+                        // console.log('point', point); //获得绘图点
+
+
+                        return {
+                            // 方法1
+                            type: 'group', //可以改为group
+                            position: point,
+                            children: [{
+                                type: 'path',
+                                shape: {
+                                    // iconfont.cn 查找想要的图标
+                                    // d: '<svg t="1619009351385" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2536" width="200" height="200"><path d="M987.2 397.248L553.344 831.072a64 64 0 0 1-90.528 0L29.056 397.248A64 64 0 0 1 74.304 288h867.616a64 64 0 0 1 45.248 109.248z" p-id="2537"></path></svg>',
+                                    d: "M987.2 397.248L553.344 831.072a64 64 0 0 1-90.528 0L29.056 397.248A64 64 0 0 1 74.304 288h867.616a64 64 0 0 1 45.248 109.248z",
+                                    width: 10,
+                                    height: 10,
+                                    y: -18,
+                                    x: -5
+                                },
+                                style: {
+                                    fill: 'orange'
+                                }
+                            }, {
+                                type: 'path',
+                                shape: {
+                                    // iconfont.cn 查找想要的图标
+                                    // d: '<svg t="1619009531162" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6495" width="200" height="200"><path d="M832 664c0 10.752-3.968 20.096-11.904 28.096C812.096 700.096 802.752 704 792 704l-560 0c-10.816 0-20.16-3.904-28.096-11.904C195.904 684.096 192 674.752 192 664s3.904-20.096 11.904-28.096l280-280C491.84 348.032 501.184 344 512 344c10.752 0 20.096 3.968 28.096 11.904l280 280C828.032 643.904 832 653.248 832 664z" p-id="6496"></path></svg>',
+                                    d: "M832 664c0 10.752-3.968 20.096-11.904 28.096C812.096 700.096 802.752 704 792 704l-560 0c-10.816 0-20.16-3.904-28.096-11.904C195.904 684.096 192 674.752 192 664s3.904-20.096 11.904-28.096l280-280C491.84 348.032 501.184 344 512 344c10.752 0 20.096 3.968 28.096 11.904l280 280C828.032 643.904 832 653.248 832 664z",
+                                    width: 10,
+                                    height: 10,
+                                    y: 7,
+                                    x: -5
+                                },
+                                style: {
+                                    fill: 'orange'
+                                }
+                            }]
+                        }
+                    }
+                },
+
+                {
+
+                    type: 'bar',
+                    stack: '总量',
+                    data: ['500'],
+                    itemStyle: {
+                        color: 'green'
+                    }
+                },
+            ]
+
+        }
+        charts.setOption(option);
+
+        // Vue 常用的echarts 框架
+        // v - charts
+        // vue - echarts
+    </script>
+</body>
+
+</html>

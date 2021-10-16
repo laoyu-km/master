@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- 
+        列表循环： 
+        1. key 值： 就是给每一个节点一个身份，方便vue会追踪每一个节点 2. 不能用index 作为key值，一般使用id作为key值 
+        -->
+        <!-- 
+            出现的问题
+            1. 如果input当中有值，在列表变换顺序后，input中的值不会改变，因为vue有复用机制
+            2. 改变办法是添加key值
+         -->
+        <button v-on:click="handleBtnClick">改变排序-存在问题</button>
+        <div v-for="item of list">
+            <!-- v-for的循环中用in 或者 of 都可以，但是推荐用of -->
+            <!-- <div v-for="item in list"> -->
+            <div>{{item}}</div>
+            <input type="text">
+        </div>
+        <br>
+        <br>
+        <button v-on:click="handleBtnClickTrue">改变排序-解决问题</button>
+        <button @click="handleBtnAdd">数组的数据更新-添加</button>
+        <div v-for="(item,index) of listId" :key=item.id>
+            <!-- :key = v-bind:key -->
+            <div>{{item.text}}---{{index}}</div>
+            <input type="text">
+        </div>
+    </div>
+    <script type="text/javascript">
+        // 数组列表渲染
+        var vm1 = new Vue({
+            el: '#root',
+            data: {
+                list: ['jayden james', 'alexis texas', 'angel wicky'],
+                listId: [{
+                    id: '0101',
+                    text: 'jayden james'
+                }, {
+                    id: '0102',
+                    text: 'alexis texas'
+                }, {
+                    id: '0103',
+                    text: 'angel wicky'
+                }]
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.list.sort((a, b) => {
+                        return Math.random() - 0.5;
+                    })
+                },
+                handleBtnClickTrue: function() {
+                    this.listId.sort((a, b) => {
+                        return Math.random() - 0.5;
+                    })
+                },
+                // 数组的数据更新检测
+                handleBtnAdd: function() {
+                    var idd = '0' + ++this.listId[this.listId.length - 1].id;
+                    console.log(idd);
+                    // //数据更新检测方法1 - vue提供的变异方法-有7中
+                    // // push(), pop(), shift(), unshift(), splice(), sort(), reverse()
+                    // this.listId.push({
+                    //     id: idd,
+                    //     text: 'angela white'
+                    // });
+
+                    //     // //数据更新检测方法2 - 通过索引来改变
+                    // this.listId[this.listId.length] = {
+                    //     id: idd,
+                    //     text: 'angela white' + idd
+                    // };
+                    // console.log(this.listId); // listId中已经添加了新的项目，但是vue并没有渲染
+                    // 原因是javascript的限制，让vue不能检测到通过索引改变的数组
+
+                    //解决javascript 限制 vue 不能检测通过索引改变的数组的办法：
+                    // // 1. Vue.set(vm.item, indexOfItem, value)
+                    // Vue.set(vm.listId, vm.listId.length, {
+                    //     id: idd,
+                    //     text: 'angela white' + idd
+                    // });
+
+                    // // 2. Vue 实例中的set方法
+                    // // vm.$set(vm.item, indexOfItem, value)
+                    // this.$set(this.listId, this.listId.length, {
+                    //     id: idd,
+                    //     text: 'angela white' + idd
+                    // });
+                    // Vue中，已$ 开头的基本都是指实例方法
+
+                    // // 3. splice 方法
+                    // this.listId.splice(this.listId.length, 1, {
+                    //     id: idd,
+                    //     text: 'angela white' + idd
+                    // })
+
+                    // 4, 数组是个引用值，直接将整个引用值进行修改
+                    this.listId = [{
+                        id: '0101',
+                        text: 'jayden james'
+                    }, {
+                        id: '0102',
+                        text: 'alexis texas'
+                    }, {
+                        id: '0103',
+                        text: 'angel wicky'
+                    }, {
+                        id: '0104',
+                        text: 'angela white'
+                    }]
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr>
+    <br>
+
+    <div id="root2">
+        <!-- 对象列表渲染 -->
+        <button v-on:click="handleBtnUpdate">对象的数据更新检测</button>
+        <div v-for="(item, key ,index) of userInfo">{{key}}: {{item}} --- {{index}}
+        </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <script text="text/javascript">
+        // 对象列表数据更新检测
+        var vm2 = new Vue({
+            el: '#root2',
+            data: {
+                userInfo: {
+                    name: 'jayden',
+                    sex: 'female',
+                    age: 28,
+                    work: 'porn star'
+                }
+            },
+            methods: {
+                handleBtnUpdate: function() {
+                    // this.userInfo.country = 'USA'; //不起作用
+                    // 原因：与数组一样，javascript不支持 vue的检测到的对象的属性直接更新
+
+                    // 解决方法：
+                    // // 1. 全局方法：Vue.set(obj, key, value)
+                    // Vue.set(vm2.userInfo, 'country', 'USA');
+
+                    // // 2. 实例方法: vm.$set(obj, key, value)
+                    // this.$set(this.userInfo, 'habit', 'make love');
+
+                    // 3. 整体对象引用改变
+                    this.userInfo = {
+                        name: 'jayden',
+                        sex: 'female',
+                        age: 28,
+                        work: 'porn star',
+                        habit: 'make love with me'
+                    }
+                }
+
+            }
+        });
+    </script>
+
+    <div id="root3">
+        <!-- 
+            组件无效被提升到<table>标签外 
+            1. html中的一些标签内部必须跟特定的标签，如果不跟特定标签，会造成组件被判定无效，而被渲染到特定标签外(查看开发者工具-element)
+            2. 特定标签包括：
+                a. table -> tbody -> tr -> td
+                b. ul -> li
+                c. ol -> li
+                d. select -> option
+        -->
+        <table>
+            <row></row>
+            <row></row>
+            <row></row>
+        </table>
+
+        <!-- 上述问题解决方法是在特定标签内使用special attribute -> is -->
+        解决办法
+        <table>
+            <tbody>
+                <tr is="row"></tr>
+                <tr is="row"></tr>
+                <tr is="row"></tr>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        // 组件无效，被提升到<table>标签外的问题
+        Vue.component('row', {
+            template: '<tr><td>this is jayden</td></tr>'
+        })
+
+
+        var vm = new Vue({
+            el: '#root3',
+            data: {}
+        });
+    </script>
+
+    <br>
+    <hr>
+    <br>
+
+    <div id="root4">
+        <!-- 子组件的data -->
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+
+    </div>
+    <script type="text/javascript">
+        // 子组件的data
+        // 1. 子组件的data 必须是个函数
+        // 2. 子组件的data 属于子组件的私有属性，每个子组件实例的data都是私有的, 子组件之间的data不会相互影响
+        // 下面方法中的三个button点击后各自显示自己的count值，互补影响
+        Vue.component('button-counter', {
+            data: function() {
+                return {
+                    count: 0
+                };
+            },
+            template: '<button @click="handleBtnClick">点击了{{count}}次</button>',
+            methods: {
+                handleBtnClick: function() {
+                    this.count++;
+                }
+            }
+        });
+        var vm4 = new Vue({
+            el: '#root4',
+            data: {}
+        });
+    </script>
+
+    <br>
+    <hr>
+    <br>
+
+    <div id="root5">
+        <!-- Vue 的 ref 属性 -->
+        <!-- 注册了一个名为hello的属性，放在父组件的$refs对象中，通过vm.$refs.hello 就可以获得hello的dom节点 -->
+        <div ref="hello" @click="handleRefClick">ref的使用</div>
+
+        组件方式制作计数器
+        <btn-counter @sumcomponentcount="handleSumCount"></btn-counter>
+        <btn-counter @sumcomponentcount="handleSumCount"></btn-counter>
+        <div>Total1: {{total1}}</div>
+
+        <br>
+        <br> ref 方式制作计数器
+        <btn-counter ref="count1" @sum_ref_count="handleRefCount" v-bind:test="name1"></btn-counter>
+        <btn-counter ref="count2" @sum_ref_count="handleRefCount" v-bind:test="name2"></btn-counter>
+        <div>Total2: {{total2}}</div>
+    </div>
+    <br>
+    <hr>
+    <br>
+
+    <script type="text/javascript">
+        Vue.component('btn-counter', {
+            props: ['test'],
+            data: function() {
+                return {
+                    count: 0,
+                };
+            },
+            template: '<button @click="handleBtnClick">点击了{{count}}次</button>',
+            methods: {
+                handleBtnClick: function() {
+                    this.count++;
+
+                    // 子组件方法
+                    this.$emit('sumcomponentcount', this.count);
+                    // this.$emit('sumcomponentcount', 1);
+
+                    // ref方法
+                    this.$emit('sum_ref_count', this.test);
+                }
+            }
+        })
+
+        var vm5 = new Vue({
+            el: '#root5',
+            data: {
+                total1: 0,
+                total2: 0,
+                name1: 'count1',
+                name2: 'count2'
+            },
+            methods: {
+                handleRefClick: function() {
+                    console.log(this.$refs.hello);
+                },
+                // 子组件方法
+                handleSumCount: function(value) {
+                    this.total1 += value;
+                },
+                // ref 方法
+                handleRefCount: function(name) {
+                    console.log(this.$refs[name].count); // 通过父组件向子组件传值实现在该函数中获得单个组件
+
+                    this.total2 = this.$refs.count1.count + this.$refs.count2.count;
+
+                }
+            }
+        });
+    </script>
+
+
+
+</body>
+
+</html>

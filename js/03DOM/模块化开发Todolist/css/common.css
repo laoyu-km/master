@@ -1,0 +1,40 @@
+/* reset.css normalize.css 一般不写，应为会有库文件与其重名，所以一般写common.css 或者 global.css */
+
+body {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+
+/* 分组选择器换行写 */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+    font-weight: normal;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+input,
+button {
+    outline: none;
+    box-sizing: border-box;
+    border: none;
+}

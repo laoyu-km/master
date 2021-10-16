@@ -1,0 +1,40 @@
+<%- include('../includes/head.ejs')%>
+    <link rel="stylesheet" href="/css/cart.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs')%>
+
+
+            <main>
+                <% if (products.length > 0) { %>
+                    <ul class="cart-item-list">
+                        <% products.forEach(p => { %>
+                            <li class="cart-item">
+                                <p>
+                                    <%= p.productId.title %> -
+                                        <%= p.quantity %>
+                                </p>
+                                <form action="/cart-delete-item" method="POST">
+                                    <input type="hidden" name="productId" value="<%= p.productId._id%>">
+                                    <button class="btn" type="submit">删除</button>
+                                </form>
+                            </li>
+                            <% }) %>
+                    </ul>
+                    <hr>
+                    <div class="centered">
+                        <form action="/create-order" method="post">
+                            <button type='submit' class="btn">结算</button>
+                        </form>
+
+                    </div>
+
+
+                    <% } else {%>
+                        <h1>购物车里没有宝贝</h1>
+                        <% } %>
+            </main>
+
+
+            <%- include('../includes/end.ejs')%>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件化开发TodoList</title>
+    <script type="text/javascript" src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- 组件化开发
+   1. 提高开发效率
+   2. 方便重复使用
+   3. 简化调试步骤
+   4. 提升整个项目的可维护性
+   5. 便于协同开发
+   -->
+
+    <!-- 非组件式写ToduList -->
+    <!-- <div id="root">
+        <input v-model="inputValue" type="text" />
+        <button v-on:click="handleBtnClick">提交</button>
+
+        <ul>
+            <li v-for="item of list">{{item}}</li>
+        </ul>
+    </div> -->
+    <script type="text/javascript">
+        // var vm = new Vue({
+        //     el: '#root',
+        //     data: {
+        //         inputValue: '',
+        //         list: []
+        //     },
+        //     methods: {
+        //         handleBtnClick: function() {
+        //             this.$data.list.push(this.$data.inputValue);
+        //         }
+        //     }
+        // });
+    </script>
+
+
+    <!-- 组件式写TodoList -->
+    <div id="root2">
+        <input v-model="inputValue" type="text" />
+        <button @click="handleBtnClick">提交</button>
+
+        <ul>
+            <!-- 静态传值
+            <todo-item test="alexis"></todo-item> -->
+
+            <!-- 动态传值 -->
+            <!-- <todo-item v-bind:content="item" v-for="item of list"></todo-item> -->
+            <!-- <todo-item-a v-bind:content="item" v-for="item of list"></todo-item-a> -->
+            <!-- v-for 用 in 也可以：v-for="itme in list" -->
+            <todo-item-a v-bind:content="item" v-for="item in list"></todo-item-a>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        // //组件的注册方式
+        // // // 1. 全局注册
+        // // // 全局注册方式的命名方法：kebab-case(短横线分割命名) PascalCase(驼峰式命名)
+        // // // 无论使用短横线命名还是驼峰命名 -》在html页面里使用的时候只能用短横线命名, 否则报错
+
+        // // // 使用Vue.component(组件名， 组件配置项),下面必须要有Vue的实例化-> let name = new Vue(...);
+        // // Vue.component('TodoItem', { // TodoItem 是全局注册的一个子组件
+        // //     // props: ["test"], //静态传值// props 专门接受html传入组件中的值
+        // //     // template: '<li>{{test}}</li>'
+
+        // // 动态传值
+        // //     props: ["content"],
+        // //     template: '<li>{{content}}</li>'
+        // // })
+
+        // // 全局注册组件的使用
+        // Vue.component('todo-item-a', {
+        //     // ...配置项
+        // })
+        // Vue.component('todo-item-b', {
+        //     // ...配置项
+        // })
+        // Vue.component('todo-item-c', {
+        //         // ...配置项
+        //     })
+        //     // // 使用 1 根组件中使用
+        //     // <div id="root">
+        //     //     <todo-item-a></todo-item-a>
+        //     //     <todo-item-b></todo-item-b>
+        //     //     <todo-item-c></todo-item-c>
+        //     // </div>
+
+        // // // 使用2 嵌套使用
+        // // <todo-item-a>
+        // //     <todo-itme-b></todo-itme-b>
+        // //     <todo-item-c></todo-item-c>
+        // // </todo-item-a>
+
+        // // ================
+
+        // // 局部注册
+        // // 通过JavaScript 对象的方法来注册
+        // var TodoItemA = { //局部组件的定义
+        //     // 配置项
+        //     props: ['content'],
+        //     template: '<li>{{content}}</li>'
+
+        // }
+
+        // var vm = new Vue({ // 父组件, 根实例
+        //     el: '#root2',
+        //     components: { //局部组件的注册方式
+        //         'todo-item-a': TodoItemA
+        //     },
+        //     data: {
+        //         inputValue: '',
+        //         list: []
+        //     },
+        //     methods: {
+        //         handleBtnClick: function() {
+        //             this.$data.list.push(this.$data.inputValue);
+        //             this.$data.inputValue = '';
+        //         }
+        //     }
+        // });
+
+
+        // // 2. 局部注册
+    </script>
+
+    <!-- 局部组件方法写TodoList -->
+    <div id="root3">
+        <input v-model="inputValue" type="text" />
+        <button @click="handleBtnClick">提交</button>
+
+        <ul>
+            <!-- v-for 的第二个参数指的是list里面的每一项的索引值 -->
+            <todo-item v-bind:content="item" v-bind:index="index" v-for="(item, index) in list" @delete="handleItemDelete"></todo-item>
+        </ul>
+    </div>
+
+
+
+    <script type="text/javascript">
+        var TodoItem = {
+            props: ['content', 'index'],
+            template: '<li @click="handleItemClick">{{content}} -- {{index}}</li>',
+            methods: {
+                // this.$emit(自定义事件, 向外传的值 ) -> 向外触发自定义事件
+                handleItemClick: function() {
+                    this.$emit('delete', this.index);
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#root3',
+            components: {
+                'todo-item': TodoItem
+            },
+            data: {
+                inputValue: '',
+                list: []
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.$data.list.push(this.$data.inputValue);
+                    this.$data.inputValue = '';
+                },
+
+                handleItemDelete: function(index) {
+                    this.$data.list.splice(index, 1);
+                }
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>

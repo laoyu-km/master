@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>creditCard</title>
+</head>
+
+<body>
+
+    <div class="main">
+        <form action="index.html" method="post">
+            <label for="price"></label>
+            <input type="text" id="price" name="price">
+            <a>提交</a>
+        </form>
+        <div>
+            <h3></h3>
+            <h5></h5>
+        </div>
+
+        <div class="lq">
+            <label for="lq">2分法</label>
+            <input type="text" id="lq" name="lq">
+            <a id="lq-btn">提交</a>
+            <h5 class="lqmx"></h5>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var value = 10
+
+        var input = document.getElementsByTagName('input')[0];
+        var btn = document.getElementsByTagName('a')[0];
+        var h3 = document.getElementsByTagName('h3')[0];
+        var h5 = document.getElementsByTagName('h5')[0];
+
+
+        btn.addEventListener('click', handleClick, false);
+
+        function handleClick() {
+
+            var temp = input.value;
+            input.value = '';
+
+            if (isNaN(parseInt(temp))) {
+                h3.innerText = '您输入的不是有效数字';
+                return;
+            }
+
+            var len = temp.length;
+
+            value = temp * 1 < 100 ? 1 * temp : 1 * temp + Math.floor(Math.random() * 10);
+
+
+            var arr = [];
+            var basicNum = '';
+
+            for (var i = 0; i < len; i++) {
+                if (i === 0) {
+                    basicNum = '1';
+                } else {
+                    basicNum += 0;
+                }
+            }
+
+            var jishu = Math.ceil(value / basicNum) * basicNum;
+
+            var di = parseInt(jishu / len);
+
+            while (1) {
+                for (var j = 0; j < len; j++) {
+                    arr[j] = Math.round(Math.random() * di);
+                }
+
+                var arrSum = arr.reduce((pre, cur, i, arr) => {
+                    pre += cur * 1;
+                    return pre;
+                }, 0);
+
+                if (arrSum == value) {
+                    break;
+                }
+            }
+
+            console.log(arr);
+
+            h3.innerText = '总值为：' + value;
+
+            var str = arr.reduce(function(pre, cur, index, arr) {
+                pre += ' ' + cur;
+                return pre;
+            }, '');
+
+            h5.innerText = '分值为：' + str;
+        }
+
+        var lq = document.getElementById('lq');
+        var lqBtn = document.getElementById('lq-btn');
+        var lqmx = document.getElementsByClassName('lqmx')[0];
+
+        lqBtn.addEventListener('click', lqBtnHandler, false);
+
+        function lqBtnHandler() {
+            var temp = lq.value,
+                num1,
+                num2;
+
+            lq.value = '';
+
+            num1 = Math.round(Math.random() * temp);
+            console.log(temp, num1);
+            num2 = temp - num1;
+
+            lqmx.innerHTML = num1 + '   ' + num2;
+
+        }
+    </script>
+</body>
+
+</html>

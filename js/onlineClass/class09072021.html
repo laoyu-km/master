@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //   手写Promise
+        // pending -> fullfiled, rejected
+        class MyPromise {
+            constructor(executor) {
+                this.state = 'pending';
+                this.value = undefined;
+                this.reason = undefined;
+                this.onResoveCallbacks = [];
+                this.onRejectedCallbacks = [];
+
+                let resolve = (value) => {
+                    if (this.state === 'pending') {
+                        this.state = "fullFilled";
+                        this.value = value;
+                        this.onResoveCallbacks.forEach(fn => fn());
+                    }
+                };
+
+                let reject = reason => {
+                    if (this.state === 'pending') {
+                        this.state = "rejected";
+                        this.reason = reason;
+                        this.onResoveCallbacks.forEach(fn => fn());
+                    }
+                }
+
+                executor(resolve, reject);
+            }
+
+            then(onFullFiled, onRejected) {
+                let promise2 = new MyPromise((resolve, reject) => {
+                    let x;
+                    if (this.state === 'fullFilled') {
+                        x = onFullFiled(this.value);
+                        resolve(x);
+                    }
+
+                    if (this.state === 'rejected') {
+                        x = onRejected(this.reason);
+                    }
+
+                    if (this.state === 'pending') {
+                        this.onResoveCallbacks.push(() => {
+                            x = onFullFiled(this.value);
+                        })
+
+                        this.onRejectedCallbacks.push(() => {
+                            x = onRejected(this.reason);
+                        })
+                    }
+                });
+                // return this // 这里不能够return this, 因为this 就是p本身，它的状态已经在new 完以后就固定了
+                return promise2;
+            }
+        }
+
+        let p = new MyPromise((resolve, reject) => {
+            setTimeout(() => { // setTimeout 默认最小间隔4ms
+                // resolve(10);
+                try {
+                    resolve(a); // promise也无法捕获异步报错，是一个bug
+                } catch (e) {
+                    console.log(e);
+                }
+            }, 1000);
+            // resolve(1);
+            // console.log(10);
+        }).then(
+            res => {
+                console.log(res);
+            },
+            reason => {
+                console.log(reason);
+            }
+        );
+
+        window.onunhandledrejection = function(event) {
+            console.log(event);
+        }
+        window.onrejectionhandled = function(event) {
+            console.log(event);
+        }
+    </script>
+</body>
+
+</html>

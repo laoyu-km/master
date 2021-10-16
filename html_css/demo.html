@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .slider {
+            position: relative;
+            width: 590px;
+            height: 470px;
+        }
+        
+        .indicator {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            width: 144px;
+            height: 18px;
+        }
+        
+        .indicator .indicator-dot {
+            display: block;
+            float: left;
+            position: relative;
+            width: 18px;
+            height: 18px;
+            box-sizing: border-box;
+        }
+        
+        .indicator .indicator-dot.active::before {
+            content: "";
+            display: block;
+            width: 18px;
+            height: 18px;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: .3;
+        }
+        
+        .indicator .indicator-dot::after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 10px;
+            height: 10px;
+            /* border: 1px solid #fff; */
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: .6;
+        }
+        
+        .indicator .indicator-dot.active::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slider">
+        <div class="indicator">
+            <i class="indicator-dot"></i>
+            <i class="indicator-dot active"></i>
+            <i class="indicator-dot"></i>
+            <i class="indicator-dot"></i>
+            <i class="indicator-dot"></i>
+            <i class="indicator-dot"></i>
+            <i class="indicator-dot"></i>
+            <i class="indicator-dot"></i>
+        </div>
+        <img src="./images/q.jpg" alt="" />
+    </div>
+
+</body>
+
+</html>

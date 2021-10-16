@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body,
+        #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        /* 干掉百度地图log 和 下面的文字 */
+        
+        .anchorBL {
+            display: none;
+        }
+        /* 添加控件，位置设置在左下角时，会看不到，需要手动设置可见，因为其会被上面的 .anchorBL 影响 */
+        
+        .BMap_stdMpZoom {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map">
+
+    </div>
+
+    <script type="text/javascript">
+        /** 
+         * 1. 引入百度map脚本
+         * 2. 查看 BmapGL
+         */
+
+        // 创建一个map
+        function init() {
+            const map = new BMapGL.Map('map', {
+                minZoom: 10, // 缩放最小值
+                maxZoom: 20 // 缩放最大值
+            });
+
+            const point = new BMapGl.Point(116.404, 39.915);
+
+            // 创建监听事件
+            // 获得zoom开始和结束后的放大比例
+            map.addEventListener('zoomstart', () => {
+                console.log('start', map.getZoom());
+            })
+
+            map.addEventListener('zoomend', () => {
+                console.log('end', map.getZoom());
+            })
+
+            // 设置地图 中心点 和 鼠标滚轮可用
+            map.centerAndZoom(point, 30); // 30 -》缩放比例
+            map.enableScrollWheelZoom(true);
+            map.setHeading(50); // 设置水平方向转动
+            map.setTilt(60); // 设置竖直方向上的转动
+
+            // 设置地图类型, 默认街道图
+            // map.setMapType(BMAP_EARTH_MAP); // 地球
+
+            // 为地图添加控件
+            const zoomControl = new BMapGL.ZoomControl({
+                anchor: BMAP_ANCHOR_BOTTOM_LEFT, // 设置控件位置
+                offset: new BMapGL.Size(10, 0) // 控制位置
+            });
+            map.addControl(zoomControl);
+
+            // 比例控件
+            const scaleControl = new BMapGL.ScaleControl({
+                anchor: BMAP_ANCHOR_TOP_LEFT,
+                offset: new BMapGL.Size(10, 0)
+            })
+            mao.addControl(scaleControl);
+
+
+            // 个性化地图
+            // 自定义主题
+            // 方式1
+            map.setMapStyle2({
+                styleID: '...百度开发上面找'
+            })
+
+            // 方式2 json方式
+
+
+            // 自定义图标 , 文档覆盖物
+            const icon = new BMapGL.Icon('./images/tubiao01.png', new BMapGL.Size(50, 50), {
+                anchor: new BMapGL.Size(0, 0),
+                imageOffset: new BMapGL.Size(20, 0)
+            })
+
+
+            // 信息窗口
+            const marker = new BMapGL.Marker(point, {
+                icon: icon
+            });
+            marker.addEventListener('click', () => {
+
+                const content = `
+                    <div style="color: orange">jayden</div>
+                    <div style="color: green">aleix</div>
+                `;
+
+                const infoWindow = new BMapGL.InfoWindow(
+                    content, {
+                        width: 300,
+                        height: 100,
+                        title: '标题',
+                        offset: new BMapGL.Size(25, 0)
+                    }
+                );
+                map.openInfoWindow(infoWindow, point);
+            })
+            map.addOverlay(marker);
+
+
+            // 绘制线
+            const polyline = new BMapGL.Polyline([
+                new BMapGL.Point(116.600, 40.000),
+                new BMapGL.Point(116.600, 40.000)
+            ], {
+                strokeColor: 'blue',
+                strokeWidth: 10
+            });
+            map.addOverlay(polyline);
+
+            // 绘制多边形
+            const polygon = new BMapGL.Polygon([
+                new BMapGL.Point(116.600, 40.000),
+                new BMapGL.Point(116.700, 40.100),
+                new BMapGL.Point(116.800, 39.900),
+                new BMapGL.Point(116.800, 39.700),
+            ], {
+                strokeColor: 'blue',
+                strokeWidth: 10,
+                fillColor: 'red'
+            });
+            map.addOverlay(polygon);
+
+
+            // 设置标签
+            const label = new BMapGL.Labl('JS++', {
+                position: point
+            })
+            label.setStyle({
+                width: '150px',
+                height: '40px',
+                padding: '0 20px',
+                color: '#fff',
+                fontSize: '20px',
+                backgroundColor: 'orange'
+            })
+            label.addEventListener('click', (e) => {
+                console.log(e.target.content);
+            })
+            map.addOverlay(label);
+
+
+
+        }
+
+        // 异步加载百度map
+        window.onload = function() {
+            const script = document.createElement('script');
+            script.src = '...&callback=init'
+            document.body.append(script);
+        }
+    </script>
+</body>
+
+</html>

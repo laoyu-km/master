@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/demo.css">
+</head>
+
+<body>
+    <person>
+        <name>xufengnian</name>
+        <sex>male</sex>
+        <age>20</age>
+    </person>
+
+    <div class="slider-wrap">
+        <div class="slider">
+            <ul class="slider-list">
+                <li class="slider-item active">
+                    <a href="">
+                        <img src="images/1.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="slider-item">
+                    <a href="">
+                        <img src="images/2.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="slider-item">
+                    <a href="">
+                        <img src="images/3.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="slider-item">
+                    <a href="">
+                        <img src="images/4.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="slider-item">
+                    <a href="">
+                        <img src="images/5.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="slider-item">
+                    <a href="">
+                        <img src="images/6.jpg" alt="" />
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="thumbs">
+            <ul class="thumbs-list">
+                <li class="thumb-item cur">
+                    <a href="">
+                        <img src="images/1.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="thumb-item">
+                    <a href="">
+                        <img src="images/2.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="thumb-item">
+                    <a href="">
+                        <img src="images/3.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="thumb-item">
+                    <a href="">
+                        <img src="images/4.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="thumb-item">
+                    <a href="">
+                        <img src="images/5.jpg" alt="" />
+                    </a>
+                </li>
+                <li class="thumb-item">
+                    <a href="">
+                        <img src="images/6.jpg" alt="" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        // DOM重点：
+        // 1、 DOM原型链： 因为以后TS要对DOM注解的时候要用 这块一定要学好
+        // 2、 DOM增删改查 这个不说了， 基本操作
+        // 3、 DOM兼容性， 一般考前端兼容性， 这一块是必须阐述的内容， 不要求自己一定要能写出来， 但是过程大概能够表述
+        // 4、 所有的事件都必须要掌握好， 包括键盘事件哈
+        // 5、 冒泡捕获 - > 事件代理， 只要考DOM必考项， 这个东西在业务中无处不在 一定要重点掌握
+
+        // DOM - > Document Object Model 文档对象模型
+        // DOM 对象 - > 又叫宿主对象
+
+        // JavaScript 三种对象
+        // 1. 本地对象 : Native Object 
+        // 包含： Ojbect, Function, Array, String, Boolean, Number, Error, TypeError, SyntaxError, EvalError, RangeError, Reference Error, URIError, Date, RegExp
+
+        // 2. 内置对象: Built-in Object
+        // 包含: Global Math
+        // Global实际是不存在的，但是在ECMA中统称为Global
+        // Global方法：isNaN(), parseInt(), Number(), decodeURI(), encodeURI
+        // Global属性：Infinity NaN undefined
+
+        // 本地对象和内置对象都是ECMAscript 的内置对象
+
+        // 3. 宿主对象： Host Object
+        // 执行JS脚本的环境提供的对象 -> 浏览器对象 -> 浏览器不同提供的对象或者对象的方法可能不同 -> 兼容性问题
+
+        // 浏览器对象：window(BOW) 和 document(DOM) -> w3c
+
+        // DOM: 通过浏览器提供的一套方法表示或者操作HTML和XML
+        // // XML
+        // // XML -> XHTML -> HTML
+        // // XML 奠定了HTML的规范
+        // // DOM 操作XML示例
+        // var person = document.getElementsByTagName('person');
+        // console.log(person);
+
+        // DOM 不可以操作CSS -> 操作的是内联样式 覆盖了css样式表
+
+        // // 幻灯片示例
+        // var thumbItems = document.getElementsByClassName('thumb-item'),
+        //     sliderItems = document.getElementsByClassName('slider-item');
+
+
+        // for (var i = 0; i < thumbItems.length; i++) {
+        //     (function(key) {
+        //         thumbItems[key].onclick = function() {
+        //             for (var j = 0; j < thumbItems.length; j++) {
+        //                 thumbItems[j].className = 'thumb-item';
+        //                 sliderItems[j].className = 'slider-item';
+        //             }
+        //             this.className = 'thumb-item cur';
+        //             sliderItems[key].className = 'slider-item active';
+        //             return false; //useCapture 默认为false，不知道为什么这里默认是ture, 只能手动修改为false
+        //         }
+        //     })(i);
+        // }
+
+        // // 插件写法
+        // (function(doc) {
+        //     var Slider = function(opt) {
+        //         this.sliderItems = doc.getElementsByClassName(opt.slider);
+        //         this.thumbItems = doc.getElementsByClassName(opt.thumb);
+
+        //         this._bindSlider();
+        //     }
+
+        //     Slider.prototype._bindSlider = function() {
+        //         var thumbs = this.thumbItems,
+        //             sliders = this.sliderItems;
+
+        //         for (var i = 0; i < thumbs.length; i++) {
+        //             (function(index) {
+        //                 thumbs[index].onclick = function() {
+        //                     for (var j = 0; j < thumbs.length; j++) {
+        //                         thumbs[j].className = 'thumb-item';
+        //                         sliders[j].className = 'slider-item';
+        //                     }
+        //                     this.className += ' cur';
+        //                     sliders[index].className += ' active';
+
+        //                     return false;
+        //                 }
+        //             })(i);
+        //         }
+        //     }
+
+        //     window.Slider = Slider;
+        // })(document);
+
+        // new Slider({
+        //     thumb: 'thumb-item',
+        //     slider: 'slider-item'
+        // });
+
+
+        // 作业：写一个选项卡插件
+    </script>
+</body>
+
+</html>

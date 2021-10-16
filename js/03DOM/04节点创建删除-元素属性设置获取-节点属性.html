@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .running {
+            color: green;
+        }
+        
+        .warning {
+            color: orange;
+        }
+        
+        .danger {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 创建节点 -->
+    <div class="box01">
+        <p>test</p>
+        <script></script>
+    </div>
+    <script>
+        // 创建元素节点 document.createElement
+        // 有：Document.prototype
+        var div = document.createElement('div'); //创建后是在内存中，创建了一个对象
+        document.body.appendChild(div); // 将子元素div渲染到页面
+
+        // 创建文本节点 document.createTextNode
+        var text = document.createTextNode('jayden');
+        document.body.appendChild(text);
+
+        // 创建注释节点 document.createComment
+        var comment = document.createComment('aleixs');
+        document.body.appendChild(comment);
+
+        // 增加子节点 appendChild
+        // 有： Node.prototype -> 只在Node.protype 里有
+        // node.appendChild(node) -> 节点中增加子节点 -> 必须是节点/或者dom元素
+        // 增加的元素，永远在所有子节点的最后，包括<script>
+        // 返回增加的这个节点
+    </script>
+
+    <div id="box02">
+        <a href="">我是超链接</a>
+    </div>
+    <script>
+        // appendChild 的剪切功能
+        var a = document.getElementsByTagName('a')[0];
+        var div = document.createElement('div');
+        div.innerHTML = '<p>我是段落标签</p>'
+        document.body.appendChild(div);
+        console.log('appendChild', div.appendChild(a)); // 将div外部的a标签剪切到了div中
+        // appendChild 有动态剪切的作用
+    </script>
+
+    <!-- parent.insertBefore(a, b) -->
+    <div id="box03">
+        <p id="p">jayden</p>
+        <div id=remove>alexis</div>
+        <div id="clearRemove">elle</div>
+    </div>
+    <script>
+        // parent.insertBeore(new, target) 和 parenet.removeChild()
+        // 有： Node.prototype
+        // 插入， 在父级节点下的b子节点之前插入一个a子节点
+        // 返回插入的这个节点
+        var div03 = document.getElementById('box03');
+        var p = document.getElementById('p');
+        var a = document.createElement('a');
+        a.href = '';
+        a.innerTEXT = 'foxxx';
+        console.log('insertBefore', div03.insertBefore(a, p));
+
+
+        // 删除节点 parent.removeChild(子节点)； 返回被移除的这个节点
+        // 有：Node.prototype
+        // 实际上没有删除这个节点，而是把这个节点从节点树上剪切掉了
+        // 实质：获得元素div.remove -> 执行new HTMLDivElement('div')形成元素节点实例，-> removeChild 移除.remove节点后，该节点实际还保存在内存中，依然有元素节点的各种属性和方法
+        // 举例如下
+        var rm = document.getElementById('remove')
+        var rmReturn = div03.removeChild(rm);
+        var newNode = document.createElement('div')
+        newNode.innerHTML = 'alexis is removed';
+        rmReturn.appendChild(newNode);
+        console.log(rmReturn); // 当中插入了newNode
+
+        // 彻底删除节点，内存不保留 element.remove 
+        // 有： Element.prototype
+        // ES5 新增方法
+        var clearRemove = document.getElementById('clearRemove');
+        var rmRetrun02 = clearRemove.remove();
+        console.log('clearRemove', rmRetrun02); // undefined
+    </script>
+
+    <!-- getElementByTagName() 详解 -->
+    <div id="box04">
+    </div>
+    <script>
+        function getElementsByTagName(element) {
+            // 1. 从HTML中把p元素选择出来
+            // 2. 通过new HTMLParagraphElement() -> 把p元素变成dom节点(或者叫dom元素)
+        }
+    </script>
+
+    <!-- innerHTML innerText -->
+    <div id="box05">
+        <p id="p">jayden</p>
+        <div id=remove>alexis</div>
+        <div id="clearRemove">elle</div>
+        <ul id='list'></ul>
+    </div>
+    <script>
+        // innerHTML innerText
+        // innerHTML有 HTMLElement.prototype, Element.prototype
+        // innerText 有 HTMLElement.prototype
+
+        // 演练： 在ul中插入li,根据下面数据 ,几种方法
+        // 01多次使用appendChild 性能不好
+        // 02使用字符串拼接,性能好, 但是对于复杂解构不友好
+        // 03企业级方法
+        var data = `[
+            {
+                "name": "狄仁杰"，
+                "area": "中国"
+            },
+            {
+                "name": "利刃出鞘"，
+                "area": "美国"
+            },
+            {
+                "name": "美女老板"，
+                "area": "日本"
+            },
+        ]`;
+
+        var div05 = document.getElementById('box05');
+
+        // innerText
+        console.log(div05.innerText); // 过滤掉标签，打印出了所有的文本
+
+        // 老版本火狐 不支持innerText, 支持textContent -> 但是IE老版本不支持textContent
+
+        // 面试题
+        div05.innerText = '<div><p>innerText test</p></div>'
+            // 页面为什么能显示<div><p>innerText test</p></div>
+            // 字符实体：&lt;div&gt;&lt;p&gt;innerText test&lt;/p&gt;&lt;/div&gt;
+            // 查看方法：浏览器 -> console -> Elements -> 右键 -> Edit as HTML
+    </script>
+
+    <!-- 节点替换 -->
+    <div id="box06">
+        <h1>wicky</h1>
+    </div>
+    <script>
+        // 节点替换 parent.replaceChild(new, origin)
+        var div06 = document.getElementById('box06'),
+            h1 = div06.getElementsByTagName('h1'),
+            h2 = document.createElement('h2');
+        h2.innerHTML = 'white';
+    </script>
+
+    <!-- 元素节点的方法 -->
+    <div id="box07">
+        系统处于未知状态
+    </div>
+    <script>
+        // 设置属性 node.setAttribute(属性名, 属性值)
+        var div07 = document.getElementById('box07');
+        div07.setAttribute('class', 'jayden');
+
+        // 获取属性
+        div07.getAttribute('class');
+
+        // 案例，设置系统状态
+        function setSystemStatus(status) {
+            div07.setAttribute('class', status);
+
+            switch (status) {
+                case 'running':
+                    div07.innerHTML = "系统状态正常";
+                    break;
+                case 'warnning':
+                    div07.innerHTML = "系统状态异常";
+                    break;
+                case 'danger':
+                    div07.innerHTML = "系统状态危险";
+                    break;
+                default:
+                    div07.innerHTML = "系统状态未知";
+                    break;
+            }
+        }
+        setSystemStatus('running');
+    </script>
+
+    <!-- data-* -->
+    <!-- javascrit:; 协议限定符，不让页面跳转 -->
+    <div id="box08" data-name="jayden" data-age="18">
+        <a href="javascript:;" data-uri="txwz" data-sort="free">天下无贼</a><br />
+        <a href="javascript:;" data-uri="fczlm" data-sort="pay">复仇者联盟</a><br />
+        <a href="javascript:;" data-uri="olbbg" data-sort="free">欧罗巴报告</a><br />
+        <a href="javascript:;" data-uri="plmxs" data-sort="pay">普罗米修斯</a><br />
+    </div>
+    <script>
+        var box08 = document.getElementById('box08');
+        // data-* -> es5新增的自定义属性
+        // 有 HTMLElement.prototype
+        // 可以通过htmlElement.dataset 属性查看到自定义属性对象
+        // 要求，必须以data- 开头
+        // 查看方法 div.dataset.name ,dataset.age 或者getAttibute('data-name')
+        // dataset ie9 以下不兼容
+        console.log(box08.dataset);
+        console.log(box08.dataset.name);
+        console.log(box08.getAttribute('data-name'));
+
+        // 设置方法
+        box08.setAttribute('data-sex', 'nice');
+        console.log(box08.dataset.sex);
+
+        // 案例，根据影片的自定义属性是否免费，来确定点击后是否进行跳转，付费不跳转，数据查看HTML
+    </script>
+
+    <!-- document.createDocumentFragment() -->
+    <div id="box09">
+        <ul id="ulist"></ul>
+    </div>
+    <script>
+        // document.createDocumentFragment() 非常有用
+        // 建议只要是列表就使用createDocumentFragment
+        // 创建文档片段
+        var oUl = document.getElementById('ulist');
+        // 企业级开发中， oUl 相当于告诉大家这是一个ul标签的dom对象，这种形式常用，规范就要这样写 -> o 相当于 object
+
+        // 企业级开发中，标签最好都有类名
+        // 添加类的方法 oUl.className 或者 oUl.setAttribute('class', '类名')
+        // 一般使用className, 因为怕麻烦
+
+        // 回流
+        // 浏览器在渲染页面时，如果数据不断更新，每更新一次渲染引擎就要重新计算平面位置(用来摆放内容), 让后重新喧嚷，这个过程是回流，回流太多，非常影响性能
+
+        // document.createDocumentFragment
+        // 可以将多次更新放入到新建的oFragement 中，在通用appendChild 一次性喧嚷进页面，避免了多次回流
+        // 并且，oFragment 并不会被放到DOM树中,不会造成对dom结构的破坏
+
+        // // 案例
+        // // var div = document.createElement('div');
+        // var oFrag = document.createDocumentFragment();
+        // for (var i = 0; i < 1000; i++) {
+        //     var oLi = document.createElement('li');
+        //     oLi.innerHTML = i + '、这是第' + i + '个项目';
+        //     oLi.ClassName = 'ulist-item';
+
+        //     // div.appendChild(oLi); 
+        //     oFrag.appendChild(oLi);
+        // }
+        // oUl.appendChild(oFrag); // 完美
+        // // oUl.appendChild(div); // 避免了回流，但是破坏了dom结构
+
+        // 案例字符串写法
+        // 字符串写法效率高，但是很麻烦
+        var list = '';
+        for (var i = 0; i < 1000; i++) {
+            list += '<li>' + i + '、这是第' + i + '个项目</li>'
+        }
+        oUl.innerHTML = list;
+    </script>
+
+    <!-- 作业 -->
+    <!-- 完全用js创建下面的HTML解构 -->
+    <div id="box">
+        <ul class="list">
+            <li class="list-item">1</li>
+            <li class="list-item">2</li>
+            <li class="list-item">3</li>
+            <li class="list-item">4</li>
+            <li class="list-item">5</li>
+        </ul>
+    </div>
+
+    <!-- 子元素逆序 -->
+    <div id="zy02">
+        <p>zi01</p>
+        <div>zi02</div>
+        <h2>zi03</h2>
+    </div>
+
+    <!--  03. 遍历一个父级元素下面的所有的子元素节点 -->
+    <div id="zy03">
+        <div>
+            <img src="" alt="">
+            <div>zi01</div>
+            <p>zi02</p>
+            <ul>
+                <li><a href="">zi03</a></li>
+                <li><a href="">zi03</a></li>
+                <li><a href="">zi03</a></li>
+            </ul>
+        </div>
+        <p>
+            <div>
+                <p></p>
+            </div>
+        </p>
+        <h2></h2>
+    </div>
+
+    <script>
+        // 作业
+        // 01. 写一个函数，判断父元素上有没有子元素节点, 
+        // hasChildNodes -> hasElementChildNodes
+        HTMLElement.prototype.hasElementChildNodes = function() {
+            var childNodes = this.childNodes;
+            if (!childNodes) {
+                return '元素内没有子节点'
+            }
+
+            for (var i = 0; i < childNodes.length; i++) {
+                if (childNodes[i].nodeType === 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // 02. 在原型上编程
+        // 寻找兄弟元素节点
+        // 参数N为正，找之后第N个
+        // 单数N为负，找之前第N个
+        // 参数为零， 找自己
+        HTMLElement.prototype.findSibling = function(N) {
+            var ele = this,
+                n = N >= 0 ? N : N * -1;
+
+            if (N === 0) {
+                return ele;
+            } else if (N < 0) {
+                while (N < 0) {
+                    ele = ele.htmlElementPreviousSibling();
+                    if (ele === null) {
+                        return null;
+                    }
+                    N++;
+                }
+            } else {
+                while (N > 0) {
+                    ele = ele.htmlElementNextSibling();
+                    if (ele === null) {
+                        return null;
+                    }
+                    N--;
+                }
+            }
+            return ele;
+        }
+
+        Node.prototype.htmlElementPreviousSibling = function() {
+            var previousSibling = this.previousSibling;
+
+            while (!previousSibling || previousSibling.nodeType !== 1) {
+                if (!previousSibling) {
+                    return null;
+                }
+                previousSibling = previousSibling.previousSibling;
+            }
+            return previousSibling;
+
+            // if (previousSibling === null) {
+            //     return null;
+            // }
+            // return previousSibling.nodeType === 1 ? previousSibling : previousSibling.htmlElementPreviousSibling();
+        }
+
+        Node.prototype.htmlElementNextSibling = function() {
+            var nextSibling = this.nextSibling;
+
+            while (!nextSibling || nextSibling.nodeType !== 1) {
+                if (!nextSibling) {
+                    return null;
+                }
+                nextSibling = nextSibling.nextSibling;
+            }
+            return nextSibling;
+
+            // if (nextSibling === null) {
+            //     return null;
+            // }
+            // return nextSibling.nodeType === 1 ? nextSibling : nextSibling.htmlElementNextSibling();
+        }
+
+        // 03. 遍历一个父级元素下面的所有的子元素节点
+        HTMLElement.prototype.getAllChildElements = function(callback) {
+            var childs = this.childNodes;
+            if (childs.length === 0) {
+                return null;
+            }
+
+            if (typeof callback === 'function') {
+                for (var i = 0; i < childs.length; i++) {
+                    if (childs[i].nodeType === 1) {
+                        callback(childs[i]);
+                        childs[i].getAllChildElements(callback);
+                    }
+                }
+
+            }
+        }
+
+        // 04. 原型上封装insertAfter方法
+        Node.prototype.myNextElementSibling = function() {
+            var nextSibling = this.nextSibling;
+            while (!nextSibling || nextSibling.nodeType !== 1) {
+                if (!nexSibling) {
+                    return null;
+                }
+                nextSibling = nextSibling.nextSibling;
+            }
+            return nextSibling;
+        }
+
+        Node.prototype.insertAfter = function(newEle, target) {
+            var targetNextSibling = target.myNextElementSibling();
+
+            return targetNextSibling ?
+                this.insertBefore(newElle, targetNextSibling) :
+                this.appendChild(newElle);
+        }
+    </script>
+
+</body>
+
+</html>

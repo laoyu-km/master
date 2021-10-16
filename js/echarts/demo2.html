@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.js"></script>
+    <style>
+        #chart {
+            width: 600px;
+            height: 400px;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chart"></div>
+
+    <!-- <script src="./vintage.js"></script> -->
+    <script>
+        const chartDOM = document.getElementById('chart');
+
+        const chart = echarts.init(chartDOM);
+
+        //配置项
+        const option = {
+            // 多坐标系
+            legend: {},
+
+            xAxis: [{
+                type: 'category',
+                gridIndex: 0
+            }, {
+                type: 'category',
+                gridIndex: 1
+            }],
+            // 双坐标系
+            // xAxis: {
+            //     // type: 'category' // 按航取值时要写
+            // },
+            yAxis: [{
+                gridIndex: 0
+            }, {
+                gridIndex: 0,
+                // splitLine: {
+                //     show: false
+                // }
+            }, {
+                gridIndex: 1
+            }],
+            grid: [{
+                bottom: '55%'
+            }, {
+                top: '55%'
+            }],
+            // 双坐标系
+            // yAxis: [{}, {
+            //     splitLine: {
+            //         show: false // 第二个坐标y桌不显示分割线
+            //             // min: 0,
+            //             // max: 70
+            //     }
+            // }],
+            dataset: {
+                // source: [
+                //     // [13, 44],
+                //     // [51, 51],
+                //     // [51, 32],
+                //     // [67, 19],
+                //     // [19, 33],
+                source: [
+                        ['jayden', '2018', '2019', '2020'],
+                        ['bra', 50, 60, 70],
+                        ['ass', 10, 20, 30]
+                        ['body', 20, 20, 30]
+                    ]
+                    //     // 第一行只有3个数值, 第二和第三有4个数值，图表也只显示3个数值
+                    // ]
+            },
+
+            series: [
+                // 多坐标系
+                {
+                    type: 'bar',
+                    seriesLayoutBy: 'row',
+                    xAxisIndex: 0,
+                    yAxisIndex: 0
+                }, {
+                    type: 'bar',
+                    seriesLayoutBy: 'row',
+                    xAxisIndex: 0,
+                    yAxisIndex: 1
+                }, {
+                    type: 'bar',
+                    seriesLayoutBy: 'row',
+                    xAxisIndex: 1,
+                    yAxisIndex: 2
+                }
+                // 双坐标系
+                // {
+                //     type: 'bar',
+                //     seriesLayoutBy: 'row', //按行取值 
+                //     yAxisIndex: 0
+                // }, {
+                //     type: 'line',
+                //     seriesLayoutBy: 'row',
+                //     yAxisIndex: 1
+                // }
+
+                // type: 'scatter',
+                // encode: {
+                //     x: 0,
+                //     y: 1
+                // }
+            ]
+        }
+        chart.setOption(option);
+    </script>
+</body>
+
+</html>

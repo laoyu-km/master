@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="root1">
+        <!-- 动态传值和静态传值 -->
+        <!-- 静态传值：双引号中是字符串 name-->
+        <div-content content="name"></div-content>
+        <!-- 动态传值：双引号中是js表达式 jayden-->
+        <div-content v-bind:content="name"></div-content>
+        <!-- 让动态传值中传的是字符串： 就多加一对单引号 name-->
+        <div-content v-bind:content="'name'"></div-content>
+
+        <!-- 计数器 -->
+        <btn-counter count="0"></btn-counter>
+        <btn-counter count="1"></btn-counter>
+
+
+
+    </div>
+    <script type="text/javascript">
+        Vue.component('div-content', {
+            props: ['content'],
+            template: '<div>{{content}}</div>'
+        });
+
+        // 计数器
+        Vue.component('btn-counter', {
+            // 单向数据流：vue中，父组件可以向子组件传值，但是避免子组件更新父组件的值, 防止其他使用父组件值得子组件也受到影响
+            // props 中的count是一个单向数据流元素(一般情况下其与父组件中的某个值相绑定)，在子组件中直接使用handleBtnClick方法对其进行修改会报warnning
+            // 解决办法，使用子组件的私有数据进行操作
+            props: ['count'],
+            data: function() {
+                return {
+                    number: this.count
+                }
+            },
+            template: '<button @click="handleBtnClick">点击了{{number}}次</button>',
+            methods: {
+                handleBtnClick: function() {
+                    // this.count++; // 避免使用单向数据流数据
+                    this.number++;
+                }
+            }
+
+        })
+
+        var vm = new Vue({
+            el: '#root1',
+            data: {
+                name: 'jayden',
+            }
+
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root2">
+        <props-About content="jayden"></props-About>
+    </div>
+    <script type="text/javascript">
+        // props 相关属性
+        Vue.component('propsAbout', {
+            // props最简单的接收方式 props: ['content'], content不加任何说明
+            props: {
+                content: {
+                    type: [String, Number], // 规定了传入的值得类型，如果不符合则有warnning 
+                    // type: Number,
+                    required: false, //是否一定要传值，true为是，不传值会与警告 
+                    default: 'jayden is default value', // 默认值
+
+                    validator: function(value) { // 验证器，验证传入的值是否符合要求
+                        return (value.length > 5) // 传入的值长度如果小于5就会产生警告
+                    }
+                }
+            },
+            template: '<div>{{content}}</div>'
+        });
+        var vm2 = new Vue({
+            el: '#root2',
+            data: {}
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root3">
+        <!-- jayden 在props中有对应的声明-> jayden就是prop特性，aleixs就是非prop特性 -->
+        <!-- 非prop特性可以将写入的内容添加到子组件的根元素上 -->
+        <!-- 此例中添加到了template中的最外层div上 -->
+        <child jayden="foxxx"></child>
+        <child aleixs="foxxx" jayden="elle"></child>
+    </div>
+    <script type="text/javascript">
+        // prop特性 和 非 prop特性
+        Vue.component('child', {
+            props: ['jayden'],
+            template: '<div><p><span>{{jayden}}</span></p></div>'
+        })
+
+        var vm3 = new Vue({
+            el: '#root3',
+            data: {}
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root4">
+        <!-- 使用一个监听器，监听自定义事件，当自定义事件被触发时，就调用自定义事件相绑定的父组件原生事件 -->
+        <child @child-click="handleFatherClick"></child>
+
+        <!-- .native 父组件监听子组件上的方法有没有触发，这个方法定义在父组件上 -->
+        <child @child-click="handleNativeClick"></child>
+        <child @childClick.native="handleNativeClick"></child>
+        <child @click.native="handleNativeClick"></child>
+    </div>
+    <script type="text/javascript">
+        // .native 
+        // 原生事件：原生js定义的事件
+        // 自定义事件; 自由定义的事件
+        Vue.component('child', {
+            template: '<div v-on:click="handleChildClick">jayden</div>', //handleChildClick -> 原生事件 -> 子组件绑定原生事件
+            methods: {
+                handleChildClick: function() {
+                    this.$emit('child-click') // selfclick -> 自定义事件
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#root4',
+            data: {},
+            methods: {
+                handleFatherClick: function() {
+                    console.log('aleixs');
+                },
+                handleNativeClick: function() {
+                    console.log("i love jayden's big bottom");
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <hr><br>
+
+    <div id="root5">
+        <child content="jayden"></child>
+        <child content="alexis"></child>
+    </div>
+
+    <br>
+    <hr><br>
+    <script type="text/javascript">
+        // 非父子组件传值(祖父与孙子之间传值，子组件与子组件间传值) , 有两种方式
+        // 方法1：总线机制 -> 在原型上声明一个vue的实例
+        Vue.prototype.bus = new Vue();
+
+        Vue.component('child', {
+            props: ['content'],
+            data: function() {
+                return {
+                    value: this.content
+                }
+            },
+            template: '<div @click="handleClick">{{value}}</div>',
+            methods: {
+                handleClick: function() {
+                    // this.bus.$emit('change', this.content); // 不要直接修改单向数据流
+                    this.bus.$emit('change', this.value)
+                }
+            },
+            mounted: function() {
+                var this_ = this;
+                this.bus.$on('change', function(msg) { //$on是个实例方法 监听当前实例上触发的自定义事件change, 然后执行回调函数
+                    console.log(msg); // 打印两次，因为子组件使用了两次,子组件一旦挂载完成就会触发mounted这个生命周期函数，有两个子组件所以mounted被调用了两次，而此时回调函数传入的值是所触发的那个子组件所对应的值，所以打印出两个jayden,如果点击的是第二个子组件，则打印两个alexis
+                    this_.value = msg;
+                    // this.content = msg;// 此时的this指向的是bus, 所以要提前将子组件的this赋值给一个变量this_
+
+                })
+            }
+        })
+
+        var vm5 = new Vue({
+            el: '#root5',
+            data: {}
+        });
+    </script>
+</body>
+
+</html>

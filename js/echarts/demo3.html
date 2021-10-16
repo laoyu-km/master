@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>duo tu </title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.js"></script>
+    <style>
+        #chart {
+            width: 600px;
+            height: 400px;
+            background-color: greenyellow
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chart"></div>
+    <script>
+        const charDOM = document.getElementById('chart');
+        const chart = echarts.init(charDOM);
+
+        const option = {
+            title: {
+                text: 'pornstar'
+            },
+            legend: {},
+            xAxis: [{
+                type: 'category',
+                gridIndex: 0
+            }, {
+                type: 'category',
+                gridIndex: 1
+            }],
+            yAxis: [{
+                gridIndex: 0
+            }, {
+                splitLine: {
+                    show: false
+                },
+                gridIndex: 0
+            }, {
+                gridIndex: 1
+            }],
+            dataset: {
+                source: [
+                    ['porn', '2018', '2019', '2020'],
+                    ['jayden', 30, 40, 50],
+                    ['aleixs', 60, 70, 80],
+                    ['elle', 6, 8, 9]
+                ]
+            },
+            grid: [{
+                bottom: '55%'
+            }, {
+                top: '55%'
+            }],
+            series: [{
+                type: 'bar',
+                seriesLayoutBy: 'row',
+                xAxisIndex: 0,
+                yAxisIndex: 0
+            }, {
+                type: 'bar',
+                seriesLayoutBy: 'row',
+                xAxisIndex: 0,
+                yAxisIndex: 1,
+            }, {
+                type: 'bar',
+                seriesLayoutBy: 'row',
+                xAxisIndex: 1,
+                yAxisIndex: 2
+            }]
+
+        }
+
+        chart.setOption(option);
+    </script>
+
+</body>
+
+</html>

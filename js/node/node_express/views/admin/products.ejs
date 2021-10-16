@@ -1,0 +1,43 @@
+<%- include('../includes/head.ejs')%>
+    <link rel="stylesheet" href="/css/product.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs')%>
+            <main>
+                <% if (products.length > 0) {%>
+                    <div class="grid">
+                        <% for(product of products) {%>
+                            <article class="card product-item">
+                                <header class="card-header">
+                                    <h1 class="product-title">
+                                        <%= product.title%>
+                                    </h1>
+                                </header>
+                                <div class="card-image">
+                                    <img src="<%= product.imageUrl %>" alt="<%= product.title%>">
+                                </div>
+                                <div class="card-content">
+                                    <h2 class="product-price">￥
+                                        <%= product.price%>
+                                    </h2>
+                                    <p class="product-description">
+                                        <%= product.description%>
+                                    </p>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="/admin/edit-product/<%= product._id %>?edit=true" class="btn">编辑</a>
+                                    <form action="/admin/delete-product" method="POST">
+                                        <input type="hidden" name="productId" value="<%= product._id %>" />
+                                        <button class="btn" type="submit">删除</button>
+                                    </form>
+                                </div>
+                            </article>
+                            <% } %>
+                    </div>
+                    <% } else {%>
+                        <h1>没有更多产品了...</h1>
+                        <% } %>
+            </main>
+
+            <%- include('../includes/end.ejs')%>

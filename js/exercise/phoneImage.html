@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .item {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="item">
+            <label for="image">image</label>
+            <!-- <input type="file" id="image" accept="image/*" capture="camera" /> -->
+            <input type="file" id="image">
+            <img src="" alt="">
+        </div>
+        <div class="item">
+            <label for="video">video</label>
+            <input type="file" id="video" accept="video/*" capture="camcorder" />
+        </div>
+        <div class="item">
+            <label for="audio">audio</label>
+            <input type="file" id="audio" accept="audio/*" capture="microphone" />
+        </div>
+    </div>
+    <script type="text/javascript">
+        var img = document.getElementById('image');;
+        var pic = document.getElementsByTagName('img');
+
+        img.addEventListener('change', addImg, false);
+
+        function addImg() {
+            console.log(this.value);
+            pic.src = this.value;
+            console.log('src', pic.src);
+        }
+    </script>
+</body>
+
+</html>
