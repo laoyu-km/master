@@ -10,31 +10,31 @@
 
 - 安装完成后，运行`npx webpack ./js/index.js`
 
-   - 例子中的项目入口是 ./js/index.js -> 其他还有 Header.js Footer.js Content.js
+  - 例子中的项目入口是 ./js/index.js -> 其他还有 Header.js Footer.js Content.js
 
-   - 运行后在根目录下生成./dist/main.js, 这个文件就是打包后的文件
+  - 运行后在根目录下生成./dist/main.js, 这个文件就是打包后的文件
 
 - webpack 是一个 module bundler (模块打包工具)
 
-   - 支持的模块： js css png jpg 等等
-   - 默认可打包 js 模块， 因为有默认配置
-   - 其他类型模块需要进行配置
+  - 支持的模块： js css png jpg 等等
+  - 默认可打包 js 模块， 因为有默认配置
+  - 其他类型模块需要进行配置
 
 - webpack 配置文件 webpack.config.js
 
-   - webpack.config.js 是默认的配置文件名
-   - 如果配置文件名不是 webpack.config.js 在打包的时候要使用 --config 参数,如下
-     `npx webpack --config ./webpack.dev.config.js`
+  - webpack.config.js 是默认的配置文件名
+  - 如果配置文件名不是 webpack.config.js 在打包的时候要使用 --config 参数,如下
+    `npx webpack --config ./webpack.dev.config.js`
 
 - 在实际项目中打包命令并不是使用的 npx webpack,为什么
 
-   因为在 package.json 中进行了配置, 然后使用 `npm run build`就可以了
+  因为在 package.json 中进行了配置, 然后使用 `npm run build`就可以了
 
-   ```json
-   "scripts": {
-       "build": "webpack"
-     },
-   ```
+  ```json
+  "scripts": {
+      "build": "webpack"
+    },
+  ```
 
 - src 文件夹： 源代码，不是运行在浏览器上的代码
 
@@ -157,77 +157,79 @@ module.exports = {
     path: resolve(__dirname, 'dist'), // 必须是绝对路径
   },
 };
-
 ```
 
 ### postcss-loader
+
 - postcss-loader 应该是 Webpack 配置中不可或缺的一个 CSS loader。它负责进一步处理 CSS 文件，比如添加浏览器前缀，压缩 CSS 等。
 
-- postcss-loader 不像sass-loader, css-loader是对文件进行编译，它是引入其他包对文件进行处理
+- postcss-loader 不像 sass-loader, css-loader 是对文件进行编译，它是引入其他包对文件进行处理
 
 - 安装
-   ```bash
-    # 如果要使用最新版本的话，你需要使用 webpack v5。如果使用 webpack v4 的话，你需要安装 postcss-loader v4。
-    npm install --save-dev postcss-loader postcss
-   ```
 
-- postcss-loader要放在style-loader, css-laoder 之后，sass-laoder 或 less-loader 之前
+  ```bash
+   # 如果要使用最新版本的话，你需要使用 webpack v5。如果使用 webpack v4 的话，你需要安装 postcss-loader v4。
+   npm install --save-dev postcss-loader postcss
+  ```
 
-- postcss-loader要能够自动在css中添加浏览器前缀需要安装autoprefixer
-   ```bash
-   npm install autoprefixer -d(--save-dev)
-   ```
+- postcss-loader 要放在 style-loader, css-laoder 之后，sass-laoder 或 less-loader 之前
 
-- 安装了autoprefixer后还需要设置postcss.config.js文件，来对autoprefixer进行引入
-   ```js
-   module.exports = {
-       plugins: [
-           require('autoprefixer')
-       ]
-   }
-   ```
+- postcss-loader 要能够自动在 css 中添加浏览器前缀需要安装 autoprefixer
 
-- <font color="red">**特别注意：这里postcss-loader安装的版本是^4.0.4**</font>, 新版本使用会报错
+  ```bash
+  npm install autoprefixer -d(--save-dev)
+  ```
 
-- 安装后可能不会自动添加浏览器前缀，是因为识别了浏览器可以兼容所以不自动添加，这样需要修改package.json文件，添加浏览器说明如下
+- 安装了 autoprefixer 后还需要设置 postcss.config.js 文件，来对 autoprefixer 进行引入
+
+  ```js
+  module.exports = {
+    plugins: [require('autoprefixer')],
+  };
+  ```
+
+- <font color="red">**特别注意：这里 postcss-loader 安装的版本是^4.0.4**</font>, 新版本使用会报错
+
+- 安装后可能不会自动添加浏览器前缀，是因为识别了浏览器可以兼容所以不自动添加，这样需要修改 package.json 文件，添加浏览器说明如下
+
 ```json
 {
-    "browserslist": [
-        "> 1%",
-        "last 2 versions"
-    ]
+  "browserslist": ["> 1%", "last 2 versions"]
 }
 ```
-<font color="red">**browserslist:作用非常简单，就是在你的项目中提供共享的浏览器支持信息。 比如我们项目构建的时候一般会用到babel，postCss等等，提供了对应的浏览器信息后，他们就会针对浏览器信息采取不同的编译策略。 **</font>
 
-- 如果src中使用的是sass语法,且.scss文件中使用了@import 引入了其他.scss文件，可能会引起不能正确解析，这时需要设置css-loader 的 importLoaders 值为 2
+<font color="red">**browserslist:作用非常简单，就是在你的项目中提供共享的浏览器支持信息。 比如我们项目构建的时候一般会用到 babel，postCss 等等，提供了对应的浏览器信息后，他们就会针对浏览器信息采取不同的编译策略。 **</font>
+
+- 如果 src 中使用的是 sass 语法,且.scss 文件中使用了@import 引入了其他.scss 文件，可能会引起不能正确解析，这时需要设置 css-loader 的 importLoaders 值为 2
+
 ```js
 module.exports = {
-    module: {
-        rules: [
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 2
-                            // 0 => no loaders (default);
-                            // 1 => postcss-loader;
-                            // 2 => postcss-loader, sass-loader
-                        }
-                    },
-                    'postcss-loader',
-                    'sass-loader'
-                ],
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2, // 在新版本中已经自动设置了该属性，使用时需注意
+              // 0 => no loaders (default);
+              // 1 => postcss-loader;
+              // 2 => postcss-loader, sass-loader
             },
+          },
+          'postcss-loader',
+          'sass-loader',
         ],
-    }
-}
+      },
+    ],
+  },
+};
 ```
 
-- postcss-loader的配置方法
+- postcss-loader 的配置方法
+
 ```js
 const { resolve } = require('path');
 
@@ -274,8 +276,6 @@ module.exports = {
 };
 ```
 
-
-
 ## webpack and loader 及其工具安装时的配置兼容性问题
 
 1. 版本信息
@@ -287,23 +287,24 @@ module.exports = {
    - postcss-loader: postcss-loader@^4.0.4
    - node-sass: node-sass@4.14.1
 
-
 ### node-sass 安装时提示错误的解决办法
 
 > error: gyp ERR! stack Error : can‘t find python executable “python“,you can set the PYTHON env variable.
 
-solution： 
-1. 在管理员模式下打开vscode， 安装 windows-build-tools
+solution：
+
+1. 在管理员模式下打开 vscode， 安装 windows-build-tools
    ```bash
    npm install --global --production windows-build-tools
    ```
-2. 然后再安装node-gyp
+2. 然后再安装 node-gyp
    ```bash
    npm install --global node-gyp
    ```
-3. 再安装node-sass
+3. 再安装 node-sass
 
-### webpack 编译.scss文件时的配置
+### webpack 编译.scss 文件时的配置
+
 ```js
 module.exports = {
   mode: 'development', // 设置webpack的打包模式，默认是生产模式，代码压缩没有格式，development是开发模式，打包后的代码会格式化
@@ -351,5 +352,106 @@ module.exports = {
     path: resolve(__dirname, 'dist'), // 必须是绝对路径
   },
 };
-
 ```
+
+## CSS 模块化 (CSS Modules)
+
+- 是一种规范
+- 必须配置 -> webpack.config.js
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: true, // css 模块化必须的设置
+              //未设置时,app.scss类似全局css, 对createLogo()有效
+              //设置后,app.scss需要手动指定，如果不指定，对img01 和 createLogo() 都无效
+            },
+          },
+          'postcss-loader',
+          'sass-loader',
+        ],
+      },
+    ],
+  },
+};
+```
+
+- css 模块化文件的写法
+
+```html
+<body>
+  <div id="app"></div>
+</body>
+```
+
+```scss
+// 在使用scss时，不能是用.app或者#app来包裹，因为模块化会对.name 或者 #name 进行重命名，导致打包后类名不能对应上，css渲染不成功
+// 外部可以包裹元素名称，一般使用body, 或者不使用元素包裹，如下所示
+.container {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  background-color: pink;
+
+  .logo {
+    width: 100%;
+    // height: 100%;
+    border: 1px solid #333;
+    border-radius: 50%;
+    transform: rotate(-45deg);
+  }
+}
+
+// 两个.logo都有效，一个是.container .logo, 一个是 .logo
+.logo {
+  width: 200px;
+  border: 3px solid orange;
+  border-radius: 10%;
+  transform: rotate(45deg);
+}
+```
+
+- css 模块化的使用方法
+
+```js
+//必须引入css模块
+import styles from './css/app.scss';
+
+// 使用css
+import doudou from './images/doudou.jpg';
+let img = new Image();
+img.src = doudou;
+img.className = `${styles.logo}`; // 引入方法1
+
+let container = document.createElement('div');
+container.className = styles.container; // 引入方法2
+container.appendChild(img);
+```
+
+```js
+// js模块中同样也需要引入, 才可以有css效果
+import styles from './css/app.scss';
+import doudou03 from './images/doudou03.jpg';
+
+function createLogo() {
+  let img03 = new Image();
+  img03.src = doudou03;
+  img03.className = `${styles.logo}`;
+
+  let app = document.getElementById('app');
+  app.appendChild(img03);
+}
+
+export default createLogo;
+```
+
+## 图标的使用

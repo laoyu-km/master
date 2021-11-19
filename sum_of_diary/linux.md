@@ -1,4 +1,0 @@
-- sed
-- xargs
-- -exec {} \;
-
