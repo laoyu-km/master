@@ -1,4 +1,5 @@
 # npm common commands and use tips
+
 ## How to see version
 
 1,2.0 -> 1: 大版本.小版本.次要版本

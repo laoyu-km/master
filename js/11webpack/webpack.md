@@ -108,7 +108,7 @@ module.exports = {
 
 ### style-loader css-loader sass-loader 链式调用
 
-- loader 的链式调用： 链式调用就是让这个前一个 loader 的执行结果，在让当当前 loader 使用，只是这个过程是<font color="red">**从后往前， 从下往上**</font>
+- loader 的链式调用： 链式调用就是让这个前一个 loader 的执行结果，在让当前 loader 使用，只是这个过程是<font color="red">**从后往前， 从下往上**</font>
 
 ```js
 module.exports = {
