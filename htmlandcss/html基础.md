@@ -13,7 +13,7 @@ title: 30 - 40 个字
   文章页： 标题 + 分类 + 网站名称
 
  meta标签
- keywords: 100个字符，网站名称 + 分类信息 + 网站名称
+ keywords: 100个字符，网站名称 + 分类信息 + 关键字
 
  description： 描述信息 80 - 120 汉字，综合title + keywords的简单描述
 
@@ -185,6 +185,8 @@ caption: 标题标签
 tr: table row
 
 th: table header cell
+    scope:row, col, colgroup, rowgroup
+    scope 属性标识某个单元是否是列、行、列组或行组的表头。
 
 td: table data cell
 
@@ -203,6 +205,61 @@ td: table data cell
     没有就会等数据加载完才加载表格
     三个标签的加载顺序是 thead -> tfoot -> tbody 
     就算打乱三个标签的顺序也是一样的按照上面的顺序加载
+        <table class="table-test"
+            border=1
+            cellpadding=5px
+            cellspacing=0>
+            <caption>element display</caption>
+            <thead>
+                <tr>
+                    <th scope="row">display</th>
+                    <th>elements</th>
+                    <th>comment</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th scope="col">inline element</th>
+                    <td align="left">span, sup, sub, strong, em, ins, a, label</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="col">block</th>
+                    <td align="center">div, hx, ul, ol, li, dt, dl, dd, p, address, table, form, fieldset, legend</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="col">inline-block</th>
+                    <td align="right">img, input, select, textarea, iframe</td>
+                    <td></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th scope="col">sum</th>
+                    <td colspan="2">html elements display</td>
+                </tr>
+            </tfoot>
+        </table>
+
+
+	dl,dt,dd :dl> 标签与 <dt> （定义项目/名字）和 <dd> （描述每一个项目/名字）一起使用。
+    <dl>
+        <dt style="font-weight:bold">&lt;dl&gt;&nbsp;&lt;dt&gt;&nbsp;&lt;dd&gt;</dt>
+        <dd>
+            they are all block element
+        </dd>
+        <dt>jayden</dt>
+        <dd>
+            this girl is a good girl, she has a big buttom and nice bra
+        </dd>
+        <dt>aleixs</dt>
+        <dd>
+            this girl has huge bottom, amazing!
+        </dd>
+    </dl>
 
 
 
@@ -229,7 +286,7 @@ td: table data cell
         好处2. 功能性导航比较实用
         缺点1：对搜索引擎不友好，爬虫进不去iframe
         缺点2：滚动条混乱
-        缺点3： 外页面控制不了iframe页面的加载
+        缺点3：外页面控制不了iframe页面的加载
         缺点4：页面之间数据传递困难
 
         frame-border: 一般设为0
@@ -240,7 +297,7 @@ td: table data cell
         <a href="http://www.taobao.com" target="mainFrame">淘宝网</a>
         <a href="http://www.tmall.com" target="mainFrame">天猫网</a>
     </p>
-    <iframe width="100%" height="1000" name="mainFrame" src="http://www.jd.com" frameborder="0"></iframe>
+    <iframe width="100%" height="1000" name="mainFrame" src="http://www.jd.com" frameborder="0" scrolling="auto"></iframe>
 ```
 
 

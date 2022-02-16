@@ -1,0 +1,180 @@
+source $VIMRUNTIME/vimrc_example.vim
+source $VIMRUNTIME/mswin.vim
+
+set nocompatible
+filetype off
+
+set rtp+=$VIM/vimfiles/bundle/vundle/
+let path='$VIM/vimfiles/bundle'
+
+call vundle#begin(path)
+Plugin 'altercation/vim-colors-solarized'
+call vundle#end()
+
+filetype plugin on
+filetype plugin indent on
+filetype indent on
+
+syntax enable
+syntax on
+
+let g:solarized_termcolors=256
+let g:solarized_degrade=0
+let g:solarized_italic=0
+let g:solarized_contrast="high"
+let g:solarized_visibility="high"
+"colorscheme solarized
+"set background=dark
+set background=light
+
+set dir=D:\WZX\vimtmp\swp
+set udir=D:\WZX\vimtmp\undo
+set bdir=D:\WZX\vimtmp\backup
+
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,gbk,gbk2312,latin1,ucs-bom
+
+"set normal enter
+noremap <S-CR> <S-A><CR><Esc>
+inoremap <M-h> <esc>i
+inoremap <M-l> <esc>la
+inoremap <M-j> <esc>ja
+inoremap <M-k> <esc>ka
+
+inoremap ( ()<esc>i
+inoremap [ []<esc>i
+inoremap < <><esc>i
+inoremap { {}<esc>i
+inoremap ' ''<esc>i
+inoremap " ""<esc>i
+nnoremap main iint main (int<space>argc,<space>char<space>*argv[])<CR>{}<esc>i<cr><esc>O<cr>return<space>0;<esc>2ko
+
+"设置gvim的启动位置和大小"
+winpos 1000 36
+set lines=39 columns=80
+
+"set save file"
+nnoremap <leader><leader> :w<cr>
+inoremap <leader><leader> <esc>:w<cr>
+
+
+"set nornu
+set rnu
+"set nonu
+set number
+
+"set copy"
+nnoremap <c-c> "+yy
+vnoremap <c-c> "+y
+inoremap <c-c> <esc>"+yy
+
+"set pasete"
+nnoremap <c-v> "+p
+inoremap <c-v> <esc>"+p
+
+"-----------------------------------------------------------------------
+"                               set gui
+"-----------------------------------------------------------------------
+" set menu
+set guioptions-=T
+"set guioptions-=t
+set guioptions-=m
+set guioptions-=l
+set guioptions-=L
+set guioptions-=r
+set guioptions-=R
+
+"禁止光标闪动
+set gcr=a:block-blinkon0
+"总是显示状态栏
+set laststatus=2
+"显示光标当前位置
+set ruler
+"高亮显示当前行/列
+set cursorline
+
+"set cursorcolumn
+"高亮显示搜索结果
+"set hlsearch
+"设置gVim字体
+"	Linux/Unix: set guifont=Monospace\空格14 注意这里需要对空格使用\进行转意
+"	Windows下set guifont=Monospace:h14 注意这里的字体大小需要有h的标识
+"set guifont=YaHei_Consolas_Hybrid:h11
+set guifont=Microsoft_YaHei_Mono:h11:b
+"禁止折行
+"set nowrap
+"开启折行
+set wrap
+
+"开启语法高亮
+syntax enable
+"允许用指定语法高亮配色方案替换默认方案
+syntax on
+
+"自适应不同语言的只能缩进
+filetype indent on
+"将制表符扩展为空格
+set expandtab
+"设置编辑时制表格占用空格数
+set tabstop=4
+"设置格式化制表符占用空格数
+set shiftwidth=4
+"让vim把连续数量的空格视为一个制表符
+set softtabstop=4
+
+"set 折叠"
+"设置折叠模式为手动折叠
+set foldmethod=manual
+au BufWinLeave * silent mkview
+au BufWinEnter * silent loadview
+
+
+" autoload _vimrc
+autocmd! bufwritepost _vimrc source %
+
+"-----------------------------------------------------------------------
+"                               set markdown
+"-----------------------------------------------------------------------
+inoremap dmd ```
+nnoremap dmt <s-o>```<esc>jo```<esc>k
+inoremap dmj ```js
+"
+"
+"
+"
+"
+"set diffexpr=MyDiff()
+"function MyDiff()
+"  let opt = '-a --binary '
+"  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+"  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+"  let arg1 = v:fname_in
+"  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+"  let arg1 = substitute(arg1, '!', '\!', 'g')
+"  let arg2 = v:fname_new
+"  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+"  let arg2 = substitute(arg2, '!', '\!', 'g')
+"  let arg3 = v:fname_out
+"  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+"  let arg3 = substitute(arg3, '!', '\!', 'g')
+"  if $VIMRUNTIME =~ ' '
+"    if &sh =~ '\<cmd'
+"      if empty(&shellxquote)
+"        let l:shxq_sav = ''
+"        set shellxquote&
+"      endif
+"      let cmd = '"' . $VIMRUNTIME . '\diff"'
+"    else
+"      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+"    endif
+"  else
+"    let cmd = $VIMRUNTIME . '\diff'
+"  endif
+"  let cmd = substitute(cmd, '!', '\!', 'g')
+"  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+"  if exists('l:shxq_sav')
+"    let &shellxquote=l:shxq_sav
+"  endif
+"endfunction
+"

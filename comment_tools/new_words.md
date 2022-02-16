@@ -1,0 +1,101 @@
+
+- amateur : adj,业余的; n,业余爱好者
+- convert : 使转变；转换…；使…改变信仰
+- async: 异步，非同步
+- instance： 实例；情况；建议
+- console: 控制台
+- iterator: 迭代器
+- examination: 考试；检查；查问
+- reseiver: 接受者
+- legacy: 集合
+- handle: 把手
+- deferred: 推迟（defer的过去式及过去分词形式）
+- resolve: vt 解决；决心；分解
+- reject: vt 拒绝；排斥；抵制；丢弃
+- yield: v 产出 -> function* test() { yield 'jayden'};
+- generator: n. 发电机；发生器；生产者 -> function* test () { yield 'alexis'};
+- emit: vt 发出，放射；发行；发表
+- emitter: 发射器，发射体
+- component: 组件
+- model: n. 模型；典型；模范；模特儿；样式
+- mount: vt 装载，安装， 镶嵌， 嵌入
+- patch: vt 修补；解决；掩饰
+- immutable: adj. 不变的；不可变的；不能变的
+- anonymous：adj. 匿名的，无名的；无个性特征的
+- AST: Abstract Synax Tree: 抽象语法树
+- kiss: keep it simaple and stuip
+- dependencies: 依赖
+- thumb: 拇指，翻阅
+- context: n. 环境；上下文；来龙去脉
+- response:n. 响应；反应；回答 
+- tick: n. 记号，钩号
+- immediate: adj. 立即的；直接的；最接近的
+- socket: n. 插座；窝，穴；牙槽
+- chalk: n. 粉笔
+- parse: n. 从语法上分析；分列
+- idle: adj. 闲置的；懒惰的；停顿的
+- prepare: vt. 准备；使适合；装备；起草
+- props: n. [矿业] 支柱；小道具；后盾（prop 的复数）
+- injection: n. 注入；注射；注射剂；充血；射入轨道
+- reactivity: n. 反应；反动 (Vue声明周期中指数据双向绑定)
+- teardown: n. 拆卸；待拆房屋
+- patch: vt. 修补；解决；掩饰; vi. 打补丁 
+- mustache: n. 胡子
+- native: 本国的；土著的；天然的；与生俱来的；天赋的
+- previous: adj. 以前的；早先的；过早的 -> Node.prototype.previousSibling
+- sibling: n. 兄弟姊妹；民族成员 -> Node.prototype.nextSibling
+- accept: vt. 接受；承认；承担；承兑；容纳
+- mutation: n. 突变；变化；元音变化
+- observer: n. 观察者；[天] 观测者；遵守者
+- mutate: vt. 改变，使突变 与 change 的区别是 mutate是被动的改变
+- grid: n. 网格；格子，栅格；输电网
+- quantity: n. 量，数量；大量；总量
+- constraint: n. [数] 约束；局促，态度不自然；强制
+- cascade: n. 小瀑布，瀑布状物；串联,级联
+- schema: n. [计][心理] 模式；计划；图解；概要
+- data shema: 数据模式数据规划数据结构资料纲目
+- atlas: n. 地图集；寰椎
+- clusters: n. [植] 簇；丛（cluster的复数形式）；[计] 群集
+- comment: n. 评论；意见；批评；描述；<古>注释；[计算机]注解
+- embedded: adj. 嵌入式的；植入的；内含的 v. 嵌入（embed的过去式和过去分词形式）
+- nested: adj. 嵌套的，内装的. v. 筑巢；嵌入（nest的过去分词）
+- expires: n. 到期；有效期; v. 期满；断气（expire的三单形式）
+- generic：adj. 类的；一般的；属的；非商标的
+- protocol:  n. 协议；草案；礼仪
+- referer:  n. 参照页，引用页
+- acknowledgement： n. 承认；确认；感谢
+- established: v. 建立，设立；制定；adj. 已确立的，确定的；
+- sequence: n. [数][计] 序列；顺序；续发事件
+- scope: n. 范围；余地；视野；眼界；导弹射程
+- mutation: n. 突变；变化；元音变化
+- state: 状a
+- recommend: vt. 推荐，介绍；劝告；使受欢迎；托付 vi. 推荐；建议
+- bucket: n. 桶，水桶；铲斗；一桶的量；（俚）篮球得分 
+- authenticate: vt. 鉴定；证明…是真实的
+- credential: n. 证书；凭据；国书 -> XMLHttpRequest.withCredentials 属性
+- beacon: n. 灯塔，信号浮标；烽火；指路明灯 -> XMLHttpRequest: Navigator.sendBeacon();
+- override: vt. 推翻；不顾；践踏 -> XMLHttpRequest: XMLHttpRequest.overrideMimeType();
+- preset: 预设 -> Save this as a preset for future projects
+- scheduler: n. 计划员；时间调度员；程序机，调度机；调度程序；制表人 -> function scheduler (iterator) {var obj = iterator.next(); if(!obj.done){iterator.next()}}
+- performance: n. 性能；绩效；表演；执行；表现 -> chrome 浏览器工具的Performance面板，查看网页的性能情况，比如 CPU 和内存消耗
+- utils: util 的复数 -> util:跑龙套,工具, 使用率, 利用率 -> utils.js
+- compat: n. 兼容 -> document.compatMode --> 'BackCompat' || 'CSS1Compat'
+- DTD: Document Type Define (文档类型定义)
+- contain: 包含；控制；容纳；牵制（敌军）--> Node.prototype.contains();
+- compare: v. 比较，对比；与……类似，将……比作；相比，匹敌；构成（形容词或副词）的比较级和最高级 --> node.prototype.compareDocumentPosition();
+- normalize: vt. 使正常化；使规格化，使标准化 --> Node.prototype.normalize();
+- collection: n. 采集，聚集；[税收] 征收；收藏品；募捐 --> HTMLCollection 接口
+- cli: 命令行界面（Command Line Interface for batch scripting）
+- registry: n. 注册；登记处；挂号处；船舶的国籍 -> `npm config set registry http://registry.npm.taobao.org`
+- synopsis: n. 概要，大纲 --> linux -> man -> SYNOPSIS段：参数的大致用法
+- wrapper: n. 包装材料；[包装] 包装纸；书皮
+- flex: vt. 折曲；使收缩 vi. 弯曲；收缩 n. 屈曲；电线；松紧带 adj. 弹性工作制的
+- wrap: vt. 换行；包；缠绕；隐藏；掩护 --> flex-wrap -> nowrap / wrap / wrap-reverse
+- direction: n. 方向，方位； --> flex-direction -> row / row-reverse / column / column-reverse
+- justify: 对齐，两端对齐，对齐，整版 --> justify-content -> flex-start /flex-end / center / space-between / space-around
+- complexity: 复杂度 -> time complexity(时间复杂度) -> space complexity(空间复杂度) -> 评价算法好坏的办法
+
+- evaluate: v. 评价，估计；求（方程式，公式，函数）的数值 -> evaluate algorithm (评估算法)
+
+- linear list: 线性表
+
