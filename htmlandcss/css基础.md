@@ -90,7 +90,7 @@ H --> |construct|E
         font-weight: bold;
       }
 
-      .tip.tip-sucess {
+      .tip.tip-success {
         color: green;
       }
 
@@ -104,7 +104,7 @@ H --> |construct|E
     </style>
   </head>
   <body>
-   <p class="tip tip-sucess">sucess = green</p> 
+   <p class="tip tip-success">sucess = green</p> 
    <p class="tip tip-warning">warning = orange</p>
    <p class="tip tip-danger">danger = red</p>
 
@@ -439,9 +439,15 @@ input:focus{
 
 
 ### 重写有样式的标签的样式
+```css
+h1 {
+  font-weight: normal;
+}
 
-
-
+a {
+  text-decoration: none;
+}
+```
 
 
 ### 绝对单位和相对单位
@@ -461,9 +467,6 @@ body,html {
   line-height: 1.2em;
 }
 ```
-
-
-
 
 - 举例
 ```html
@@ -485,6 +488,404 @@ body,html {
     </div>
   </body>
 ```
+
+
+## box model (盒子模型)
+
+- 盒子 = 容器
+
+- 宽高所划分的区域
+
+- 边框: border
+
+- 内边距：padding
+
+- 外边距：margin
+
+- 默认边框，内边距，外边距都不占用容器的宽高
+
+- 默认盒子的可视区域 = 盒子的宽 + 2* 边框 + 2*内边距 -> 高度同理
+
+- 子宽高为100%，父设置padding后，内层盒子居中外层盒子 -> 上下左右padding同宽
+
+### 如何让边框和边距只占用盒子宽高，不外扩
+
+- box-sizing: border-box 只兼容IE8 以上
+
+- -moz-box-sizing: border-box 兼容firefox
+
+- -webkit-box-sizing: border-box 兼容chrome safari (默认兼容)
+
+- -ms-box-sizing: border-box 兼容IE8以下
+
+- -o-box-sizing: border-box 兼容presto opera
+
+- 开发中写要全部都写
+
+- 开发中直接初始化
+```css
+div {
+  box-sizing:border-box;
+}
+```
+
+- 如何解开border-box: box-sizing:content-box;
+
+- 企业开发中直接设置一个类来解开border-box
+```css
+.content-box {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -ms-box-sizing: content-box;
+  -o-box-sizing: content-box;
+}
+```
+
+### padding复合值
+
+- padding:30px 20px 10px 5px; 上 右 下 左
+
+- padding:30px 20px 10px; 上 左右 下
+
+- padding: 30px 20px; 上下 左右
+
+- padding: 30px;  上下左右
+
+- padding-top, padding-right, padding-bottom, padding-top
+
+### margin 复合值
+
+- 同padding和border
+
+
+### 案例
+
+- 连个内联元素的margin
+```html
+<!-- margin总和=30px + 30px -->
+<style type="text/css">
+    .text1{
+      margin-right:30px;
+    }
+
+    .text2{
+      margin-left:30px;
+    }
+  </style>
+</head>
+<body>
+  <span class="text1">123</span><span class="text2">235</span>
+</body>
+```
+
+### 盒子对浏览器居中
+
+- margin: auto
+
+- margin: 30px auto  
+
+- margin: 30px auto 20px
+
+- 以上三种方法
+
+
+
+## position 定位
+
+### position的五个值
+
+- static: HTML 元素的默认值，即没有定位，遵循正常的文档流对象。 静态定位的元素不会受到 top, bottom, left, right影响。
+
+- relative: 相对定位元素的定位是相对其正常位置。
+
+- absolute: 
+
+- fixed: 元素的位置相对于浏览器窗口是固定位置。 即使窗口是滚动的它也不会移动
+
+- sticky: 基于用户的滚动位置来定位。(不常用)
+
+### absolute(绝对定位)
+
+- position: absolute
+
+- left/top/right/bottom: top基准线是上边，bottom基准是下边，left基准线是左边，right基准线是右边
+
+- 参考父级中离自己最近的有定位的父级，如果没有则相对于整个html文档进行定位, position:relative 也是定位
+
+### relative(相对定位)
+
+- 原来层的位置不被腾出
+
+- relative： 是对元素本身位置进行定位，所以只去得到left和top, right和bottom取不到
+
+```html
+  <style type="text/css">
+    .box {
+      width: 300px;
+      height: 300px;
+      margin: 10px auto;
+      background-color: orange;
+    }
+
+    .son-box{
+      position:relative;
+      /* right: 20px; 无效
+      bottom: 20px; 无效*/
+      top: 20px;
+      left: 20px;
+      width:100px;
+      height: 100px;
+      background-color:pink;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="son-box"></div>
+  </div> 
+</body>
+```
+
+- relative: 用法1 -> 用于子元素绝对定位
+
+- relative用法2 -> 被决定定位元素覆盖的元素添加relative后可覆盖绝对定位元素显示，原理是在未设置z-index前提下，后定位在前定位的上层
+```html
+  <style type="text/css">
+    .box1 {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+
+    .box2 {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background-color: orange;
+    }
+  </style>
+</head>
+<body>
+  <div class="box1"></div>
+  <div class="box2"></div>
+</body>
+```
+
+- 绝对定位元素默认是占据不了非定位元素的
+```html
+<style type="text/css">
+    .box1 {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+
+    .box2 {
+      width: 100px;
+      height: 100px;
+      background-color: orange;
+    }
+  </style>
+</head>
+<body>
+  <div class="box2"></div>
+  <div class="box1"></div>
+</body>
+```
+
+### z-index
+
+- z-index: 设置元素层级，垂直眼睛方向，层级越高越靠近眼睛
+
+- 几个层叠元素同时设置z-index, 那个值越大，显示那个
+
+
+### 绝对定位的两栏设计
+```html
+<style type="text/css">
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      overflow-y: hidden; /*不显示滚动条，占据整个页面*/
+    }
+
+    .right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100px;
+      height: 100%;
+      background-color: pink;
+    }
+
+    .left {
+      width: 100%;
+      height: 100%;
+      margin-right: 100px;
+      background-color: orange;
+
+    }
+  </style>
+</head>
+<body>
+  <div class="left"></div>
+  <div class="right"></div>
+</body>
+```
+
+### 绝对定位的三栏设计
+```html
+ <style type="text/css">
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      overflow-y: hidden;
+    }
+
+    .left {
+      position: absolute;
+      top: 0;
+      left:0;
+      width: 150px;
+      height: 100%;
+      background-color: pink;
+    }
+
+    .center {
+      width: 100%;
+      height: 100%;
+      margin-left: 150px;
+      margin-right: 150px;
+      background-color: #286;
+    }
+
+    .right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 100%;
+      background-color: orange;
+    }
+  </style>
+</head>
+<body>
+  <div class="left"></div> 
+  <div class="center"></div>
+  <div class="right"></div>
+</body>
+```
+
+
+## float 浮动
+
+- 最初的设计是为了使文字对齐图片
+```html
+<style type="text/css">
+    img {
+      float: right;
+    }
+  </style>
+</head>
+<body>
+ <img src="https://www.baidu.com/img/PC_880906d2a4ad95f5fafb2e540c5cdad7.png" alt="" />定位是一个相当复杂的话题，所以我们深入了解代码之前，让我们审视一下布局理论，并让我们了解它的工作原理。 首先，围绕元素内容添加任何内边距、边界和外边距来布置单个元素盒子——这就是 盒模型 ，我们前面看过。 默认情况下，块级元素的内容宽度是其父元素的宽度的100％，并且与其内容一样高。内联元素高宽与他们的内容高宽一样。您不能对内联元素设置宽度或高度——它们只是位于块级元素的内容中。 如果要以这种方式控制内联元素的大小，则需要将其设置为类似块级元素
+</body>
+```
+
+### float特点
+
+- block元素float以后就变成inline-block元素
+
+- float:left
+
+- float:right
+
+### 块级元素无法识别浮动流元素的位置
+
+- 块级元素设置浮动后，效果与设置绝对定位相似，但是原理不同
+
+- 块级元素是因为无法识别浮动流元素，所以未浮动元素占用过了浮动元素的位置
+
+- 内联，内联块，浮动，溢出隐藏，纯文本都可以识别浮动元素的位置，除了块级元素
+
+
+### 清除浮动
+
+- 产生浮动溢出的原因： block元素不能识别浮动元素的位置；
+
+- 设置清除浮动的元素必须为block元素
+
+- 生产中使用伪元素来清除浮动
+```html
+  <style type="text/css">
+    /* 开发中使用的清除浮动方式1 */
+    /* div,ul::after {
+      content: "";
+      display: block;
+      clear: both;
+    } */
+
+    .box {
+      width: 200px;
+      border: 2px solid #333;
+    }
+
+    .box1 {
+      float: left;
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+
+    .box2 {
+      float: left;
+      width: 100px;
+      height: 100px;
+      background-color: orange;
+    }
+
+    /* 开发中使用的清除浮动方式2 */
+    .clearfix::after {
+      content:"";
+      display: block;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+ <div class="box clearfix">
+   <div class="box1"></div>
+   <div class="box2"></div>
+ </div> 
+</body>
+```
+
+- overflow 也可以清除浮动，但是其实际意义不是用来清除浮动的，所以避免使用
+
+
+## :before 和 :after
+
+- w3c规定，::before是伪元素， :before是伪类, 实际使用没区别，但是还是遵守比较好
+
+- 必须有content:""属性，否则不生效
+
+
+
+
+
+## 浏览器默认值
+
+- 默认body的margin不为0
+
+- ie8：上下16px 左右8px
+
+- ie7: 上下16px 左右11px
+
 
 
 
@@ -518,6 +919,11 @@ btn-danger
 
 2. 美化原生的checkbox
 
+3. 绝对定位创造两栏设计
+
+4. 绝对定位创造三栏设计
+
+5. 使用::before 和 ::after 实现轮播图的小圆点效果
 
 
 
