@@ -242,6 +242,9 @@ H --> |construct|E
    - 16进制颜色值: # red(0-255) green(0-255) blue(0-255) -> rgb(255,0,0) -> rgb(100%, 0%, 0%) -> rgb(260, 0, 0)结果还是红色，只认到255
 
 
+- font 复合写法： font: font: "font-style font-variant font-weight font-size/line-height font-family" -> font-size && font-family 是必须有的
+
+
 ### border
 
 - border: 1px solid #000; 默认变宽是占盒子以外的宽高
@@ -590,6 +593,127 @@ div {
 - 以上三种方法
 
 
+### box-shadow
+
+- box-shadow: 水平位置(必) 垂直位置(必) 模糊距离 阴影尺寸 阴影颜色 阴影种类
+
+- box-shadow: 10px 10px 5px 5px #f40 inset
+
+- inset: 阴影朝向盒子内部，默认是外部(outset)
+
+- 如何遮挡盒子的阴影：使用于遮挡的盒子的定位为relative,并使其z-index>有阴影的盒子；
+```html
+body {
+      margin: 0;
+    }
+    .header {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 50px;
+      background-color: #333;
+    }
+
+    .shadow-box {
+      width: 500px;
+      height: 300px;
+      margin: 0 50px;
+      background-color: orange;
+      box-shadow: 0 0 0 10px #f40;
+      -webkit-box-shadow: 0 0 0 10px #f40;
+      -moz-box-shadow: 0 0 0 10px #f40;
+      -o-box-shadow: 0 0 0 10px #f40;
+    }
+  </style>
+</head>
+<body>
+  <div class="header"></div>
+  <div class="shadow-box"></div>
+</body>
+```
+
+### box-radius
+
+- box-radius: 20px/20%
+
+- 百分比：主要用来做纯圆 -> 50%, 宽高一致
+
+- 半圆角： height/2 + px
+
+```css
+border-radius: 50px;
+-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+-o-border-radius: 50px;
+```
+
+- 盒子是圆角，但是内部图片的直角覆盖了盒子的圆角如何处理
+overflow: hidden;
+
+```html
+  <style type="text/css">
+    .main {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #000;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .main img {
+      width: 100%;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="main">
+    <img src="./images/icon_ok.png" alt="">
+  </div>
+</body>
+```
+
+
+### background
+
+- background-color
+
+- background-image: url(./images/con_ok.png), 如果图片过大，会只显示部分图片，位置是left:0, top:0
+
+- background-size: 100% 100%(图片平铺)， 50px 50px 
+   - cover: 图片占满整个盒子，多余部分切掉，如果图片小则拉伸图片 -> 图片宽高比例不变，铺满这个盒子的宽高
+   - contain: 不管盒子大小，都要全部显示图片 -> 图片自身宽高比不变，宁肯留白，也要全部显示图片
+   - 案例：淘宝登录页，无论如何缩放窗口，背景图片都能正常显示
+   ```html
+ .main {
+      width: 500px;
+      height: 500px;
+      border: 1px solid #000;
+      background-image: url(./images/icon_ok.png);
+      background-repeat: no-repeat;
+      background-size:cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+  </div>
+</body>
+   ```
+
+- background-repeat: no-repeat/repeat-x/repeat-y/no-repeat
+
+- background-position: left/right/top/bottom/center/10px 10px/50% 50%
+
+- background-position居中: center center/50% 50%
+
+- background-attachment: fixed;(背景图片不滚动) scroll(默认值，滚动)
+
+
+### background 复合写法
+
+- background: color image repeat attachment position/size
+
 
 ## position 定位
 
@@ -874,8 +998,367 @@ div {
 
 - 必须有content:""属性，否则不生效
 
+- 使用content增加小图标
+```html
+<style type="text/css">
+    p:before {
+      content: url(./images/icon_ok.png);
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    input {
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <p><input type="text" value="请输入内容"></p>
+</body>
+```
+
+- 使用content传递值
+```html
+ <style type="text/css">
+    h1:before{
+      content:attr(data-username);
+      /* content: attr(class); -> 有效 */
+    }
+  </style>
+</head>
+<body>
+  <h1 data-username="Ai Sayama" class="Alexis Texas">,欢迎来到普霸科技</h1> 
+</body>
+```
 
 
+## logo企业写法
+
+- 使用background-image来设置logo： 因为background-image有缓存机制，用img标签的话会每次都需要加载；
+
+- logo需要能加载css时可以显示图片，css加载失败时可以显示文字链接，使用background-image在加载不了时不会像img标签(有一个加载失败图标) 
+
+- 实例
+```html
+<style type="text/css">
+    body {
+      margin: 0;
+    }
+    .logo{
+      width: 142px;
+      height: 58px;
+      margin: 100px;
+      background-color: orange;
+    }
+
+    .logo h1 .logo-hd {
+      display: block;
+      width: 100%;
+      height: 0;
+      padding-top: 58px;
+      background: url(./images/tbbg.png) no-repeat 0 0 / 142px 58px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <!-- 使用hx标签是因为其对爬虫程序友好(对搜索引擎友好) -->
+    <h1>
+      <a href="" class="logo-hd">
+        <!-- 如果css加载不出来，字体链接还在 -->
+        淘宝网
+      </a>
+    </h1>
+  </div>
+</body>
+```
+
+
+## table 样式
+
+- <table border=1> 与 table{border: 1px solid #000} 的区别
+  - <table border=1> 单元格有边框
+  - table{border: 1px solid #000} 只有表格外边框
+
+- caption -> caption-side: top / bottom
+
+- border-collapse: separation(单元格边框有间隔) / collapse(单边框)
+
+- 单元格宽度保持一致： table-layout: fiexed / automatic(默认)
+
+- 使某一列居中
+   - 方法1. 在每一个对应单元格添加class="align-center", .align-center{text-align: center;}
+   - 方法2. table tr td:nth-child(2) {text-ailgn:center;} 第二列居中
+
+- 使奇数(或偶数)行背景颜色为深色：table tr:nth-child(odd/even){background-color:#eee;}
+
+- 鼠标移入行后，行背景色加深： table tr:hover{background-color:#ddd;}
+
+
+### ul 模拟表格
+
+- 显示所有边框方法1
+```html
+<style type="text/css">
+    /* 消除ul三大件 */
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .clearfix::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    .table {
+      width: 300px;
+      height: 300px;
+      background-color: orange;
+      overflow: hidden;
+    }
+
+    .table li{
+      float: left;
+      width: 101px;
+      height: 101px;
+      border: 1px solid #333;
+      box-sizing: border-box;
+      margin: -1px 0 0 -1px;
+
+    }
+
+  </style>
+</head>
+<body>
+  <div class="box">
+    <ul class="table">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+</body>
+```
+
+- 显示所有边框方法2
+```html
+<style type="text/css">
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .table {
+      width: 300px;
+      background-color: orange;
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
+      overflow: hidden;
+    }
+
+    .table li {
+      float: left;
+      width: 100px;
+      height: 100px;
+      border-top: 1px solid #000;
+      border-left: 1px solid #000;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <ul class="table">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+</body>
+
+```
+
+- 不显示外部边框，只显示内部边框方法1
+```html
+  <style type="text/css">
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .box {
+      width: 300px;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .table {
+      width: 302px;
+      height: 302px;
+      /* border-right: 1px solid #333;
+      border-bottom: 1px solid #333;  此两行可省略*/
+      box-sizing: border-box;
+      margin-left: -1px;
+      margin-top: -1px;
+      overflow: hidden;
+    }
+
+    .table li{
+      float: left;
+      width: 33.33%;
+      height: 100px;
+      border-left: 1px solid #333;
+      border-top: 1px solid #333;
+      box-sizing: border-box;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="box">
+    <ul class="table">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+</body>
+```
+
+- 不显示外部边框，只显示内部边框方法2:根据单元格位置设置不同的边框
+
+
+## BFC
+
+- BFC: block formatting context -> 块级格式化上下文
+
+- css2.1提出的概念，解释布局时出现的奇怪问题
+
+- BFC容器：属于普通流，不会破坏其他元素的布局
+
+- 具备BFC特性的元素：body, float:left/right, position: absolute/fixed, display: inline-block/table-cell, overflow: hidden auto scroll
+
+### BFC作用
+
+- margin 合并问题：上下两个盒子之间的margin只能取一边值的问题
+解决方法1：
+```html
+<style type="text/css">
+    .container {
+      overflow: hidden;
+    }
+    .box {
+      width: 100px;
+      height: 100px;
+    }
+
+    .box1 {
+      background-color: orange;
+      margin-bottom: 100px;
+    }
+
+    .box2 {
+      background-color: pink;
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box box1"></div>
+  </div>
+  <div class="container">
+    <div class="box box2"></div>
+  </div>
+</body>
+```
+
+解决方法2： 只设一边的margin就可以->实际使用
+
+
+- margin 塌陷: 父级元素触发BFC可解决(添加overflow:hiden/display:inline-block/position:absolute/fixed)，也可以在父级元素增加border-top:1px solid transparent
+
+- block元素不识别float元素的问题:将block变为BFC元素可解决(添加overflow:hiden/display:inline-block/position:absolute/fixed)，但是推荐使用清除浮动
+
+- 所有转化为float的block元素都变成了inline-block元素
+
+- BFC可以解决浮动元素覆盖的问题
+默认float元素会被文字环绕，将有文字的元素BFC化，就可以不被环绕
+```css
+box1 {
+  float: left;
+}
+
+box2 {
+ /*去除环绕*/
+float:left/diplay:inline-block;/position:absolute;/overflow: hidden;
+}
+```
+
+
+## 基本布局： 
+
+- 普通流：normal flow -> 默认布局 -> 行内元素知道本行占满在换行，块元素另起新行
+ 
+- 浮动流：float
+
+- 绝对定位布局：absolute positioning
+
+
+## css 书写顺序
+
+1. 显示属性： display, position, float, clear
+
+2. 自身属性：width,height,margin, padding, border, background
+
+3. 文本属性：color, font, text-align, vertical-align, whitespace
+
+4. 其他
+
+### css 书写规则
+- margin padding border: 尽量复合写法
+
+- 选择器复合单词: 中横线
+
+- JS钩子ID复合单词：下划线
+
+- 选择器： 小写
+
+- 尽可能英文
+
+- 尽可能用结构化命名，尽可能不要用直观命名法
+
+- 可写小数点：9.5px -> 但是要具体看浏览器如何解析，一般是四舍五入，因为最小单位就是px
+
+### 标签借用
+
+- 比如说一个网站中，所有的<ins>或者<del></del>标签都表示模态框，这样在升级或者批量操作时，同意操作标签样式就可以
+
+- 一般借用的标签 "i span ins delete b strong"
 
 
 ## 浏览器默认值
@@ -885,6 +1368,128 @@ div {
 - ie8：上下16px 左右8px
 
 - ie7: 上下16px 左右11px
+
+
+## 企业级开发内容
+
+
+### font awesome
+
+- 将font-awesome.min.css 放入项目css文件夹，再将fonts文件夹放入css同级文件夹
+
+- 显示图标：一般使用<i>标签来设置图标（因为图标是字体）,也可以使用,<span>标签来设置
+```html
+/*
+ * fa 是font-awesome的统一类名，一定要写
+ * fa-pencil 是 fa-图标名，图标名在网站上查
+ * fw -> 多个图标固定宽度
+ * 图标大小一般在样式表中使用font-size来设置
+ * fa-spin: 图标旋转动画
+*/
+<i class="fa fa-pencil fa-spin fw"></i>
+```
+
+- 这个图标库一般用在自身没有ui能力的企业，一般大型企业都有自己的ui库
+
+
+### iconfont
+
+- 阿里提供的ui库
+
+- 图标一般是你使用像素的两倍最好，比如你的图标是20px，图标实际像素40px比较好
+
+### 自己写图标库: 标签借用i标签
+```css
+.icon {
+  display:block;
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.icon-calendar {
+  background-image: url(../icons/calendar.png);
+}
+
+.icon-goods{
+  background-image: url(../icons/goods.png);
+}
+...
+```
+```html
+<i class="icon icon-goods"></i>
+```
+
+### 雪碧图的使用
+
+- 多个图标放在一张图上，通过不同固定位来取得不同的图标显示
+
+- 为什么加雪碧图： 因为这种方法叫sprite图
+
+- 好处：只需要加载一会图片，就可以显示多个图片
+
+- 实际中是使用多个雪碧图，不同的模块使用不同的雪碧图
+
+- 如何制作雪碧图: 网上搜工具，或者ps
+
+- 使用雪碧图
+```css
+.icon {
+  display: block; / inline-block;
+  width: 32px;
+  height: 32px;
+  background-image(../icons/sprite.png) no-repeat;
+}
+
+.icon-search {background-position: 0 0;}
+.icon-time {background-position: -32px 0;}
+.icon-goods {bakcground-position: -64px 0;}
+```
+
+- 缩放图标：
+   1. 算出需要图标的宽高与原图标宽高的百分比
+   2. 背景图片按照百分比缩放宽高
+   3. 所有定位置按照百分比修改
+```css
+.icon {
+  display: block; / inline-block;
+  width: 64px;
+  height: 64px;
+  background-image(../icons/sprite.png) no-repeat;
+  background-size: 768px 64px;
+}
+
+.icon-search {background-position: 0 0;}
+.icon-time {background-position: -64px 0;}
+.icon-goods {bakcground-position: -128px 0;}
+```
+
+
+## 腾讯课堂案例
+
+### 鼠标移入后显示边框：如何能够让box中的内容不变动
+
+- 原因：鼠标移入box后，由于box-sizing：border-box,所以内部上下左右都增加了1px 的变宽，只是原来box中的内容产生了压缩
+
+- 解决办法： 之前就设置号边框，并让边框的颜色为transparent, 当鼠标移入时只需要改变边框颜色就可以
+```css
+.box {
+  width: 100px;
+  height: 100px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+.box:hover {
+  border-color: #999;
+}
+```
+
+
+
+
+
 
 
 
@@ -924,9 +1529,106 @@ btn-danger
 4. 绝对定位创造三栏设计
 
 5. 使用::before 和 ::after 实现轮播图的小圆点效果
+```html
+<style type="text/css">
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      /* overflow-y: hidden; */
+    }
+
+    .contain {
+      position: relative;
+      width: 500px;
+      margin: 100px auto;
+      background-color: rgb(204, 232, 207);
+    }
+
+    .contain .image {
+      width: 100%;
+      height: 100%;
+    }
+
+    .contain .image img {
+      width: 100%;
+    }
+
+    .contain .indicator {
+      position: absolute;
+      left: 50px;
+      bottom: 50px;
+    }
+
+    .contain .indicator i {
+      position: relative;
+      display: block;
+      float: left;
+      width: 20px;
+      height: 20px;
+      margin-right: 2px;
+    }
+
+    .contain .indicator i::after {
+      content:"";
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      display: block;
+      width: 12px;
+      height: 12px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+    }
+
+    .contain .indicator i.active::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 1.2px;
+      top: 1.2px;
+      width: 18px;
+      height: 18px;
+      background-color: rgba(255,255,255,0.7);
+      border-radius: 50%;
+    }
+
+    .contain .indicator i.active::after {
+      content: "";
+      background-color: #fff;
+    }
 
 
+  </style>
+</head>
+<body>
+  <div class="contain">
+    <div class="image">
+      <img src="https://img20.360buyimg.com/pop/s1180x940_jfs/t1/171522/1/26722/78049/61b1db66Eeed6a09c/71e268a5b01d0d80.jpg.webp" alt="test">
+    </div>
+    <div class="indicator">
+      <i></i>
+      <i class="active"></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </div>
+  </div> 
+</body>
+```
 
+6. logo的企业级写法
+
+7. 创建自己的图标库
+
+8. 熟悉font awesome 和 iconfont的使用
+
+9. 制作淘宝的功能模块(12个小图标链接功能，4*3)
+
+10. 腾讯课堂案例
 
 
 
