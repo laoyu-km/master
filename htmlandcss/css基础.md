@@ -202,7 +202,7 @@ H --> |construct|E
 
 - min-width: 设置后不会产生折行，造成样式被破坏
 
-- max-width：设置后不会宽度不会超过该值
+- max-width：设置后宽度不会超过该值
 
 - min-height： 最小高度，内容超不超过都有这个高度
 
@@ -285,7 +285,7 @@ H --> |construct|E
 
 ### 文本text
 
-- textalign(水平对齐): right/center/left -> 容器必须具有宽高
+- text-align(水平对齐): right/center/left -> 容器必须具有宽高
 
 - line-height(文本行高)：一行所占据的高度，字体为16时默认行高为22，上下3
 
@@ -301,7 +301,7 @@ p {
 
 - text-decoration(文本线)： underline/line-through/overline/none;
 
-- cursor(光标): pointer(手势)/not-allowed(禁止)/help(问号)/resize
+- cursor(光标): pointer(手势)/not-allowed(禁止)/help(问号)/resize/grab/move
 
 ### 单行文本截断和显示省略号
 ```css
@@ -388,14 +388,14 @@ input:focus{
 
 - :last-child
 
-- :nth-child() -> :ntch-child(odd)(奇数)/:nth-child(even)(偶数)/nth-child(num)
+- :nth-child() -> :nth-child(odd)(奇数)/:nth-child(even)(偶数)/nth-child(num)
 
 
 ### vertical-align
 
 - 解决行内元素与行内块元素文本对齐的问题：行内块元素无文字默认底部对齐，行内块元素有文字默认与行内块的初始化时的文字对齐
 
-- vertical-align: bottom/top/middle/-30px/30px
+- vertical-align: bottom/top/middle/auto/-30px/30px
 
 - vertical-align 写在两个元素中任何一个都可以
 
@@ -699,7 +699,7 @@ overflow: hidden;
   <div class="main">
   </div>
 </body>
-   ```
+  ```
 
 - background-repeat: no-repeat/repeat-x/repeat-y/no-repeat
 
@@ -1323,7 +1323,7 @@ float:left/diplay:inline-block;/position:absolute;/overflow: hidden;
 ## 基本布局： 
 
 - 普通流：normal flow -> 默认布局 -> 行内元素知道本行占满在换行，块元素另起新行
- 
+
 - 浮动流：float
 
 - 绝对定位布局：absolute positioning
