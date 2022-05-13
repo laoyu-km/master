@@ -185,7 +185,7 @@ npm list | grep underscore
 npm list | grep glup
 ```
 
-- npm clear cache --force -> 清楚缓存
+- npm clear cache --force -> 清除缓存
 
 - npm install(i) packagename -g(--global)/-D(--save-dev)/-S(--save)
    -D : 安装信息放在 rootpath -> package.json -> devDependencies
@@ -242,7 +242,7 @@ npm list | grep glup
 1. npm install nrm -g
 
 2. ln -s /usr/software/nodejs/bin/nrm   /usr/local/bin/
- 
+
 3. nrm ls -> 列出可用下载地址列表
 
 4. nrm use 下载源名称 ->  切换npm下载源
@@ -283,9 +283,9 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
    ```bash
    npm run first & second
    ```
-   
+
    - 继发运行： 如果是继发执行（即只有前一个任务成功，才执行下一个任务），可以使用 && 符号。
-   
+
    ```bash
    npm run first && second
    ```
@@ -351,7 +351,7 @@ scripts: {
 }
 ```
     上面代码中，npm_package_scripts_install 变量的值等于 foo.js。
-
+    
     然后，npm 脚本还可以通过 npmconfig 前缀，拿到 npm 的配置变量，即 npm config get xxx 命令返回的值。比如，当前模块的发行标签，可以通过 npm_config_tag 取到。
 ```json
 "view": "echo $npm_config_tag",

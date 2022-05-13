@@ -2,7 +2,7 @@
 
 ## Introduction
 
-### js 7 中数据类型
+### js 7 种数据类型
 
 - number
 
@@ -69,7 +69,7 @@
 var a;
 console.log(a) // undefined
 
-// 2. 调用函数时，该提供的参数没有提供，该参数为undefiend
+// 2. 调用函数时，应该提供的参数没有提供，该参数为undefiend
 function fn(x) {
   return x;
 }

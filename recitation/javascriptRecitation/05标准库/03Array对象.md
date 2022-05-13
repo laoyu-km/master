@@ -1,202 +1,36 @@
-# Array
+# Array 对象
 
-## 1. 定义definition
-
-- 数组（array）是按次序排列的一组值。每个值的位置都有编号（从0开始），整个数组用方括号表示。
-
-
-## 2. 本质
-
-- 数组是对象
-```js
-var arr = [1, 2, 3];
-typeof arr -> object
-```
-
-### 数组是特殊对象
-1. 键名是按次序排列的一组整数(0, 1, 2...)
-```js
-var arr = ['a', 'b', 'c'];
-Object.keys(arr); // ["0", "1", "2"]
-```
-
-2. 键名固定(默认总是0, 1, 2...)
-
-3. 数组键名其实是字符串：JavaScript 语言规定，对象的键名一律为字符串，之所以可以用数值读取键名，是因为非字符串的键名会被转为字符串。
-
-4. 一个值总是先转成字符串，再作为键名进行赋值。
-```js
-var a = [];
-a[1.00] = 6;
-console.log(a[1]); // 6
-```
-
-5. 读取数值键名不能使用点建构，只能使用[]: arr.0是错误的只能是arr[0]
-
-6. 必然有length属性
-
-
-### length 属性
-
-- length属性：返回数组的成员数量
-
-- length的max值：2的32次方-1 = 4294967295 -> 因为JavaScript使用一个32位整数，保存数组的元素个数
-
-- 只要是数组，就一定有length属性。该属性是一个动态的值，等于键名中的最大整数加上1。
-
-- 数组的数字键名不需要连续， length属性的值总是比最大的那个整数键大1
-
-- length 属性可写：
-
-   - 如果人为设置一个小于当前成员个数的值，该数组的成员数量会自动减少到length设置的值。
-
-   - 人为设置length大于当前元素个数，则数组的成员数量会增加到这个值，新增的位置都是空位。
-
-   - 人为设置length为不合法的值，JavaScript 会报错。
-   
-
-- 清空数组的方法：将length属性设为0
-
-- 可以为数组添加非正整数值属性，但是这不影响length属性的值。
-```js
-var a = [];
-
-a['b'] = 'alexis';
-a[2.2] = 'jayden'; // 添加小数属性
-a[-1] = 'foxxx'; // 添加负数属性
-console.log(a.length); // 0
-```
-
-- 如果数组的键名是添加超出范围的数值(键名> 2^32-1)，该键名会自动转为字符串。length属性不受影响
-
-
-### in 运算符
-
-- in: 检查某个键名是否存在, 适用于对象，也适用于数组。
-```js
-var arr = ['a', 'b', 'c']
-2 in arr // true
-3 in arr //false
-```
-
-- 返回 true 或者 false：true为存在该键名，false为不存在
-
-- 如果数组的某个位置是空位，in运算符返回false
-
-
-### for...in循环和数组遍历
-
-- for...in循环不仅可以遍历对象，也可以遍历数组
-
-- for...in不仅会遍历数组所有的数字键，还会遍历非数字键. -> for...in会遍历出原型上的属性和方法名
-
-- 不推荐使用for...in遍历数组
-
-- 使用for循环遍历数组
-
-- 使用while循环遍历数组
-
-- 逆向遍历数组
-
-### 数组的空位
-
-- 什么是空位：即两个逗号之间没有任何**<font color="red">值</font>**，我们称该数组存在空位（hole）。
-
-- 如何判断数组元素是空位: 使用 in 运算符
-```js
-var arr = [undefined, , null, , 5];
-
-for (var i = 0; i < arr.length; i++) {
-  console.log(i in arr);
-}
-```
-
-- 由上可知，空位是取不到键名的
-```js
-var arr = [1, , 3];
-
-console.log(0 in arr);// true
-console.log(1 in arr);// false
-console.log(2 in arr);// true
-```
-
-- 空位的产生：
-
-   - 定义时，两个逗号之间不写值
-   
-   - 使用delete删除某个数组元素
-
-   - 使用Array构造函数创建数组只给一个数字参数,就会创建空值数组：var arr = new Array(3);
-   
-   - 最后一个元素后面有逗号，并不会产生空位
-
-- 数组的空位不影响length属性
-
-- legnth属性不过滤空位：使用delete命令删除一个数组成员，会形成空位，但是不会影响length属性
-
-- 数组的空位是可以读取的，返回undefined
-
-
-- 数组的某个位置是空位，与某个位置是undefined，是不一样的
-
-   - 如果是空位，使用数组的forEach方法、for...in结构、以及Object.keys方法进行遍历，空位都会被跳过
-
-   - 如果是undefined, 则不会被跳过
-
-   - 空位就是数组没有这个位置的值，所以不会被遍历到，而undefined则表示数组有这个位置的值，值是undefined，所以遍历不会跳过。
-
-### 类数组对象
-
-- 什么是类数组：如果一个对象的所有键名都是正整数或零，并且有length属性，那么这个对象就很像数组，语法上称为“类似数组的对象”（array-like object）。
-
-- “类数组”并不是数组，因为它们不具备数组特有的方法
-
-- “类数组”的根本特征，就是具有length属性。只要有length属性，就可以认为这个对象类似于数组。
-
-- 类数组的length属性不是动态值， 不会随着成员的变化而变化
-
-- 典型的类数组： arguments, 大多数DOM元素集(getElementsByTagName, getElementsByClassName等所获得的结果集)， 字符串
-
-- instanceof运算符： 判断实例是否属于某个构造函数
-
-- 数组的slice方法可以将“类似数组的对象”变成真正的数组
-
-- 类数组还有一个办法可以使用数组的方法，就是通过call()把数组的方法放到类数组对象上面。 这种方法比直接使用数组原生的数组方法要慢，所以最好还是先将“类似数组的对象”转为真正的数组
-
-
-## Array 对象
-
-### 1. 构造函数 Array
+## 1. 构造函数 Array
 
 1. Array 是 JavaScript 的原生对象，同时也是一个构造函数
 
 2. Array(3) === new Array(3) -> 效果一样，考虑到语义性，以及与其他构造函数用法保持一致，建议总是加上new
 
 3. Array()构造函数有一个很大的缺陷，不同的参数个数会导致不一致的行为。不建议使用它生成新数组
-```js
-//1. 无参数，生成空数组
-var arr = new Array();
-console.log(arr); // []
 
-//2. 1 参数，正整数，参数表示生成数组的长度，但是数组元素全是空元素
-var arr = new Array(3);
-console.log(arr); // [empty x 3];
-
-//3. 1参数， 非正整数， 报错
-new Array(-1); // RangeError: Invalid array length
-new Array(3.2); // RangeError: Invalid array length
-
-//4. 1参数，非数值，该参数为长度为1的数组的值
-new Array('jayden'); // ['jayden']
-new Array(true);     // [true]
-new Array([2,3,4]);  // [[2,3,4]]
-
-//5. 多参数，参数均作为数组成员
-new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
-```
+   ```js
+   //1. 无参数，生成空数组
+   var arr = new Array();
+   console.log(arr); // []
+   
+   //2. 1 参数，正整数，参数表示生成数组的长度，但是数组元素全是空元素
+   var arr = new Array(3);
+   console.log(arr); // [empty x 3];
+   
+   //3. 1参数， 非正整数， 报错
+   new Array(-1); // RangeError: Invalid array length
+   new Array(3.2); // RangeError: Invalid array length
+   
+   //4. 1参数，非数值，该参数为长度为1的数组的值
+   new Array('jayden'); // ['jayden']
+   new Array(true);     // [true]
+   new Array([2,3,4]);  // [[2,3,4]]
+   
+   //5. 多参数，参数均作为数组成员
+   new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
+   ```
 
 4. <font color="red">**如果参数是一个正整数，返回数组的成员都是空位**</font>
-
 
 ### 2. 静态方法
 
@@ -212,7 +46,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - tip: typeof运算符只能显示数组的类型是Object，而Array.isArray方法可以识别数组。
 
-
 ### 3. 实例方法
 
 #### 3.1 valueOf()
@@ -225,8 +58,7 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - 调用方式: arr.valueOf();
 
-- tip: valueOf() 和 toString 都是对象的通用方法，不同对象所得到的的结果不尽一致;
-
+- tip: valueOf() 和 toString() 都是对象的通用方法，不同对象所得到的的结果不尽一致;
 
 #### 3.2 toString()
 
@@ -237,7 +69,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 - function: 表示对该对象求值
 
 - 调用方式: arr.toString();
-
 
 #### 3.3 push()
 
@@ -250,7 +81,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 - 调用方式: arr.push(parameter1, parameter2,...,parameterN);
 
 - tip: 该方法会改变原数组
-
 
 #### 3.4 pop()
 
@@ -266,7 +96,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - tip2: push和pop结合使用，就构成了“后进先出”的栈结构（stack）。
 
-
 #### 3.5 shift()
 
 - 参数： 无
@@ -281,7 +110,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - tip2: push()和shift()结合使用，就构成了“先进先出”的队列结构（queue）。
 
-
 #### 3.6 unshift()
 
 - 参数： 需要添加的元素
@@ -294,7 +122,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - tip: 该方法会改变原数组
 
-
 #### 3.7 join()
 
 - 参数： 分隔符
@@ -303,12 +130,11 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - function: 以指定参数作为分隔符，将所有数组成员连接为一个字符串返回，如果不提供参数，默认用逗号分隔。
 
-- 调用方式: arr.join();
+- 调用方式: arr.join([separater]);
 
 - tip: 如果数组成员是undefined或null或空位，会被转成空字符串。
 
 - tip2: 通过call方法，这个方法也可以用于字符串或类似数组的对象。
-
 
 #### 3.8 concat()
 
@@ -326,7 +152,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - tip2: 如果数组成员包括对象，concat方法返回当前数组的一个浅拷贝
 
-
 #### 3.9 reverse()
 
 - 参数： 无
@@ -338,7 +163,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 - 调用方式: arr.reverse();
 
 - tip: 该方法会改变原数组
-
 
 #### 3.10 slice()
 
@@ -362,7 +186,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - tip6: slice()方法的一个重要应用，是将类似数组的对象转为真正的数组
 
-
 #### 3.11 splice()
 
 - 参数： 删除的起始位置, 被删除的元素个数, 插入数组的新元素s
@@ -381,7 +204,6 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 
 - tip4: 如果只提供第一个参数, 则会从指定位置删除到数组末
 
-
 #### 3.12 sort()
 
 - 参数：callback
@@ -399,103 +221,107 @@ new Array(3, 'jayden', true, [2,3,4]); // [3, 'jayden', true, [2,3,4]]
 - tip3: callback(a, b) return 值 > 0 -> a 在 b 后面； return值 <= 0 a 在 b 前面
 
 - tip4: callback(a, b) 应该返回数值，否则不同的浏览器可能有不同的实现，不能保证结果都一致
-```js
-[1, 2, 6, 0, 3, 8].sort((a, b) => a > b); // 不推荐
-[1, 2, 6, 0, 3, 8].sort((a, b) => a - b); // 推荐
-```
+
+   ```js
+   [1, 2, 6, 0, 3, 8].sort((a, b) => a > b); // 不推荐
+   [1, 2, 6, 0, 3, 8].sort((a, b) => a - b); // 推荐
+   ```
 
 - 实例1： 按字节数排序
-```js
-var arr = [
-  'jayden',
-  'aleixs',
-  'ai sayama',
-  'elle',
-  '波多野结衣',
-  'white',
-  'wicky',
-  '黑池那智',
-  'paul',
-  '西野翔',
-  'yui nikaido',
-];
 
-arr.sort((a, b) => {
-  return getBytes(a) - getBytes(b);
-});
+   ```js
+   var arr = [
+     'jayden',
+     'aleixs',
+     'ai sayama',
+     'elle',
+     '波多野结衣',
+     'white',
+     'wicky',
+     '黑池那智',
+     'paul',
+     '西野翔',
+     'yui nikaido',
+   ];
+   
+   arr.sort((a, b) => {
+     return getBytes(a) - getBytes(b);
+   });
+   
+   console.log(arr);
+   
+   function getBytes(str) {
+     var bytes = str.length;
+   
+     for (var i = 0; i < str.length; i++) {
+       if (str.charCodeAt(i) > 255) {
+         bytes++;
+       }
+     }
+     return bytes;
+   }
+   ```
 
-console.log(arr);
+- 实例2： 按大小排序
 
-function getBytes(str) {
-  var bytes = str.length;
+   ```js
+   var arr = [2, 1, 9, 5, 8, 3];
+   
+   arr.sort((a, b) => {
+     return a - b;
+   });
+   
+   console.log(arr);
+   ```
 
-  for (var i = 0; i < str.length; i++) {
-    if (str.charCodeAt(i) > 255) {
-      bytes++;
-    }
-  }
-  return bytes;
-}
-```
+- 实例3： 按字符串长度排序
 
-实例2： 按大小排序
-```js
-var arr = [2, 1, 9, 5, 8, 3];
+   ```js
+   var arrPorn = [
+     'jayden',
+     'aleixs',
+     'ai sayama',
+     'elle',
+     '波多野结衣',
+     'white',
+     'wicky',
+     '黑池那智',
+     'paul',
+     '西野翔',
+     'yui nikaido',
+   ];
+   
+   arrPorn.sort((a, b) => {
+     return a.length - b.length;
+   });
+   
+   console.log(arrPorn);
+   ```
 
-arr.sort((a, b) => {
-  return a - b;
-});
+- 实例4： 按年龄排序
 
-console.log(arr);
-```
-
-实例3： 按字符串长度排序
-```js
-var arrPorn = [
-  'jayden',
-  'aleixs',
-  'ai sayama',
-  'elle',
-  '波多野结衣',
-  'white',
-  'wicky',
-  '黑池那智',
-  'paul',
-  '西野翔',
-  'yui nikaido',
-];
-
-arrPorn.sort((a, b) => {
-  return a.length - b.length;
-});
-
-console.log(arrPorn);
-```
-
-实例4： 按年龄排序
-```js
-var arr = [
-  {
-    name: 'jayden',
-    age: 28,
-  },
-  {
-    name: 'lust',
-    age: 40,
-  },
-  {
-    name: 'alexis',
-    age: 38,
-  },
-];
-
-arr.sort((a, b) => {
-  return a.age - b.age;
-});
-
-console.log(arr);
-```
-
+   ```js
+   var arr = [
+     {
+       name: 'jayden',
+       age: 28,
+     },
+     {
+       name: 'lust',
+       age: 40,
+     },
+     {
+       name: 'alexis',
+       age: 38,
+     },
+   ];
+   
+   arr.sort((a, b) => {
+     return a.age - b.age;
+   });
+   
+   console.log(arr);
+   ```
 
 #### 3.13 map()
 
@@ -516,7 +342,6 @@ console.log(arr);
 - tip4: 如果callback是使用箭头函数，会使tip3失效，因为箭头函数没有自身的this, 其所调用的this是箭头函数外部最近的一个this(比如function的this, 但是其包含了箭头函数)；也就是说如果map()的callback是箭头函数的话，callback内部的this其实是map()的this
 
 - tip5: map()方法不会跳过undefined和null，但是会跳过空位。
-
 
 #### 3.14 forEach()
 
@@ -542,7 +367,6 @@ console.log(arr);
 
 - tip7: forEach()方法无法中断执行，总是会将所有成员遍历完。如果希望符合某种条件时，就中断遍历，要使用for循环。
 
-
 #### 3.15 filter()
 
 - 参数： callback, arr(用来绑定回调函数内部的this变量)
@@ -558,7 +382,6 @@ console.log(arr);
 - tip2: 所有数组成员依次执行callback()，返回结果为true的成员组成一个新数组返回
 
 - tip3: 其他tips同map()
-
 
 #### 3.16 some()
 
@@ -578,7 +401,6 @@ console.log(arr);
 
 - tip4: 其他tips同map()
 
-
 #### 3.17 every()
 
 - 参数： callback(返回Boolean值), arr(用来绑定回调函数内部的this变量)
@@ -597,7 +419,6 @@ console.log(arr);
 
 - tip4: 其他tips同map()
 
-
 #### 3.18 reduce()
 
 - 参数： callback, prev
@@ -608,13 +429,13 @@ console.log(arr);
 
 - 调用方式: arr.reduce(callback(prev, cur, [index, arr]), prev)
 
-   - prev: 累积变量。第一次执行时，默认为数组的第一个成员；以后每次执行时，都是上一轮的返回值, callback执行arr.length - 1 次。如果reduce(callback, prev)提供了第二个参数, 这时cur是从数组的第一个成员开始遍历，参数函数会执行arr.length次。
+  - prev: 累积变量。第一次执行时，默认为数组的第一个成员；以后每次执行时，都是上一轮的返回值, callback执行arr.length - 1 次。如果reduce(callback, prev)提供了第二个参数, 这时cur是从数组的第一个成员开始遍历，参数函数会执行arr.length次。
 
-   - cur: 当前变量。第一次执行时，默认为数组的第二个成员；以后每次执行时，都是下一个成员。如果reduce(callback, prev)提供了第二个参数, 这时cur是从数组的第一个成员开始遍历，参数函数会执行arr.length次
+  - cur: 当前变量。第一次执行时，默认为数组的第二个成员；以后每次执行时，都是下一个成员。如果reduce(callback, prev)提供了第二个参数, 这时cur是从数组的第一个成员开始遍历，参数函数会执行arr.length次
 
-   - index: 当前位置。一个整数，表示第二个参数（当前变量）的位置，默认为1。
+  - index: 当前位置。一个整数，表示第二个参数（当前变量）的位置，默认为1。
 
-   - arr: 原数组。
+  - arr: 原数组。
 
 - tip: 原数组不变
 
@@ -622,17 +443,15 @@ console.log(arr);
 
 - tip3: reduce()如果没有第二个参数，空数组调用为报错
 
-
 #### 3.19 reduceRight()
 
-- 同reduce() 
+- 同reduce()  
 
 - reduce()方法和reduceRight它们的差别是，reduce()是从左到右处理（从第一个成员到最后一个成员），reduceRight()则是从右到左（从最后一个成员到第一个成员），其他完全一样。
 
-
 #### 3.20 indexOf()
 
-- 参数： ele startIndex(表示搜索的开始位置)
+- 参数： ele, startIndex(表示搜索的开始位置)
 
 - return: index
 
@@ -646,10 +465,9 @@ console.log(arr);
 
 - tip3: indexOf 和 lastIndexOf不能用来搜索NaN的位置，即它们无法确定数组成员是否包含NaN。因为这两个方法内部，使用严格相等运算符（===）进行比较，而NaN是唯一一个不等于自身的值。
 
-
 #### 3.21 lastIndexOf()
 
-- 参数： ele startIndex(表示搜索的开始位置)
+- 参数： ele, startIndex(表示搜索的开始位置)
 
 - return: index
 
@@ -663,20 +481,6 @@ console.log(arr);
 
 - tip3: indexOf 和 lastIndexOf不能用来搜索NaN的位置，即它们无法确定数组成员是否包含NaN。因为这两个方法内部，使用严格相等运算符（===）进行比较，而NaN是唯一一个不等于自身的值。
 
-
 #### 3.16 链式使用
 
 - 上面这些数组方法之中，有不少返回的还是数组，所以可以链式使用
-
-
-
-
-
-
-
-
-
-
-
-
-

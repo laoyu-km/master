@@ -564,7 +564,7 @@ div {
 
 ### 案例
 
-- 连个内联元素的margin
+- 两个内联元素的margin
 ```html
 <!-- margin总和=30px + 30px -->
 <style type="text/css">
