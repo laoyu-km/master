@@ -59,7 +59,7 @@
 
 ### 基本用法
 
-- SON.stringify()方法用于将一个值转为 JSON 字符串。该字符串符合 JSON 格式，并且可以被JSON.parse()方法还原
+- JSON.stringify()方法用于将一个值转为 JSON 字符串。该字符串符合 JSON 格式，并且可以被JSON.parse()方法还原
 
   ```js
   JSON.stringify(1) // "1"
@@ -139,7 +139,7 @@
     return value;
   }
 
-  JSON.stringify({a:1, b:1});
+  JSON.stringify({a:1, b:1}, fn);
   // '{"a":2, "b":4}'
   ```
 
@@ -271,7 +271,7 @@
   JSON.stringify(date) // ""2015-01-01T00:00:00.000Z"
   ```
 
-- oJSON()方法的一个应用是，将正则对象自动转为字符串。因为JSON.stringify()默认不能转换正则对象，但是设置了toJSON()方法以后，就可以转换正则对象了
+- toJSON()方法的一个应用是，将正则对象自动转为字符串。因为JSON.stringify()默认不能转换正则对象，但是设置了toJSON()方法以后，就可以转换正则对象了
 
   ```js
   var obj = { reg: /foo/ }

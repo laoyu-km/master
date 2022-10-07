@@ -79,7 +79,7 @@ npm install --save-dev url-loader style-loader css-loader
 
 ```js
 module.exports = {
-  mode: 'development', // 设置webpack的打包模式，默认是生产模式，代码压缩没有格式，development是开发模式，打包后的代码会格式化
+  mode: 'development', // 设置webpack的打包模式，默认是生产模式，代码压缩没有格式化，development是开发模式，打包后的代码会格式化
   entry: './src/index.js', // 入口文件
   module: {
     rules: [

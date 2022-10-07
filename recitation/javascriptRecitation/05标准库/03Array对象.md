@@ -326,21 +326,14 @@
 #### 3.13 map()
 
 - 参数： callback, arr(用来绑定回调函数内部的this变量)
-
 - return: new arr
-
 - function: 将数组的所有成员依次传入参数函数，然后把每一次的执行结果组成一个新数组返回。
-
 - 调用方式: arr.map(callback(elem [,index, arr]), thisArr)
-
 - tip: 原数组不变
-
 - tip2: callback: 有三个参数，elem为当前成员的值，index为当前成员的位置，arr为原数组
-
 - tip3: map()方法还可以接受第二个参数，用来绑定回调函数内部的this变量
-
-- tip4: 如果callback是使用箭头函数，会使tip3失效，因为箭头函数没有自身的this, 其所调用的this是箭头函数外部最近的一个this(比如function的this, 但是其包含了箭头函数)；也就是说如果map()的callback是箭头函数的话，callback内部的this其实是map()的this
-
+- tip4: 如果callback是使用箭头函数，会使tip3失效，因为箭头函数没有自身的this, 其所调用的this是箭头函数外部最近的一个this(比如function的this, 但是其包含了箭头函数)；也就是说如果map()的callback是箭头函数的话，callback的this其实是global对象(browser下是window， nodejs 下是global)
+- tip 5: 如果callback中需要使用this，callback需要使用function来写，不能使用箭头函数
 - tip5: map()方法不会跳过undefined和null，但是会跳过空位。
 
 #### 3.14 forEach()

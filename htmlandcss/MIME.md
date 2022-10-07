@@ -24,7 +24,7 @@ MIME: Multipurpose Internet Mail Extentions
 
 ### Multipart 类型
 
-- multipart/form data : 用于联系 HTML Forms 和 POST 方法
+- multipart/form-data : 用于联系 HTML Forms 和 POST 方法
 
 如下所示的表单:
 

@@ -1,0 +1,32 @@
+.app {
+  width: 304px;
+  height: 304px;
+  background-color: #c7edcc;
+  border-collapse: collapse;
+}
+
+.app .loops {
+  float: left;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  /* margin-left: -1px;
+  margin-top: -1px; */
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-collapse: collapse;
+  border-radius: 50%;
+  background: #FDE6E0 url(../images/adi01.jpg) no-repeat ;
+  background-size: cover;
+}
+
+.app .loops.target {
+  background: #FDE6E0 url(../images/doudou01.jpg) no-repeat;
+  background-size: cover;
+}
+
+.app .loops.loop-center {
+  background:none;
+  background-color: #fff;
+}

@@ -23,3 +23,124 @@
 - 有些组件确实是不需要复用
 
 - 可配置性越高，功能性越强
+
+```js
+// 示例 todoList
+const todoList = {
+  data() {
+    return {
+      listdata: [
+        {
+          id: 1,
+          content: 'Jayden James',
+          completed: false,
+        },
+        {
+          id: 2,
+          content: 'Alexis Texas',
+          completed: false,
+        },
+        {
+          id: 3,
+          content: 'Wicky Angel',
+          completed: false,
+        },
+      ],
+    };
+  },
+  template: `
+      {{ listdata }} 
+
+      <todo-input
+        @add-list-data="addTodoListData"        
+      ></todo-input>
+
+      <todo-list
+        v-for="item of listdata"
+        :key="item.id"
+        :todo="item"
+        @change-completed="changeTodoListData"
+        @remove-data="removeTodoListData"
+      ></todo-list>
+  `,
+  methods: {
+    addTodoListData(inputValue) {
+      this.listdata.push({
+        id: new Date().getTime(),
+        content: inputValue,
+        completed: false,
+      });
+    },
+    changeTodoListData(id) {
+      this.listdata = this.listdata.map((item) => {
+        if (item.id === id) {
+          item.completed = !item.completed;
+        }
+        return item;
+      });
+    },
+    removeTodoListData(completed, id) {
+      if (completed) {
+        this.listdata = this.listdata.filter((item) => {
+          if (item.id !== id) {
+            return item;
+          }
+        });
+      }
+    },
+  },
+};
+
+const app = Vue.createApp(todoList);
+
+app.component('TodoInput', {
+  data() {
+    return {
+      newInput: null,
+    };
+  },
+  template: `
+    <input type="text" placeholder="请输入" v-model="newInput" />
+    <button @click="addListData">提交</button>
+  `,
+  emits: ['add-list-data'],
+  methods: {
+    addListData() {
+      if (this.newInput !== null) {
+        this.$emit('add-list-data', this.newInput);
+      }
+      this.newInput = null;
+    },
+  },
+});
+
+app.component('TodoList', {
+  props: ['todo'],
+  template: `
+    <li>
+      <input 
+        type="checkbox" 
+        :checked="todo.completed" 
+        @click="changeCompleted(todo.id)"
+      />
+      <span
+        :style="{
+          textDecoration: todo.completed ? 'line-through' : 'none'
+        }"
+      >{{ todo.content }}</span>
+      <button @click="removeData(todo.completed, todo.id)">删除</button>
+    </li>
+  `,
+  methods: {
+    changeCompleted(id) {
+      this.$emit('change-completed', id);
+    },
+    removeData(completed, id) {
+      this.$emit('remove-data', completed, id);
+    },
+  },
+});
+
+app.mount('#app');
+
+```
