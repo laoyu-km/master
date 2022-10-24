@@ -1,0 +1,46 @@
+
+.main .before ~ p {
+  color: #cce8cf;
+  font: small-caps oblique bolder 30px/30px "Microsoft YaHei";
+}
+
+.main .before > p {
+  color: #ffa500;
+}
+
+.main .before > .img {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #FDE6E0;
+  /* background-image: url(./image/tbbg.png);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: contain; */
+  background: #cce8cf url(./image/tbbg.png) no-repeat  center center / contain;
+}
+
+.footer input[type=radio] + label {
+  color: #ffc0cb;
+}
+
+.footer a {
+  text-decoration: none;
+  color: #ccc;
+}
+
+.footer a:link {
+  color: #ffa500;
+}
+
+.footer a:visited {
+  color: #DCE2F1;
+}
+
+.footer a:active {
+  color: #ff0000;
+  background-color: #ffff00;
+}
+
+.footer a:hover {
+  color: #ffc0cb;
+}

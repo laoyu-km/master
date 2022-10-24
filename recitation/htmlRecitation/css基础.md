@@ -220,14 +220,17 @@ H --> |construct|E
 
 > 浏览器默认的字体大小是16px->pixel
 
+- font-variant: 主要用于定义小型大写字母文本, 这意味着所有的小写字母均会被转换为大写，但是所有使用小型大写字体的字母与其余文本相比，其字体尺寸更小
+
 - font-size: 浏览器设置字体时设置的是高度，宽度自动缩放 -> 开发中常用的字体大小：12,14,16,18(偶尔)
 
 - font-weight: 字体粗细 -> lighter/normal/bold/bolder/100-900 -> 不是所有字体都有lighter/bolder/数值等粗细样式
-```html
-// 标签自带样式时，浏览器自动为标签添加了样式 strong {font-weight:bold}
-// f12可查看
-<strong>hello Yui Nikaido</storng>
-```
+
+  ```html
+  // 标签自带样式时，浏览器自动为标签添加了样式 strong {font-weight:bold}
+  // f12可查看
+  <strong>hello Yui Nikaido</storng>
+  ```
 
 - font-style: 字体风格 -》 italic/oblique(斜体/倾斜)(两个效果一样，为什么有两个，因为所有字体中不是所有字体都有italic风格，如果没有就用oblique来强制倾斜)
 
