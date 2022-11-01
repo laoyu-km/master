@@ -1,0 +1,153 @@
+/* css selector */
+
+/* base selector */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  font: normal oblique bolder 20px / 30px '宋体';
+} 
+
+.main {
+  font: normal normal bolder 30px / 40px '隶书';
+}
+
+#app {
+  font: small-caps oblique light 20px / 30px '黑体';
+}
+
+/* 关系选择器 */
+
+#app h2 {
+  color: #ffa500;
+}
+
+#app, .main {
+  color: #cce8cf;
+}
+
+#app + .main {
+  color: #fde6e0;
+}
+
+#app > h2 {
+  color: #ffa500;
+}
+
+#app, div.main {
+  color: #ffa500;
+  font: normal oblique lighter 20px /30px '宋体';
+}
+
+/* attribute selector */
+
+div.attr-selector {
+  font: normal normal bolder 20px / 30px 'Microsoft YaHei';
+}
+
+[data-test] {
+  color: #ffc0cb;
+}
+
+[data-test=test1] {
+  color: #008000
+}
+
+[data-test~=alexis] {
+  color: #ff0000;
+}
+
+[data-test^="ariella"] {
+  color: #8a2be2;
+}
+
+[data-test$="kendra"] {
+  color: #ff7f50;
+}
+
+[data-test*="phillips"] {
+  color: #ffd700;
+}
+
+.attr-p[lang|=en] {
+  color: ffff00;
+}
+
+/* link selector */
+
+.link-selector a {
+  text-decoration: none;
+  font: bolder 20px /30px '黑体';
+  color: #008000;
+}
+
+.link-selector a:link {
+  background-color:#8a2be2;
+}
+
+.link-selector a:active {
+  background-color: #ff0000;
+}
+
+.link-selector a:visited {
+  background-color: #ffff00
+}
+
+.link-selector a:hover {
+  background-color: #ffa500;
+}
+
+/* Pseudo selector  */
+
+.pseudo-selector ul {
+  list-style: none;
+  font: normal normal bolder 20px / 30px 'Microsoft YaHei';
+}
+
+.pseudo-selector ul li:first-child:first-line {
+  color: #008000;
+}
+
+.pseudo-selector li:first-child:first-letter {
+  color: #ff0000;
+}
+
+.pseudo-selector li:first-child {
+  color: #ffa500;
+}
+
+.pseudo-selector li:first-child:before {
+  content:'jadyen';
+  color: #333;
+}
+
+.pseudo-selector li:first-child:after {
+  content: 'lust';
+  color: #ffc0cb;
+}
+
+.pseudo-selector ul:first-of-type{
+  color: #cce8cf;
+}
+
+.child h6:only-of-type {
+  color: #ff0000;
+}
+
+.test-only-child span:only-child {
+  color: #008000;
+}
+
+.child h6:last-child {
+  color:#ffd700;
+}
+
+.child :not(p) {
+  color: #008000;
+}
+
+
+
