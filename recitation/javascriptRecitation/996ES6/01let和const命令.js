@@ -227,37 +227,21 @@
 //   throw new Error('unable to locate global object');
 // };
 
-// for (let i = 0; i < 1; i++) {
-//   console.log(i);
-
+// function 块级作用域和表达式的报错不同
+// // 1. function表达式报错 -> Reference Error: fn is not defined
+// (function () {
 //   fn();
+//   +function fn() {
+//     console.log('fn inside');
+//   };
+// })();
 
-//   // if (true)
-//   function fn() {
-//     console.log('fn');
-//   }
-// }
-
-// if (true) {
+// // 2. function 块级作用域中被当做 var 处理时的报错 -> Type Error: fn is not a function
+// (function () {
 //   fn();
-
-//   // if (true)
-//   function fn() {
-//     console.log('fn');
+//   if (true) {
+//     function fn() {
+//       console.info('inside fn');
+//     }
 //   }
-// }
-
-(function () {
-  console.info(a);
-
-  if (false) {
-    let a = 5;
-    function fn() {
-      console.log('fn inside');
-    }
-  }
-})();
-
-// console.log(a);
-
-// (var a = 1);
+// })();
