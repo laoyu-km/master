@@ -133,7 +133,7 @@ waiting...
 
 ## npm
 
-- npm -> node package manageer
+- npm -> node package manager
 
 - 官网：https://www.npmjs.com
 

@@ -1,0 +1,41 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3777135 */
+  src: url('../fonts/iconfont.woff2?t=1668672134271') format('woff2'),
+       url('../fonts/iconfont.woff?t=1668672134271') format('woff'),
+       url('../fonts/iconfont.ttf?t=1668672134271') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-yuanbao:before {
+  content: "\e631";
+}
+
+
+
+.container {
+  width: 100px;
+  height: 100px;
+  background-color: #ffc0cb;
+  border: 1px solid #333;
+
+  .logo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: rotate(-45deg);
+  }
+}
+
+.logo {
+  width: 200px;
+  border: 1px solid #333;
+  border-radius: 10%;
+  transform: rotate(45deg);
+}

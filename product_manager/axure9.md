@@ -2,7 +2,7 @@
 
 ## english words
 
-- subscript: 下表
+- subscript: 下标
 - publish： v. 出版，发行（书、杂志等）；
 - outline： n. 轮廓，外形；轮廓图，草图；提纲，大纲；梗概，要点；
 - arrange： v. 安排，筹备；整理，布置，排列；改编；商定
@@ -11,8 +11,7 @@
 - horizontal： adj. 水平的 -> horizontal line 水平线
 - descending:  adj. 递降的
 - ascending:  adj. 上升的，增长的；升（序）的
-
-
+- colunm
 
 ## 使用注意
 
@@ -157,7 +156,7 @@
 - 动效要求：旋转出去到指定位置 -> 显示 ‘hi' -> 在旋转回来然后显示图标 -> 然后旁边打印 Hello Jayden James
 - 开始效果
 
-![image-20220115174451923](C:\Users\aluca\AppData\Roaming\Typora\typora-user-images\image-20220115174451923.png)
+![image-20220115174451923](D:\WZX\Desktop\images\get_green.png)
 
 - 结尾效果
 
@@ -173,7 +172,7 @@
 ### 13.  其他事件
 
 - 主动事件：鼠标，键盘事件，类似web
-- 被动事件：其他类型的时间
+- 被动事件：其他类型的事件
 
 ### 14. 其他动作
 
@@ -188,7 +187,7 @@
 
 ### 16. 页面框架
 
-* 通过点击首页按钮实现首页页面框架中显示不同内容页的内容
+* 通过点击首页的内容按钮实现首页页面框架中显示不同内容页的内容
 
   ![image-20221030163849867](C:\Users\aluca\AppData\Roaming\Typora\typora-user-images\image-20221030163849867.png)
 

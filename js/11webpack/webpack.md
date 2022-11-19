@@ -87,7 +87,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif)$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
               name: '[name].[ext]', // webpack打包文件后使用原文件名
               outputPath: 'imgs/',
@@ -278,14 +278,39 @@ module.exports = {
 
 ## webpack and loader 及其工具安装时的配置兼容性问题
 
-1. 版本信息
+1. 版本信息 nodejs 14时的安装信息
    - webpack: webpack@4.44.2
+   
    - webpack-cli: webpack-cli@3.3.12
+   
    - style-loader: style-loader@2.0.0
+   
    - css-loader: css-loader@5.2.7
+   
    - sass-loader: sass-loader@7.3.1
+   
    - postcss-loader: postcss-loader@^4.0.4
+   
    - node-sass: node-sass@4.14.1
+   
+     ---
+   
+2. 版本信息 nodejs 16 时的安装信息
+    "devDependencies": {
+    "autoprefixer": "^10.3.6",
+    "css-loader": "^5.2.7",
+    "file-loader": "^6.2.0",
+    "postcss-loader": "^4.3.0",
+    "sass-loader": "^10.4.1",
+    "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+    },
+    "dependencies": {
+    "sass": "^1.56.1"
+    }
+
 
 ### node-sass 安装时提示错误的解决办法
 
@@ -454,4 +479,132 @@ function createLogo() {
 export default createLogo;
 ```
 
+- 模块时，icon-yuanbao 这类className的处理
+
+  ```js
+  rules: [
+    {
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 2,
+            modules: {
+              mode: 'local', // === modules: true
+              // 当modules为true时处理 icon-yuanbao 这样的类名，将其转换为驼峰
+              exportLocalsConvention: 'camelCase',
+              //exportLocalsConvention: 'camelCaseOnly',
+            },
+          },
+        },
+        'postcss-loader',
+        'sass-loader'
+      ],
+    }
+  ],
+  ```
+
 ## 图标的使用
+
+- webpack5 中，图标达标不需要配置webpack.config.js, 直接打包就可以 或者如下
+
+  ```js
+   module: {
+      rules: [
+        ...
+        {
+          test: /\.ttf$/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'resources/[hash:10][ext][query]'
+          }
+        }
+      ]
+    },
+  ```
+
+  
+
+- webpack4 中需要如下
+
+  ```js
+  rules: [
+      {
+          test: /\.(ttf|woff|woff2)$/,
+          loader: 'file-loader', // 使用file-loader直接将字体文件传过去
+      }
+  ]
+  ```
+
+  
+
+## Plugins
+
+### HtmlWebpackPlugin: 自动生成index.html文件
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html', // 指定模板文件
+    }),
+  ],
+```
+
+
+
+```bash
+npm install --save-dev html-webpack-plugin
+```
+
+​      
+
+### clean-webpack-plugin: 自动清空dist文件夹
+
+```bash
+npm install --save-dev clean-webpack-plugin
+```
+
+```js
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html', // 指定模板文件
+    }),
+    new CleanWebpackPlugin()
+  ],
+```
+
+## 关于出口，入口文件的一些配置
+
+### 多入口，多出口
+
+```js
+const { resolve } = require('path');
+module.exports = {
+  mode: 'production',
+  entry: { // 多入口写法
+    main: './src/app.js', 
+    index: './src/app.js'
+  },
+  output: {// 出口文件名如果不写, 默认会按照入口文件的 key 来输入文件
+    filename: '[name].js',  // [name] -> 直接使用入口文件的name 作为出口文件的name
+    path: resolve(__dirname, 'dist');
+  }
+};
+```
+
+### 如果 js 文件引用的是其他链接的文件(比如 cdn)
+
+```js
+output: {
+  publicPath: 'http://cdn.com.cn/',
+  filename: '[name].js',
+  path: resolve(__dirname, 'dist');
+}
+```
+生成的html文件中的js引入语句就会改变为 <script src='http://cdn.com.cn/app.js'>;
