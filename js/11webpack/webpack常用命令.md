@@ -62,7 +62,7 @@ npm install babel-loader@7.1.2  babel-core  babel-preset-env  --save-dev
   5. babel-plugin-transform-runtime
   6. babel-runtime //5和6是一起使用的，支持polyfill，regenerator配置
 
-### 样式：
+### 样式
 
 - style-loader 将模块的导出作为样式添加到 DOM 中 ->  npm install style-loader --save-dev
 
@@ -75,6 +75,7 @@ npm install babel-loader@7.1.2  babel-core  babel-preset-env  --save-dev
 - postcss-loader: 使用 PostCSS 加载和转译 CSS/SSS 文件 -> npm install postcss-loader –D
 
 ### 测试
+
 eslint-loader -> npm install eslint eslint-loader --save-dev
 
 ## 常用插件的安装

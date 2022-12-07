@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "browsersList": ["> 2%", "last 2 versions"],
   "scripts": {
     "dev": "vite",
     "build": "webpack",

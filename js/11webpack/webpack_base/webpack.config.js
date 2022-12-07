@@ -3,26 +3,27 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     app: './src/app.js',
   },
   module: {
     rules: [
       {
-        test: /\.(jpe?g|gif|png)$/,
+        test: /\.(jpe?g|png|gif)/,
         use: [
           {
             loader: 'url-loader',
             options: {
               name: '[name].[ext]',
               outputPath: 'images',
+              limit: 1024,
             },
           },
         ],
       },
       {
-        test: /\.scss$/,
+        test: /\.scss/,
         use: [
           'style-loader',
           {
@@ -30,14 +31,19 @@ module.exports = {
             options: {
               importLoaders: 2,
               modules: {
-                mode: 'local', // === modules: true
-                // 当modules为true时处理 icon-yuanbao 这样的类名，将其转换为驼峰
+                mode: 'local',
                 exportLocalsConvention: 'camelCase',
-                // exportLocalsConvention: 'camelCaseOnly',
               },
             },
           },
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('autoprefixer')],
+              },
+            },
+          },
           'sass-loader',
         ],
       },

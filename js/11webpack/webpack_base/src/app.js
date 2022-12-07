@@ -3,7 +3,7 @@ import Content from './content.js';
 import Footer from './footer.js';
 import { createLogo } from './createLogo.js';
 
-import doudou from './images/doudou01.jpg';
+import doudou from './images/doudou03.jpg';
 import styles from './css/app.scss';
 
 const dou = new Image();
@@ -23,7 +23,5 @@ new Content(parent).add();
 new Footer(parent).add();
 
 const oIcon = document.createElement('div');
-// oIcon.innerHTML = '<div class="iconfont icon-yuanbao"></div>';
-oIcon.className = `${styles.iconfont} ${styles.iconYuanbao}`;
-console.log(styles.iconYuanbao);
+oIcon.innerHTML = `<div class="${styles.iconfont} ${styles.iconYuanbao}"></div>`;
 parent.appendChild(oIcon);

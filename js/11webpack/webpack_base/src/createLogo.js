@@ -1,4 +1,4 @@
-import dou02 from './images/doudou02.jpg';
+import dou02 from './images/doudou04.jpg';
 import styles from './css/app.scss';
 
 export function createLogo() {
