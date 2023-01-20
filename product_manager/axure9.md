@@ -528,23 +528,20 @@
 
 ![image-20220116173940606](C:\Users\aluca\AppData\Roaming\Typora\typora-user-images\image-20220116173940606.png)
 
-
-
-
-
-
-
----
-
-
-
 ## 难点
 
 ### 1. 钢笔画图
-
-
 
 ### 2. 如何让组件不显示
 
 - 动态面板中在设置动态面板，外层动态面板决定了显示范围
 
+## 实例
+
+### 多选下拉框
+
+- 中继器横向显示不要边款：双击中继器 -> 删除表格 -> 放入一个Label -> 设置中继器横向显示 -> 设置列间距 -> 中继器只增加行不增加列
+
+  ![image-20221216105203090](C:\Users\aluca\AppData\Roaming\Typora\typora-user-images\image-20221216105203090.png)
+
+- 
